@@ -1,0 +1,57 @@
+\documentclass{report}
+
+\title{Agentowy system zarządzania urządzeniami HVAC w budynku biurowym}
+\date{2017-06-01}
+\author{Jan Grzybowski}
+
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+
+\lstset{ % General setup for the package
+	language=[Sharp]C,
+	%Font
+  basicstyle=\ttfamily,
+  %Line numbering
+  numbers=left, 
+  numberstyle=\ttfamily,
+	%Frame & border
+  frame=tb,
+  %Whitespaces
+	tabsize=4, columns=fixed,
+	showtabs=false,
+	keepspaces,
+  showstringspaces=false,
+	%Coloring
+  commentstyle=\color{green},
+	keywordstyle=\color{teal},
+  stringstyle=\color{red}
+}
+
+%\includeonly{./chapters/wstep}
+
+\begin{document}
+  \maketitle
+  \pagenumbering{gobble}
+  \maketitle
+  
+  \include{./docparts/abstrakt}
+
+  \tableofcontents
+  \pagenumbering{roman}
+  \newpage
+
+  \pagenumbering{arabic}
+  
+  \include{./chapters/wprowadzenie}
+  \include{./chapters/analiza/chapter}
+
+  \include{./chapters/architektura/chapter}
+  \include{./chapters/testy/chapter}
+  
+  \include{./chapters/podsumowania/chapter}
+  
+  \include{./docparts/bibliografia}
+  \include{./docparts/oswiadczenie}
+
+\end{document}
