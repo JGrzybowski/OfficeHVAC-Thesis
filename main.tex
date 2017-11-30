@@ -1,8 +1,26 @@
-\documentclass{report}
+\documentclass[pl]{minipw} % wszystkie ustawienia szablonu są w minipw.cls; if in English, change [pl] to [en]
+\allowdisplaybreaks
+\usepackage{indentfirst}
+\setlength{\parindent}{5mm} % wcięcie akapitowe 5mm, zarządzenie Rektora
 
-\title{Agentowy system zarządzania urządzeniami HVAC w budynku biurowym}
-\date{2017-06-01}
+% ------------ Ustawienia autora pracy ---------------
+\title{Agent system for HVAC management in office building} % nazwa pracy
+\titleaux{Agentowy system zarządzania urządzeniami HVAC w budynku biurowym}
+
+\type{magisters} % licencjat = licencjac, inżynier = inżyniers
+\discipline{Informatyka} % kierunek
+\specjal{Metody sztucznej inteligencji}
+
 \author{Jan Grzybowski}
+\setboolean{lady}{false} % kobiety wpisują true, mężczyźni - false
+\album{245491}
+
+\supervisor{dr~hab. Marcin Paprzycki}
+\konsultacje{dr~hab Maria Ghanza} % jeśli nie ma, trzeba zakomentować też w minipw.cls
+\date{2017}
+\klucze{Wieloagentowy, HVAC, aktorzy}
+\keywords{Multi-agent, HVAC, actors}
+% ----------------------------------------------------
 
 \usepackage{color}
 \usepackage[dvipsnames]{xcolor}
@@ -18,7 +36,7 @@
 	%Frame & border
   frame=tb,
   %Whitespaces
-	tabsize=4, columns=fixed,
+	tabsize=2, columns=fixed,
 	showtabs=false,
 	keepspaces,
   showstringspaces=false,
@@ -28,30 +46,66 @@
   stringstyle=\color{red}
 }
 
-%\includeonly{./chapters/wstep}
-
 \begin{document}
-  \maketitle
-  \pagenumbering{gobble}
-  \maketitle
+\sloppy
   
-  \include{./docparts/abstrakt}
+\setcounter{page}{1}
 
-  \tableofcontents
-  \pagenumbering{roman}
-  \newpage
+% 2. Streszczenia
+% Streszczenie ma zawierać tytuł pracy i słowa kluczowe
+\include{./docparts/abstrakt}
 
-  \pagenumbering{arabic}
-  
-  \include{./chapters/wprowadzenie}
-  \include{./chapters/analiza/chapter}
+% 3. Oświadczenie o autorstwie pracy - w innym pliku
+\makestatement
 
-  \include{./chapters/architektura/chapter}
-  \include{./chapters/testy/chapter}
-  
-  \include{./chapters/podsumowania/chapter}
-  
-  \include{./docparts/bibliografia}
-  \include{./docparts/oswiadczenie}
+% 4. Spis treści
+\cleardoublepage
+\tableofcontents
+
+
+% 5. Treść
+\cleardoublepage
+\pagestyle{fancy}
+
+\include{./chapters/wprowadzenie}
+\include{./chapters/analiza/chapter}
+
+\include{./chapters/architektura/chapter}
+\include{./chapters/testy/chapter}
+
+\include{./chapters/podsumowania/chapter}
+
+% 6. Bibliografia
+% Bibliografia leksykograficznie wg nazwisk autorów
+\include{./docparts/bibliografia}
+
+% 7. Wykaz symboli i skrótów - jeśli nie ma, zakomentować
+% \chapter*{Wykaz symboli i skrótów}
+
+% \begin{tabular}{cl}
+% nzw. & nadzwyczajny \\
+% * & operator gwiazdka \\
+% $\widetilde{}$ & tylda
+% \end{tabular}
+
+% 8. Spis rysunków - jeśli nie ma, zakomentować (ale być może po prostu się nie zrobi)
+% \listoffigures
+
+% 9. Spis tabel - jak wyżej
+% \renewcommand{\listtablename}{Spis tabel}
+% \listoftables
+
+% 10. Spis załączników - jak nie ma załączników, to zakomentować lub usunąć
+% \chapter*{Spis załączników}
+% \begin{enumerate}
+% \item[1.] Załącznik 1
+% \item[2.] Załącznik 2
+% \end{enumerate}
+
+% 11. Załączniki
+% \newpage
+% \pagestyle{empty}
+% Załącznik 1, załącznik 2 -- mają się znajdować na końcu pracy (to jest notka przypominająca)
+
 
 \end{document}
