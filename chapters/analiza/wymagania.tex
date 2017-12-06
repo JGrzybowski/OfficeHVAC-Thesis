@@ -1,1 +1,27 @@
-\section{Analiza wymagań}
+\section{Analiza wymagań systemu}
+Przy założeniu ewentualnej późniejszej rozbudowy systemu lub przeniesienia go na inny język programowania system musiał spełniać następujące wymagania:
+
+\subsection*{Możliwość dodania nowych parametrów pomieszczenia}
+Dodanie nowych parametrów takich jak wilgotność czy nasłonecznienie pozwalałoby udoskonalić model temperatur i zbliżyć go do rzeczywistego modelu fizycznego.
+
+Jednocześnie dodanie takich parametrów jak poziom tlenu w pomieszczeniu dawałby możliwość sprawdzenia czy osobom w pomieszczeniu nie jest zbyt duszno oraz przewietrzenia pomieszczenia za pomocą dostępnych urządzeń.
+
+Oczywiście każde dodanie takiego parametru wiązałoby się z nowym typem sensora i w niektórych przypadkach aktuatora o ile badane zajwisko zmianiałoby się na tyle wolno, że moglibyśmy na nie oddziałowywać.
+
+\subsubsection*{Parametryzacja i podmiana modeli}
+Możliwość parametryzacji model pozwoliłaby dostrajać modele i poprawić precyzję działania i sugesti systemu.
+
+Podmiana modeli umożliwiłaby aktualizację parametrów modelu lub podmianę na inaczej skonstruowany model (np. przewidujący temperatury z innych parametrów pomieszczenia) bez wyłączania systemu . 
+
+\subsection*{Możliwość podpięcia różnych źródeł danych}
+W różnych firmach używa się różnych systemów do ustalania terminów spotkań czy rezerwacji sal np. Microsoft Exchange Server czy IBM Domino. 
+
+System powinien pozwalać na dopisanie adaptera zajmującego się przekazywaniem wydarzeń do systemu HVAC i uniezależnianiem go od źródła danych.
+
+\subsection*{Możliwość zbadania stanu systemu}
+Dla celach diagnostycznych oraz aby dostroić modele potrzebne są dane o stanie urządzeń oraz dane z samego systemu HVAC. Musi zatem istnieć sposób, aby w łatwy sposób połączyć się z systemem HVAC i zerbać informacje o jego stanie.
+
+\section{Analiza wymagań aplikacji symulatora}
+
+\subsection{Schemat budynku}
+\subsection{Scenariusze}
