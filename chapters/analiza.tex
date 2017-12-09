@@ -48,6 +48,12 @@ Aplikacja symulatora powinna pozwalać na zapisanie i ponowne załadowanie wła�
 \subsection*{Silnik scenariuszy}
 Scenariusze czyli lista sygnałów które odbiera system o określonym czasie. Np. podniesienie się temperatury czy przesunięcie spotkania. Za pomocą odtwarzalnych scenariuszy możemy wielokrotnie testować zachowanie systemu w tych samych warunkach, ale np. z innymi parametrami w modelu temperatury.
 
+\section{Model aktorów}
+Model aktorów to model równoległości oparty oparty o aktorów którzy przesyłają między sobą wiadomości.
+Model ten zakłada każdy z aktorów jest samodzielną jednostką z kolejką wiadomości. Wiadomości sa przetwarzane po jednej na raz. W ramach przetwarzania mogą nastąpić zmiana stanu wewnętrznego aktora lub wysłanie jednej lub więcej wiadomości do jednego lub więcej aktorów. 
+
+Model zakłada jak najmniejszą odpowiedzialność pojedyńczego aktora, aby umożliwić jak najwyższą równogległość i skalowalność.
+
 \section{Przegląd rozwiązań agentowych dla środowska .NET}
 \subsection{Boris.NET}
 Boris jest biblioteką do tworzenia systemów agentowych stworzoną w takcie badania metod projektowania systemów agentowych w Teesside University, Wielka Brytania. Protokół Borisa pozwala na łączenie w jeden system agentów napisanych za pomocą różnych języków takich jak C++, Lisp czy Java. 

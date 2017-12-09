@@ -1,5 +1,51 @@
 \chapter{Architektura rozwiązania}
 \section{Struktura systemu zarządzania urządzeniami}
+\subsection{Obraz ogólny}
+DIAGRAM OGÓLNEJ SYSTEMU
+% \input{./diagrams/systemConcept}
+
+W najogólniejszym obrazie system odpowiada za przetwarzanie danych zebranych z sensorów rozmieszczonych w pomieszczeniach oraz informacji zapisanych w kalendarzach firm (syngały te mogą dotyczyć takich rzeczy jak zmiana godziny rozpoczęcia spotkania)
+na sygnały sterujące wysyłąne do urządzeń pozwalających zachować w pomieszczeniach odpowiednie parametry, takie jak temperatura czy poziom ilości tlenu w powietrzu.
+
+\subsection{Moduły systemu}
+DIAGRAM MODUŁÓW SYSTEMU
+% \input{./diagrams/systemModules}
+
+W budowie samego systemu zarządzania urządzeniami HVAC możemy wyróżnić kilka modułów.
+\begin{enumerate}
+    \item Modele - zestaw abstrakcji i klas bazowych do budowy pozostałych modułów.  
+    \item Komponenty - zestaw klas do budowy aktorów odpowiedzialnych za komunikację lub symulację urządzeń.
+    \item Symulacja Temperatury - moduł zawierający matematyczny model zmiany temperatury wraz z aktrorami odpowiedzialnynmi za wysyłanie klimatyzatorom odpowiednich dyspozycji.
+    \item Zarządzanie Pomieszczeniem - moduł odpowiedzialny za aktorów zarządzanie komunikacją pomiędzy sensorami a aktuatorami. 
+    To w tym module odbywa się większość przetwarzania sygnałów wejściowych na sygnały wyjściowe z systemu. 
+\end{enumerate}
+
+Należy też wyróżnić moduł aplikacji hostującej system aktorów. 
+Może być to zarówno aplikacja desktopowa jak i internetowa. 
+
 \section{Struktura aplikacji symulatora}
-\section{Sygnały z zewnątrz systemu} 
-\section{Sygnały na zewnątrz systemu}
+Aplikacja symulatora hostująca sysstem agentowy została zrealizowana w technologii WPF - Windows Presentation Foundation za pomocą wzorca MVVM - Model - View - ViewModel.
+\subsection{Wzorzec MVVM}
+DIAGRAM WARTSTW MVVM
+% \input{./diagrams/mvvm}
+
+Wzorzec ten wyróżnia trzy wartwy aplikacji:
+\begin{enumerate}
+    \item View - Widok, czyli układ interfejsu użytkownika wraz z kontrolkami. 
+    \item ViewModel - Model Widoku, obiekt odpowiedzialny za pobieranie danych z Modelu i podawanie ich odpowiednio przetworzonych do Widoku. 
+    \item Model - Model to dowolne obiekty, do których Widok Modelu musi mieć dostęp, aby otrzymać potrzebne mu informacje. 
+\end{enumerate}
+
+PRZYKŁADOWY DIAGRAM MVVM
+% \input{./diagrams/mvvmExample}
+
+Po wykonaniu akcji przez użytkownika np. kliknięcia przycisku na Widoku, odpowienio przypisana komenda z Modelu Widoku zostaje wywołana. 
+Może ona wywoływać metody z Modelu np. wysłać zapytanie do bazy danych lub przesłać wiadomość do aktora w systemie aktorów.
+Jeżeli taka metoda zwróci jakieś dane Model Widoku przetwarza otrzymane dane i zapisuje wewnątrz swojego obiektu. 
+Następnie powiadamia Widok o tym, że wartość jednej lub więcej właściwości zmieniła się i należy odświeżyć ją na interfejsie użytkownika.
+
+DIAGRAM MVVM DLA APLIKACJI SYMULATORA
+% \input{./diagrams/simulatorMVVM}
+
+System aktorów w aplikacji symulatora należy do warstwy Modelu aplikacji.
+W aplikacji symulatora za komunikację między obiektami Modeli Widoków a systemem aktorów odpowiedzialni są aktorzy-pomosty, dokładniej opisani w sekcji \ref{sec:aktor-pomost}
