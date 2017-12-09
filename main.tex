@@ -20,8 +20,8 @@
 \date{2017}
 \klucze{Wieloagentowy, HVAC, aktorzy}
 \keywords{Multi-agent, HVAC, actors}
-% ----------------------------------------------------
 
+% ------------ Ustawienie listingów ---------------
 \usepackage{color}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{listings}
@@ -46,6 +46,18 @@
   stringstyle=\color{red}
 }
 
+% ------------ Ustawienia symbolu # przy C# i F# ---------------
+\usepackage{scalerel}
+\newcommand\mysharp{${\scalerel*{\#}{X}}$}
+\newcommand\csh{C\mysharp{}}
+\newcommand\fsh{F\mysharp{}}
+
+% ------------ Ustawienia diagramów sekewncji ---------------
+\usepackage{tikz}
+\usetikzlibrary{arrows,shadows}
+\usepackage{pgf-umlsd}[underline=false]
+
+% -------------------------------------------------------------
 \begin{document}
 \sloppy
   
@@ -68,15 +80,22 @@
 
 \part{Wstęp i analiza}
 \include{./chapters/wprowadzenie}
-\include{./chapters/analiza/chapter}
+\include{./chapters/analiza}
 
 \part{Dokumentacja rozwiązania}
-\include{./chapters/architektura/chapter}
-\include{./chapters/technikalia/chapter}
-\include{./chapters/testy/chapter}
+\include{./chapters/architektura}
+\include{./chapters/aktorzy}
+\include{./chapters/wzorce}
+\include{./chapters/interakcje}
+
+\include{./chapters/testy}
 
 \part{Podsumowania i wnioski}
-\include{./chapters/podsumowania/chapter}
+\chapter{Wnioski i podsumowanie}
+\input{./chapters/podsumowania/podsumowanie}
+\input{./chapters/podsumowania/wnioski}
+
+\input{./chapters/antywzorce}
 
 % 6. Bibliografia
 % Bibliografia leksykograficznie wg nazwisk autorów
@@ -93,7 +112,7 @@
 % \end{tabular}
 
 % 8. Spis rysunków - jeśli nie ma, zakomentować (ale być może po prostu się nie zrobi)
-% \listoffigures
+\listoffigures
 
 % 9. Spis tabel - jak wyżej
 % \renewcommand{\listtablename}{Spis tabel}

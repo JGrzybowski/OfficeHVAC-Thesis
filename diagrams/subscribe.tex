@@ -1,0 +1,13 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[2]{Owner}{Właściciel subskrybcji}{}
+        \newinst[2]{Nowy}{Nowy subskrybent}{}
+        \newinst[2]{Stary}{Subskrybent}{}
+
+        \begin{mess}{Nowy}{Subscibe}{Owner}\end{mess}
+        \begin{mess}{Owner}{Newsletter}{Nowy}\end{mess}
+    \end{sequencediagram}
+    \caption{Schemat dodawania subskrybenta}
+\end{figure}
+ 

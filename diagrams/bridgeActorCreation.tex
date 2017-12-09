@@ -1,0 +1,14 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[]{ViewModel}{Model widoku}{}
+        \newinst[3]{Bridge}{Aktor-pomost}{}
+        \newinst[3]{Actor}{Aktor}{}
+
+    \begin{mess}{ViewModel}{<Model widoku,Adres Aktora>}{Bridge}\end{mess}
+    \begin{mess}{Bridge}{DebugSubscribe}{Actor}\end{mess}
+    \begin{mess}{Actor}{InternalStatus}{Bridge}\end{mess}
+    \end{sequencediagram}
+    \caption{Schemat tworzenia aktora-pomostu}
+\end{figure}
+ 

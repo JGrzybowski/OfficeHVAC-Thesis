@@ -1,0 +1,31 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[]{Room}{Room}{}
+        \newinst[2]{Sensor}{TemperatureSensor}{}
+        \newinst[2]{Model}{ModelParams}{}
+        \newinst[]{Time}{TimeSimulator}{}
+
+        \begin{mess}{Room}{Adresy subskrypcji}{Sensor}\end{mess}
+
+        \begin{sdblock}{Subskrypcje sensora}{}
+            \begin{mess}{Sensor}{Subscibe}{Room}\end{mess}
+            \begin{mess}{Sensor}{Subscibe}{Model}\end{mess}
+            \begin{mess}{Sensor}{Subscibe}{Time}\end{mess}
+        \end{sdblock}
+
+        \begin{sdblock}{Odpowiedzi na subskrupcje}{}
+            \begin{mess}{Time}{TimeChanged}{Sensor}\end{mess}   
+            \begin{mess}{Model}{TemperatureModel}{Sensor}\end{mess}
+            \begin{mess}{Room}{RoomStatus}{Sensor}\end{mess}
+        \end{sdblock}
+                
+        \begin{sdblock}{Podpięcie sensora}{}
+            \begin{mess}{Sensor}{SensorAvaliable}{Room}\end{mess}
+            \begin{mess}{Room}{Subscribe}{Sensor}\end{mess}
+            \begin{mess}{Sensor}{TemperatureValue}{Room}\end{mess}
+        \end{sdblock}
+    \end{sequencediagram}
+    \caption{Schemat dodawania symulatora sensora do pomieszczenia}
+\end{figure}
+ 

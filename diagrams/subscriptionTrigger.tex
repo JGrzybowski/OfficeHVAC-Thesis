@@ -1,0 +1,15 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[1]{TriggerSource}{Źródło sygnału}{}
+        \newinst[2]{Owner}{Właściciel subskrybcji}{}
+        \newinst[1]{Sub1}{Subskrybent A}{}
+        \newinst[1]{Sub2}{Subskrybent B}{}
+
+        \begin{mess}{TriggerSource}{Trigger}{Owner}\end{mess}
+        \begin{mess}{Owner}{Newsletter}{Sub1}\end{mess}
+        \begin{mess}{Owner}{Newsletter}{Sub2}\end{mess}
+    \end{sequencediagram}
+    \caption{Schemat rozsyłania subskrypcji}
+\end{figure}
+ 

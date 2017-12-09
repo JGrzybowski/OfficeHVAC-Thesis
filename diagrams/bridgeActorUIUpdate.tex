@@ -1,0 +1,15 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[1]{UI}{Interfejs użytkownika}{}
+        \newinst[1]{ViewModel}{Model widoku}{}
+        \newinst[1]{Bridge}{Aktor-pomost}{}
+        \newinst[1]{Actor}{Aktor}{}
+
+    \begin{mess}{Actor}{Room Status}{Bridge}\end{mess}
+    \begin{mess}{Bridge}{UpdateFromStatus}{ViewModel}\end{mess}
+    \begin{mess}{ViewModel}{PropertyChanged}{UI}\end{mess}
+    \end{sequencediagram}
+    \caption{Schemat aktualizowania interfejsu użytkownika przez aktora-pomost}
+\end{figure}
+ 

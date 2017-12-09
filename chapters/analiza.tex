@@ -1,0 +1,74 @@
+\chapter{Analiza biznesowa}
+\section{Omówienie zagadnienia}
+W większości budynków biurowych zamontowane są klimatyzatory, które zapewniają komfortowe warunki pracy osób przebywających w biurach. 
+Ilość prądu potrzebnego do funkcjonowania sieci takich urządzeń jest sporą częścią miesięcznych kosztów dla właściciela budynku.
+
+Przy ręcznym ustawianiu komfortowej temperatury przez człowieka zwykle odbywa się to na początku spotkania gdy uczestnicy uznają, że warunki w pomieszczeniu nie odpowiadają ich wymaganiom. Aby jak najszybciej pozbyć się tego uczucia włączają najmocniejszy, lecz nie koniecznie najbardziej oszczędny, tryb w klimatyzatorach.
+
+Założeniem implementowanego w tej pracy systemu jest ustalanie temperatury komfortu przed spotkaniem i uruchomienie klimatyzatorów przed spotkaniem w najbardziej ekonomicznym wariancie, tak aby uczestnicy mieli komfortowe warunki od początku spotkania i utrzymanie ich przez całe spotkanie. 
+
+Głównym źródłem informacji w których pomieszczeniach i w jakich godzinach odbywają się spotkania są kalendarze firmowe. Można wyobrazić sobie inne źródła takie jak lokalizacja pracowników przypisanych do pomieszczenia, jednak implementowany system będzie skupiał się głównie na wydarzeniach firmowych, jako że są mniej dynamiczne i można za ich pomocą zamodelować również np. spóźniającego się pracownika przesuwając godzinę spotkania.
+
+Przewidzieć ile czasu wcześniej należy uruchomić urządzenia i w jakim trybie można za pomocą matematycznych modeli. Przygotowanie dokładniejszych modeli nie mieści się w zakresie pracy, przyjęto zatem prosty model opierający się o moc i wydajność urządzeń. 
+
+\section{Analiza wymagań systemu}
+Przy założeniu ewentualnej późniejszej rozbudowy systemu lub przeniesienia go na inny język programowania system musiał spełniać następujące wymagania:
+
+\subsection*{Możliwość dodania nowych parametrów pomieszczenia}
+Dodanie nowych parametrów takich jak wilgotność czy nasłonecznienie pozwalałoby udoskonalić model temperatur i zbliżyć go do rzeczywistego modelu fizycznego.
+
+Jednocześnie dodanie takich parametrów jak poziom tlenu w pomieszczeniu dawałby możliwość sprawdzenia czy osobom w pomieszczeniu nie jest zbyt duszno oraz przewietrzenia pomieszczenia za pomocą dostępnych urządzeń.
+
+Oczywiście każde dodanie takiego parametru wiązałoby się z nowym typem sensora i w niektórych przypadkach aktuatora o ile badane zajwisko zmianiałoby się na tyle wolno, że moglibyśmy na nie oddziałowywać.
+
+\subsubsection*{Parametryzacja i podmiana modeli}
+Możliwość parametryzacji model pozwoliłaby dostrajać modele i poprawić precyzję działania i sugesti systemu.
+Podmiana modeli umożliwiłaby aktualizację parametrów modelu lub podmianę na inaczej skonstruowany model (np. przewidujący temperatury z innych parametrów pomieszczenia) bez wyłączania systemu . 
+
+\subsection*{Możliwość podpięcia różnych źródeł danych}
+W różnych firmach używa się różnych systemów do ustalania terminów spotkań czy rezerwacji sal np. Microsoft Exchange Server czy IBM Domino.
+System powinien pozwalać na dopisanie adaptera zajmującego się przekazywaniem wydarzeń do systemu HVAC i uniezależnianiem go od źródła danych.
+
+\subsection*{Możliwość zbadania stanu systemu}
+Dla celach diagnostycznych oraz aby dostroić modele potrzebne są dane o stanie urządzeń oraz dane z samego systemu HVAC. Musi zatem istnieć sposób, aby w łatwy sposób połączyć się z systemem HVAC i zerbać informacje o jego stanie.
+
+\section{Analiza wymagań aplikacji symulatora}
+Użycie rzeczywistych urządzeń HVAC w celu sprawdzenia poprawności działania systemu nie było możliwe w ramach tej pracy ze względu na kosztowność i czasochłonność tej metody. 
+
+Potrzebny był zatem symulator który zawierałby w sobie system HVAC oraz interfejs użytkownika umożliwiający interakcję z systemem. Taki symulator powinien też pozwalać na przyspieszenie czasu w symulowanym systemie, ograniczyć czas potrzebny na testowanie.
+
+Aby móc wykonywać powtarzalne próby wydajnie potrzebne były:
+
+\subsection*{Symulacja upływu czasu}
+Aby nie czekać na wynik działania systemu po np. dwóch godzinach, system powinien pozwalać na przeskalowanie czasu upływającego w systemie np. jedna sekunda czasu rzeczywistego to 5 minuty czasu symulatora.
+
+\subsection*{Mechanizm ładowania schematu budynku}
+Aplikacja symulatora powinna pozwalać na zapisanie i ponowne załadowanie właściwości pomieszczeń wraz ze stanem urządzeń zanjdujących się w nim.
+
+\subsection*{Silnik scenariuszy}
+Scenariusze czyli lista sygnałów które odbiera system o określonym czasie. Np. podniesienie się temperatury czy przesunięcie spotkania. Za pomocą odtwarzalnych scenariuszy możemy wielokrotnie testować zachowanie systemu w tych samych warunkach, ale np. z innymi parametrami w modelu temperatury.
+
+\section{Przegląd rozwiązań agentowych dla środowska .NET}
+\subsection{Boris.NET}
+Boris jest biblioteką do tworzenia systemów agentowych stworzoną w takcie badania metod projektowania systemów agentowych w Teesside University, Wielka Brytania. Protokół Borisa pozwala na łączenie w jeden system agentów napisanych za pomocą różnych języków takich jak C++, Lisp czy Java. 
+
+Boris.NET jest biblioteką napisaną przez Aliego Bojarpour do obsługi biblioteki Boris za pomocą języków \csh i \fsh. 
+
+Elastyczność Borisa pod względem ilości obsługiwanych jest cenną cechą, gdyż pozwalałaby na pisanie adapterów i dodatkowych funkcjonalności przez różne zespoły. 
+Niestety ani Boris ani Boris.NET nie są projektami open-source co uniemożliwia analizę i poznanie mechanizmów wewnętrznych biblioteki. Podobnie rzecz ma się ze wsparciem społeczności, która ogranicza sie do osób ze środowiska akademickiego.
+
+Brak też obszernej dokumentacji, która jest potrzebna przy poznawaniu nowego modelu oprogramowania jakim jest system agentowy.
+
+\subsection{Orleans}
+
+
+\subsection{Akka.net}
+
+
+\subsection{Podobieństwa między Akka.net i Orelans}
+
+
+\subsection{Różnice między Akką.net i Orelans}
+
+
+\subsection{Uzasadnienie wyboru Akka.net}
