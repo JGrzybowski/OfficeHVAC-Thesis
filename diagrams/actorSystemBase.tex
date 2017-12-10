@@ -1,0 +1,34 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzpicture}[
+        company/.style={draw, ellipse},
+        room/.style={draw, ellipse},
+        component/.style={draw, ellipse},
+        device/.style={draw, rectangle, rounded corners},
+        source/.style={draw, ellipse}
+    ]
+        \node [circle,draw](building){Budynek}
+        child { node [company] (companyA) {Firma A} 
+            child{ 
+                node[room] (RoomA1){Pokój a}
+                child{ 
+                    node[component] (TSensorA1) {Sensor Temperatury} 
+                    child{ node[device] (ThermometerA1) {Termometr} }
+                }
+                child{ 
+                    node[component] (TControllerA1) {Kontroler Temperatury} 
+                    child{ node[device] (TDeviceA1-1) {Klimatyzator \#1} }
+                    child{ node[device] (TDeviceA1-2) {Klimatyzator \#2} }
+                }
+            }
+        }
+        child { node [company] (companyB) {Firma B} }
+        child { node [source] (timeSource) {Źródło czasu} }
+        child { node [source] (modelSource) {Źródło modeli} }
+        ;
+
+        
+    \end{tikzpicture}
+    \caption{Schemat dodawania subskrybenta}
+\end{figure}
+ 

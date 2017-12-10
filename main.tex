@@ -46,16 +46,19 @@
   stringstyle=\color{red}
 }
 
-% ------------ Ustawienia symbolu # przy C# i F# ---------------
+% ------------ Ustawienia symbolu # przy C# i F# --------------
 \usepackage{scalerel}
 \newcommand\mysharp{${\scalerel*{\#}{X}}$}
 \newcommand\csh{C\mysharp{}}
 \newcommand\fsh{F\mysharp{}}
 
-% ------------ Ustawienia diagramów sekewncji ---------------
+% ------------ Ustawienia diagramów ---------------------------
 \usepackage{tikz}
-\usetikzlibrary{arrows,shadows}
+\usetikzlibrary{arrows,shapes,shadows,positioning, trees}
 \usepackage{pgf-umlsd}[underline=false]
+\usepackage{tikz-qtree}
+
+% \newcommand{\inputdiagram}[1]{\input{./diagrams/{#1}}}
 
 % -------------------------------------------------------------
 \begin{document}
@@ -65,13 +68,13 @@
 
 % 2. Streszczenia
 % Streszczenie ma zawierać tytuł pracy i słowa kluczowe
-\include{./docparts/abstrakt}
+% \include{./docparts/abstrakt}
 
 % 3. Oświadczenie o autorstwie pracy - w innym pliku
-\makestatement
+% \makestatement
 
 % 4. Spis treści
-\cleardoublepage
+% \cleardoublepage
 \tableofcontents
 
 % 5. Treść
@@ -84,8 +87,8 @@
 
 \part{Dokumentacja rozwiązania}
 \include{./chapters/architektura}
-\include{./chapters/aktorzy}
 \include{./chapters/wzorce}
+\include{./chapters/aktorzy}
 \include{./chapters/interakcje}
 
 \include{./chapters/testy}
