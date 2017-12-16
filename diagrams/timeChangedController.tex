@@ -1,0 +1,15 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[0]{Time}{\shortstack{Źródło\\czasu}}{}
+        \newinst[]{Controller}{Kontroler}{}
+        \newinst[6]{Subs}{Subskrybenci}{}
+
+        \begin{mess}{Time}{TimeChanged}{Controller}\end{mess}
+        \begin{call}{Controller}{\shortstack{Sprawdz czy nie nalezy rozpoczac pracy}}{Controller}{jezeli tak, to uruchom urzadzenia}\end{call}
+        \begin{mess}{Controller}{ControllerStatus}{Subs}\end{mess}
+    \end{sequencediagram}
+    \caption{Reakcja kontrolera na upływ czasu}
+    \label{fig:timeChangedController}    
+\end{figure}
+ 

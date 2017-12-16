@@ -1,0 +1,27 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[]{Calendar}{\shortstack{Adapter do\\kalendarza}}{}
+        \newinst[]{Company}{Firma}{}
+        \newinst[]{Room}{Pokój}{}
+        \newinst[]{Controller}{Kontroler}{}
+        \newinst[]{JobScheduler}{Planista}{}
+
+        \begin{mess}{Calendar}{CalendarEvents}{Company}\end{mess}
+        
+        \begin{mess}{Company}{Expectations}{Room}\end{mess}
+        \begin{mess}{Room}{Expectations}{Controller}\end{mess}
+        
+        \begin{mess}{Controller}{Tasks}{JobScheduler}\end{mess}
+        \begin{mess}{JobScheduler}{ExecutionPlan}{Controller}\end{mess}
+
+        \begin{sdblock}{Jeżeli zmiany wymagają natychmiastowej reakcji}{}
+            \begin{call}{Controller}{}{Controller} {\shortstack{Przestaw\\urządzenia}}\end{call}
+            \begin{mess}{Controller}{DevicesStatus}{Room}\end{mess}
+            \begin{mess}{Room}{RoomStatus}{Company}\end{mess}
+        \end{sdblock}
+    \end{sequencediagram}
+    \caption{Schemat dodawania subskrybenta}
+    \label{fig:diagram}    
+\end{figure}
+ 

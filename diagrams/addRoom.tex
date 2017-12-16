@@ -1,12 +1,19 @@
 \begin{figure}[ht!]
     \centering
     \begin{sequencediagram}
-        \newinst[]{A}{Client}{}
-        \newinst[]{B}{ServerA}{}
-        \begin{call}{A}{Call()}{B}{}
-        \end{call}
+        \newinst[0]{UI}{\shortstack[c]{Interfejs\\użytkownika}}{}
+        \newinst[2]{Company}{\shortstack[c]{Aktor\\Firmy}}{}
+        \newinst[2]{Room}{\shortstack{Aktor\\Pokoju}}{}
+        \newinst[2]{Time}{\shortstack{Źródło\\czasu}}{}
+
+        \begin{mess}{UI}{AddRoomMsg}{Company} \end{mess}
+        \begin{call}{Company}{Stwórz aktora}{Room}{Adres aktora} \end{call}
+        \begin{mess}{Room}{Subscribe}{Time} \end{mess}
+        \begin{mess}{Time}{Timestamp}{Room} \end{mess}
+        \begin{mess}{Company}{Subscribe}{Room} \end{mess}
+        \begin{mess}{Room}{RoomStatus}{Company} \end{mess}
     \end{sequencediagram}
-    \caption{Schamat dodawania pomieszczenia}
+    \caption{Schemat dodawania pomieszczenia}
     \label{fig:addRoom}
 \end{figure}
  

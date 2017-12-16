@@ -20,10 +20,10 @@ Aby móc w łatwy sposób odczytywać stan wewnętrzny systemu, większość jeg
 
 Metody dostępne do rozszerzenia lub użycia w klasie ???DebuggableActor???
 \begin{enumerate}
-    \item GenerateInternalState() - tworzy obiekt przedstawiający stan wewnętrzny aktora (metoda do rozszerzenia). 
-    \item InformAboutInternalState() - rozsyła subskrypcję stanu wewnętrznego do wszystkich diagnostycznych subskrybentów.
-    \item InformDebugSubscribers(object x) - Pozwala rozesłać do subskrybentów diagnostyczych inną wiadomość niż tą generowaną za pomocą GenerateInternalState()
-    \item SetInternalStatus() - Metoda pozwalająca na nadgranie statusu wewnętrznego aktora np. w celu testowania. Domyślnie nie zmienia stanu aktora a jedynie wywołuje metodę InformAboutInternalState(). (metoda do rozszerzenia)
+    \item \lstinline{GenerateInternalState()} - tworzy obiekt przedstawiający stan wewnętrzny aktora (metoda do rozszerzenia). 
+    \item \lstinline{InformAboutInternalState()} - rozsyła subskrypcję stanu wewnętrznego do wszystkich diagnostycznych subskrybentów.
+    \item \lstinline{InformDebugSubscribers(object x)} - Pozwala rozesłać do subskrybentów diagnostyczych inną wiadomość niż tą generowaną za pomocą GenerateInternalState()
+    \item \lstinline{SetInternalStatus()} - Metoda pozwalająca na nadgranie statusu wewnętrznego aktora np. w celu testowania. Domyślnie nie zmienia stanu aktora a jedynie wywołuje metodę InformAboutInternalState(). (metoda do rozszerzenia)
 \end{enumerate}
 
 \section{Aktor-pomost} \label{sec:aktor-pomost}
@@ -61,9 +61,9 @@ Obsługa oczekiwanych parametrów została podzielona na trzy etapy. Wymagania z
     
     \item Zadanie - obiekt opisujący ograniczenia w których musi być spełnione Wymaganie. 
 
-    Np. TemperatureTask to ilość czasu, obecna temperatura w pomieszczeniu i temperature jaką chcemy osiągnąć w przeciągu ww. czasu.
+    Np. \lstinline{TemperatureTask} to ilość czasu, obecna temperatura w pomieszczeniu i temperature jaką chcemy osiągnąć w przeciągu ww. czasu.
     
     \item Praca - obiekt określający najlepszą znalezioną konfigurację dla zadanego Zadania. 
 
-    Np. TemperatureJob składa się z informacji: w którym trybie, od kiedy do kiedy, i na jaką temperaturę nastawić klimatyzatory.
+    Np. \lstinline{TemperatureJob} składa się z informacji: w którym trybie, od kiedy do kiedy, i na jaką temperaturę nastawić klimatyzatory.
 \end{itemize}

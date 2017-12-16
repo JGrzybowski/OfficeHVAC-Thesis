@@ -1,0 +1,27 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[]{UI}{\shortstack{Interfejs\\użytkownika}}{}
+        \newinst[]{Room}{Room}{}
+        \newinst[2]{Controller}{TemperatureController}{}
+        \newinst[2]{Model}{ModelParams}{}
+        \newinst[]{Time}{TimeSimulator}{}
+
+
+        \begin{mess}{UI}{RemoveSensor}{Room}\end{mess}
+        \begin{mess}{Room}{RemoveSensor}{Controller}\end{mess}
+
+        \begin{call}{Room}{}{Room}{Usuń kontroler z listy}\end{call}            
+
+        \begin{sdblock}{Subskrypcje kontrolera}{}
+            \begin{mess}{Controller}{Unsubscibe}{Room}\end{mess}
+            \begin{mess}{Controller}{Unsubscibe}{Model}\end{mess}
+            \begin{mess}{Controller}{Unsubscibe}{Time}\end{mess}
+        \end{sdblock}
+
+    \begin{call}{Controller}{}{Controller}{Stop}\end{call}
+    \end{sequencediagram}
+    \caption{Schemat usuwania kontrolera temperatury z pomieszczenia}
+    \label{fig:removeTemperatureController}
+\end{figure}
+ 

@@ -1,0 +1,26 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[0]{UI}{\shortstack[c]{Interfejs\\użytkownika}}{}
+        \newinst[2]{Company}{\shortstack[c]{Aktor\\Firmy}}{}
+        \newinst[2]{Room}{\shortstack{Aktor\\Pokoju}}{}
+        \newinst[1]{Child1}{Sensor}{}
+        \newinst[1]{Child2}{Kontroler}{}
+        \newinst[2]{Time}{\shortstack{Źródło\\czasu}}{}
+
+        \begin{mess}{UI}{RemoveRoom}{Company} \end{mess}
+        \begin{mess}{Company}{RemoveRoom}{Room} \end{mess}
+            
+        \begin{mess}{Room}{Unsubscribe}{Time} \end{mess}
+        \begin{messcall}{Company}{\shortstack{Usuń pokój z listy}}{Company}\end{messcall}
+            
+        \begin{sdblock}{Wygaszanie aktora}{}
+            \begin{mess}{Room}{Stop}{Child2} \end{mess}
+            \begin{mess}{Room}{Stop}{Child1} \end{mess}
+            \begin{call}{Room}{}{Room}{Stop} \end{call}
+        \end{sdblock}
+    \end{sequencediagram}
+    \caption{Schemat usuwania pomieszczenia}
+    \label{fig:removeRoom}
+\end{figure}
+ 

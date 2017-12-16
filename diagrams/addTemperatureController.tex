@@ -1,0 +1,32 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[]{Room}{Room}{}
+        \newinst[2]{Controller}{TemperatureController}{}
+        \newinst[2]{Model}{ModelParams}{}
+        \newinst[]{Time}{TimeSimulator}{}
+
+        \begin{mess}{Room}{Adresy subskrypcji}{Controller}\end{mess}
+
+        \begin{sdblock}{Subskrypcje kontrolera}{}
+            \begin{mess}{Controller}{Subscibe}{Room}\end{mess}
+            \begin{mess}{Controller}{Subscibe}{Model}\end{mess}
+            \begin{mess}{Controller}{Subscibe}{Time}\end{mess}
+        \end{sdblock}
+
+        \begin{sdblock}{Odpowiedzi na subskrupcje}{}
+            \begin{mess}{Time}{TimeChanged}{Controller}\end{mess}   
+            \begin{mess}{Model}{TemperatureModel}{Controller}\end{mess}
+            \begin{mess}{Room}{RoomStatus}{Controller}\end{mess}
+        \end{sdblock}
+                
+        \begin{sdblock}{Podpięcie kontrolera}{}
+            \begin{mess}{Controller}{SensorAvaliable}{Room}\end{mess}
+            \begin{mess}{Room}{Subscribe}{Controller}\end{mess}
+            \begin{mess}{Controller}{TemperatureValue}{Room}\end{mess}
+        \end{sdblock}
+    \end{sequencediagram}
+    \caption{Schemat dodawania kontrolera temperatury do pomieszczenia}
+    \label{fig:addTemperatureController}
+\end{figure}
+ 

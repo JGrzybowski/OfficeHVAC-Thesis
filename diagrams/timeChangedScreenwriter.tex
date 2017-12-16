@@ -1,0 +1,15 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[0]{Time}{\shortstack{Źródło\\czasu}}{}
+        \newinst[]{Screenwriter}{Scenarzysta}{}
+        \newinst[6]{Target}{\shortstack{Adresaci\\wiadomości}}{}
+
+        \begin{mess}{Time}{TimeChanged}{Screenwriter}\end{mess}
+        \begin{call}{Screenwriter}{\shortstack{Znajdz wiadomości, ktore\\nalezy wyslac w obecnej chwili}}{Screenwriter}{}\end{call}
+        \begin{mess}{Screenwriter}{Wiadomość}{Target}\end{mess}
+    \end{sequencediagram}
+    \caption{Reakcja scenarzysty na upływ czasu}
+    \label{fig:timeChangedScreenwriter}    
+\end{figure}
+ 

@@ -1,0 +1,15 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[0]{Time}{\shortstack{Źródło\\czasu}}{}
+        \newinst[]{Sensor}{Sensor}{}
+        \newinst[6]{Subs}{Subskrybenci}{}
+
+        \begin{mess}{Time}{TimeChanged}{Sensor}\end{mess}
+        \begin{call}{Sensor}{\shortstack{Sprawdz ile czasu upłynelo}}{Sensor}{jesli $\Delta_t$ > okres aktualizacji}\end{call}
+        \begin{mess}{Sensor}{ParameterValue}{Subs}\end{mess}
+    \end{sequencediagram}
+    \caption{Reakcja sensora na upływ czasu}
+    \label{fig:timeChangedSensor}    
+\end{figure}
+ 

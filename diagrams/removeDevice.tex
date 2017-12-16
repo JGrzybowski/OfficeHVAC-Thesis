@@ -1,0 +1,23 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[]{UI}{\shortstack{Interfejs\\użytkownika}}{}
+        \newinst[]{Room}{Pokój}{}
+        \newinst[2]{Controller}{\shortstack{Kontroler\\temperatury}}
+        \newinst[2]{JobScheduler}{Planista}{}
+
+        \begin{mess}{UI}{RemoveDevice}{Room}\end{mess}
+        \begin{mess}{Room}{RemoveDevice}{Controller}\end{mess}
+        
+        \begin{mess}{Controller}{TemperatureTask}{JobScheduler}\end{mess}      
+        \begin{mess}{JobScheduler}{Execution Plan}{Controller}\end{mess} 
+        
+        \begin{sdblock}{Jeżeli plan zakłada natychmiastową reakcję}{}
+            \begin{call}{Controller}{}{Controller}{\shortstack{Przelacz urządzenia na\\odpowiedni tryb}}\end{call}
+            \begin{mess}{Controller}{DevicesStatus}{Room}\end{mess}
+        \end{sdblock}
+    \end{sequencediagram}
+    \caption{Schemat usuwania urządzenia HVAC z pomieszczenia}
+    \label{fig:removeDevice}
+\end{figure}
+ 
