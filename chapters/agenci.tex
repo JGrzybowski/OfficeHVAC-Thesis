@@ -1,0 +1,33 @@
+\chapter{Systemy agentowe}
+\section{Model aktorów}
+Model aktorów to model równoległości oparty na koncepcji aktorów, którzy przesyłają między sobą wiadomości.
+Model ten zakłada, że każdy z aktorów jest samodzielną jednostką posiadającą kolejkę wiadomości. Wiadomości sa przetwarzane po jednej na raz w kolejności, w której przyszły. W ramach przetwarzania mogą nastąpić zmiana stanu wewnętrznego aktora lub wysłanie jednej lub więcej wiadomości do jednego lub więcej aktorów. 
+
+Model zakłada jak najmniejszą odpowiedzialność pojedyńczego aktora, aby umożliwić jak najwyższą równogległość i skalowalność.
+
+\section{Przegląd rozwiązań agentowych dla środowska .NET}
+\subsection{Boris.NET}
+Boris jest biblioteką do tworzenia systemów agentowych stworzoną w takcie badania metod projektowania systemów agentowych w Teesside University, Wielka Brytania. Protokół Borisa pozwala na łączenie agentów napisanych za pomocą różnych języków takich jak C++, Lisp czy Java w jeden system. Boris.NET jest biblioteką napisaną przez Aliego Bojarpour do obsługi biblioteki Boris za pomocą języków \csh i \fsh. 
+
+Elastyczność Borisa pod względem ilości obsługiwanych jest cenną cechą, gdyż pozwalałaby na pisanie adapterów i dodatkowych funkcjonalności przez różne zespoły. 
+Niestety, ani Boris, ani Boris.NET nie są projektami open-source, co uniemożliwia analizę i poznanie mechanizmów wewnętrznych biblioteki. Podobnie rzecz ma się ze wsparciem społeczności, która ogranicza sie do osób ze środowiska akademickiego.
+
+Brak też kompleksowej dokumentacji, która jest potrzebna przy poznawaniu nowej architektury oprogramowania, jaką jest podejście agentowe.
+
+W SEKCJACH PONIŻEJ POJAWIĄ SIĘ TREŚCI NA PODSTAWIE
+https://github.com/akka/akka-meta/blob/master/ComparisonWithOrleans.md
+\subsection{Orleans}
+
+
+\subsection{Akka.net}
+
+
+\subsection{Podobieństwa między Akka.net i Orelans}
+
+
+\subsection{Różnice między Akką.net i Orelans}
+
+
+\subsection{Uzasadnienie wyboru Akka.net}
+
+

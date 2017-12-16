@@ -1,76 +1,41 @@
 \chapter{Analiza biznesowa}
 
 \section{Model temperatury}
-
+TODO
 
 \section{Analiza wymagań systemu}
 Przy założeniu ewentualnej późniejszej rozbudowy systemu lub przeniesienia go na inny język programowania system musiał spełniać następujące wymagania:
 
 \subsection*{Możliwość dodania nowych parametrów pomieszczenia}
-Dodanie nowych parametrów takich jak wilgotność czy nasłonecznienie pozwalałoby udoskonalić model temperatur i zbliżyć go do rzeczywistego modelu fizycznego.
+Dodanie nowych, dynamicznie zmieniających się parametrów, takich jak wilgotność czy nasłonecznienie, pozwalałoby udoskonalić model temperatur i zbliżyć go do rzeczywistego modelu fizycznego.
 
-Jednocześnie dodanie takich parametrów jak poziom tlenu w pomieszczeniu dawałby możliwość sprawdzenia czy osobom w pomieszczeniu nie jest zbyt duszno oraz przewietrzenia pomieszczenia za pomocą dostępnych urządzeń.
+Jednocześnie, dodanie mniej dynamicznych parametrów, na które jesteśmy w stanie wpłynąć dawałby możliwość sprawdzenia i skorygowania ich. Np. poziom tlenu w pomieszczeniu pozwala ocenić czy osobom w pomieszczeniu nie jest zbyt duszno i przewietrzyć pomieszczenia za pomocą dostępnych urządzeń.
 
-Oczywiście każde dodanie takiego parametru wiązałoby się z nowym typem sensora i w niektórych przypadkach aktuatora o ile badane zajwisko zmianiałoby się na tyle wolno, że moglibyśmy na nie oddziałowywać.
+Oczywiście, każde dodanie takiego parametru wiązałoby się z nowym typem sensora. O ile badane zajwisko zmianiałoby się na tyle wolno, że moglibyśmy na nie oddziałować, byłoby możliwe dodanie aktuatora.
 
 \subsubsection*{Parametryzacja i podmiana modeli}
-Możliwość parametryzacji model pozwoliłaby dostrajać modele i poprawić precyzję działania i sugesti systemu.
-Podmiana modeli umożliwiłaby aktualizację parametrów modelu lub podmianę na inaczej skonstruowany model (np. przewidujący temperatury z innych parametrów pomieszczenia) bez wyłączania systemu . 
+Możliwość parametryzacji model pozwoliłaby dostrajać modele i poprawić precyzję predykcji i sugesti systemu.
+Podmiana modeli umożliwiłaby aktualizację parametrów modelu lub podmianę na inaczej skonstruowany model (np. przewidujący temperatury z innych parametrów pomieszczenia) bez wyłączania systemu. 
 
 \subsection*{Możliwość podpięcia różnych źródeł danych}
 W różnych firmach używa się różnych systemów do ustalania terminów spotkań czy rezerwacji sal np. Microsoft Exchange Server czy IBM Domino.
 System powinien pozwalać na dopisanie adaptera zajmującego się przekazywaniem wydarzeń do systemu HVAC i uniezależnianiem go od źródła danych.
 
 \subsection*{Możliwość zbadania stanu systemu}
-Dla celach diagnostycznych oraz aby dostroić modele potrzebne są dane o stanie urządzeń oraz dane z samego systemu HVAC. Musi zatem istnieć sposób, aby w łatwy sposób połączyć się z systemem HVAC i zerbać informacje o jego stanie.
-
-\section{Analiza wymagań aplikacji symulatora}
-Użycie rzeczywistych urządzeń HVAC w celu sprawdzenia poprawności działania systemu nie było możliwe w ramach tej pracy ze względu na kosztowność i czasochłonność tej metody. 
-
-Potrzebny był zatem symulator który zawierałby w sobie system HVAC oraz interfejs użytkownika umożliwiający interakcję z systemem. Taki symulator powinien też pozwalać na przyspieszenie czasu w symulowanym systemie, ograniczyć czas potrzebny na testowanie.
+Dla celów diagnostycznych oraz aby dostroić modele potrzebny jest łatwy dostęp do danych o stanie urządzeń oraz danych z samego systemu HVAC. Musi zatem istnieć sposób, aby w łatwy sposób połączyć się z systemem HVAC i zerbać informacje o jego stanie.
 
 Aby móc wykonywać powtarzalne próby wydajnie potrzebne były:
 
+\section{Analiza wymagań aplikacji symulatora}
+Użycie rzeczywistych urządzeń HVAC, w celu sprawdzenia poprawności działania systemu, nie było możliwe w ramach tej pracy ze względu na kosztowność i czasochłonność takiego rozwiązania. 
+Potrzebny był zatem symulator który zawierałby w sobie system HVAC oraz interfejs użytkownika umożliwiający interakcję z systemem. 
+
 \subsection*{Symulacja upływu czasu}
-Aby nie czekać na wynik działania systemu po np. dwóch godzinach, system powinien pozwalać na przeskalowanie czasu upływającego w systemie np. jedna sekunda czasu rzeczywistego to 5 minuty czasu symulatora.
+Symulator powinien też pozwalać na przyspieszenie czasu w symulowanym systemie, ograniczyć czas potrzebny na testowanie.
+i nie czekać na wynik działania systemu po np. dwóch godzinach. System powinien pozwalać na przeskalowanie czasu upływającego w systemie np. jedna sekunda czasu rzeczywistego to 5 minuty czasu symulatora.
 
 \subsection*{Mechanizm ładowania schematu budynku}
 Aplikacja symulatora powinna pozwalać na zapisanie i ponowne załadowanie właściwości pomieszczeń wraz ze stanem urządzeń zanjdujących się w nim.
 
 \subsection*{Silnik scenariuszy}
-Scenariusze czyli lista sygnałów które odbiera system o określonym czasie. Np. podniesienie się temperatury czy przesunięcie spotkania. Za pomocą odtwarzalnych scenariuszy możemy wielokrotnie testować zachowanie systemu w tych samych warunkach, ale np. z innymi parametrami w modelu temperatury.
-
-\section{Model aktorów}
-Model aktorów to model równoległości oparty oparty o aktorów którzy przesyłają między sobą wiadomości.
-Model ten zakłada każdy z aktorów jest samodzielną jednostką z kolejką wiadomości. Wiadomości sa przetwarzane po jednej na raz. W ramach przetwarzania mogą nastąpić zmiana stanu wewnętrznego aktora lub wysłanie jednej lub więcej wiadomości do jednego lub więcej aktorów. 
-
-Model zakłada jak najmniejszą odpowiedzialność pojedyńczego aktora, aby umożliwić jak najwyższą równogległość i skalowalność.
-
-\section{Przegląd rozwiązań agentowych dla środowska .NET}
-\subsection{Boris.NET}
-Boris jest biblioteką do tworzenia systemów agentowych stworzoną w takcie badania metod projektowania systemów agentowych w Teesside University, Wielka Brytania. Protokół Borisa pozwala na łączenie w jeden system agentów napisanych za pomocą różnych języków takich jak C++, Lisp czy Java. 
-
-Boris.NET jest biblioteką napisaną przez Aliego Bojarpour do obsługi biblioteki Boris za pomocą języków \csh i \fsh. 
-
-Elastyczność Borisa pod względem ilości obsługiwanych jest cenną cechą, gdyż pozwalałaby na pisanie adapterów i dodatkowych funkcjonalności przez różne zespoły. 
-Niestety ani Boris ani Boris.NET nie są projektami open-source co uniemożliwia analizę i poznanie mechanizmów wewnętrznych biblioteki. Podobnie rzecz ma się ze wsparciem społeczności, która ogranicza sie do osób ze środowiska akademickiego.
-
-Brak też obszernej dokumentacji, która jest potrzebna przy poznawaniu nowego modelu oprogramowania jakim jest system agentowy.
-
-W SEKCJACH PONIŻEJ POJAWIĄ SIĘ TREŚCI NA PODSTAWIE
-https://github.com/akka/akka-meta/blob/master/ComparisonWithOrleans.md
-\subsection{Orleans}
-
-
-\subsection{Akka.net}
-
-
-\subsection{Podobieństwa między Akka.net i Orelans}
-
-
-\subsection{Różnice między Akką.net i Orelans}
-
-
-\subsection{Uzasadnienie wyboru Akka.net}
-
-
+Scenariusze czyli lista sygnałów, które odbiera system o określonym czasie. Np. podniesienie się temperatury czy przesunięcie spotkania. Za pomocą odtwarzalnych scenariuszy możemy wielokrotnie testować zachowanie systemu w tych samych warunkach, ale np. z innymi parametrami w modelu temperatury.
