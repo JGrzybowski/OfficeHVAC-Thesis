@@ -1,63 +1,60 @@
 \chapter{System aktorów}\label{ch:aktorzy}
 \section{Architektura systemu aktorów}
 Systemy aktorów w akka.net mają strukturę drzewiastą. 
-Każdy aktor jest dzieckiem aktora głównego (user) lub innego aktora. 
+Każdy aktor jest dzieckiem aktora głównego lub innego aktora. 
 
 \input{./diagrams/actorSystem.tex}
 
-Aktor główny może symbolizować modelowany budynek.
-Jego dziećmi są aktorzy firm które odpowiadają za odświeżanie informacji z kalendarzy i przechowywanie ewentualnych domyślnych wartości parametrów pomieszczeń.
+Aktor główny symbolizuje modelowany budynek.
+Jego dziećmi są aktorzy firm, którzy odpowiadają za odświeżanie informacji z kalendarzy i przechowywanie ewentualnych domyślnych wartości parametrów pomieszczeń.
 
 Każda firma ma pod sobą kilku aktorów odpowiedzialnych za przypisane im pomieszczenia.
-Aby móc wpływać na parametry pomieszczeń jego aktor musi mieć dostęp do danych o pomieszczeniu od agentów sensorów oraz móc wysłać sygnały kontrolne do urządzeń za pomocą aktorów kontrolerów.
+Aby móc wpływać na parametry pomieszczenia, jego aktor ma dostęp do danych o pomieszczeniu od agentów sensorów oraz może wysłać sygnały kontrolne do urządzeń za pomocą aktorów kontrolerów.
 
-Oba rodzaje aktorów łączą się z urządzeniami odpowiednio sensorami i aktuatorami.
+Oba powyższe rodzaje aktorów łączą się z urządzeniami, odpowiednio sensorami i aktuatorami.
 
-Obok opisanej struktury powienien występować co najmniej jeden aktor będący źródłem czasu oraz jeden będący źródłem modeli parametrów pomieszczenia.
+Dodatkowo oprócz opisanej struktury, w systemie powienien występować co najmniej jeden aktor będący źródłem czasu oraz jeden będący źródłem modeli parametrów pomieszczenia.
 
 \section{Źródło czasu}
-Źródło czasu to aktor wysyłający sygnały ze znacznikiem czasowym w określonych odstępach. Wykorzystuje do tego model subskypcyjny.
+Źródło czasu to aktor wysyłający sygnały ze znacznikiem czasowym w określonych odstępach. Wykorzystuje do tego model subskypcyjny. Może występować jako pojedyńczy aktor w całym systemie lub w każdym fizycznym urządzeniu. 
 
-Może występować jako pojedyńczy aktor w całym systemie lub w danym fizycznym urządzeniu. 
+\input{./diagrams/timeSourceSingle}
 
-DIAGRAM DLA JEDNEGO ŹRÓDŁA CZASU
-% \input{./diagram/singleTimeSource}
+Pierwszy scenariusz użycia ma miejsce w aplikacji symulatora, gdzie nie trzeba brać pod uwagę opóźnień w przesyłaniu wiadomości ze znacznikami czasowymi. \seefigure{timeSourceSingle}
 
-Pierwszy scenariusz użycia ma miejsce w aplikacji symulatora, gdzie nie trzeba brać pod uwagę opóźnień w przesyłaniu wiadomości ze znacznikami czasowymi.
+\input{./diagrams/timeSourceMulti}
 
-DIAGRAM DLA WIELU ŹRÓDEŁ CZASU
-% \input{./diagram/singleTimeSource}
-
-Drugi sposób zastosowania ogranicza ilość sygnałów przesyłanych pomiędzy fizycznymi urządzeniami co pozwala na lepszą skalowalność i daje aktorom odpowiedzalnym za pomieszczenia większą niezależność w wypadku awarii połączeń.
+Drugi sposób zastosowania ogranicza ilość sygnałów przesyłanych pomiędzy fizycznymi urządzeniami co pozwala na lepszą skalowalność i daje aktorom odpowiedzalnym za pomieszczenia większą niezależność w wypadku awarii połączeń. \seefigure{timeSourceMulti}
 Jest to zalecany sposób implementacji w rzeczywistym zastosowaniu.
 
 \section{Źródło modeli}
-Zadaniem źródła modeli jest przyjmowanie zaktualizowanych danych o modelu parametrów pomieszczenia i rozesłanie ich do wszystkich aktorów korzystających z takiego modelu.
 Źródło modeli jest aktorem podobnym do źródła czasu. 
-Może istnieć jeden na cały system lub w wielu kopiach na kilku poziomach w zależności o potrzeb dostosowywania modeli pod konkretne pomieszczenia.
+Jego zadaniem jest przyjmowanie zaktualizowanych danych o modelu parametrów pomieszczenia i rozesłanie ich do wszystkich aktorów korzystających z takiego modelu.
+Może istnieć jeden na cały system lub w wielu kopiach na kilku poziomach w zależności od potrzeb dostosowywania modeli pod konkretne pomieszczenia.
 
-DIAGRAM
-% \input{./diagrams/singleModelSource.tex}
+\input{./diagrams/modelSourcePerSystem}
 
-Gdy zależy nam na prostej aktualizacji modelu w całym systemie najlepiej stworzyć jedne źródło modeli dla całego systemu.
+Gdy zależy nam na prostej aktualizacji modelu w całym systemie najlepiej stworzyć jedne źródło modeli dla całego systemu. \seefigure{modelSourcePerSystem}
 
-DIAGRAM
+\input{./diagrams/modelSourcePerCompany}
 
-Jeżeli poszczególne firmy mają inne rodzaje pomieszczeń, można przygotować oddzielne źródło modeli dla każdej z nich.
+Jeżeli poszczególne firmy mają inne rodzaje pomieszczeń, można przygotować oddzielne źródło modeli dla każdej z nich. \seefigure{modelSourcePerCompany}
 
-DIAGRAM
+\input{./diagrams/modelSourcePerRoom}
 
-W wypadku, gdy mamy do czynienia z nietypowym pomieszczeniem najlepiej jest wydzielić mu oddzielne źródło modeli, aby móc dostosować modele bardziej przystające do tego pomieszczenia.
+W wypadku, gdy mamy do czynienia z nietypowym pomieszczeniem najlepiej jest wydzielić mu oddzielne źródło modeli, aby móc dostosować modele bardziej przystające do tego pomieszczenia. \seefigure{modelSourcePerRoom}
 
-DIAGRAM
+\input{./diagrams/modelTraining}
 
-Taka metoda wdrożenia źródeł modeli zastosowana dla każdego pomieszczenia oddzielnie pozwalałaby na zastosowanie uczenia maszynowego i pozwalałaby na powolne przystosowanie parametrów modelu dla każdego z pomieszczeń.
+Taka metoda wdrożenia źródeł modeli zastosowana dla każdego pomieszczenia oddzielnie pozwalałaby na zastosowanie uczenia maszynowego i pozwalałaby na powolne przystosowanie parametrów modelu dla każdego z pomieszczeń. \seefigure{modelTraining}
+
+\input{./diagrams/modelTraining}
 
 \section{Firma}
-Aktor firmy służy za dyspozytora wiadomości. Przekierowuje wymagania otrzymane od adaptera do kalendarza firmowego do aktorów odpowiednich pokoi.
-Jeżeli jakieś wymaganie nie posiada jakiegoś parametru może nadać mu wartość domyślną dla całej firmy.
+Aktor firmy służy za dyspozytora wiadomości. Przekierowuje wymagania otrzymane od adaptera kalendarza firmowego do odpowiednich aktorów pokoi.
+Jeżeli jakieś wymaganie nie posiada jakiegoś parametru, może nadać mu wartość domyślną dla całej firmy.
 
-Może też zbierać infromacje ze statusów poszczególnych pokoi aby wygenerować raport zużycia prądu.
+W przyszłości może też zbierać infromacje ze statusów poszczególnych pokoi aby wygenerować raport zużycia prądu.
 
 \section{Pomieszczenie}
 Aktor pokoju jest najważniejszym aktorem w całym systemie. 
@@ -65,44 +62,44 @@ Odpowiada za zbieranie informacji z różnych sensorów w pomieszczeniu i złoż
 
 To on jest ostatnim poziomem na którym aktor jest w stanie pracować niezależnie od pozostałych aktorów-rodzeństwa, a nawet bez łączności z rodzicem przez dłuższy czas. 
 
-Dla zapewnienia nawjększej niezależności najlepiej, aby aktorzy pokoi i wszyskie jego dzieci znajdowały się na tym samym (mikro)komputerze. Jak długo takie urządzenie będzie w stanie połączyć się podlegającymi mu sensorami oraz urządzeniami HVAC (np. za pomocą bluetooth) utrata łączności z systemem głównym nie zaburzy jego pracy zgodznie z jego aktualnym stanem.
+Dla zapewnienia największej niezależności najlepiej, aby aktorzy pokoi i wszyskie jego dzieci znajdowały się na tym samym (mikro)komputerze. Jak długo takie urządzenie będzie w stanie połączyć się podlegającymi mu sensorami oraz urządzeniami HVAC (np. za pomocą Bluetooth) utrata łączności z systemem głównym nie zaburzy jego pracy zgodznie z jego aktualnym stanem.
 
 \section{Symulator pomieszczenia}
 
-Symulator pomieszczenia jest aktorem dziedziczącym po aktorze pomieszczenia wszystkie zachowania, a dodatkowo pozwala na sterowanie parametrami pomieszczenia. Jest to część systemu potrzebna tylko na potrzeby symulatora i w realnym zastosowaniu nie musi być użyta.
+Symulator pomieszczenia jest aktorem dziedziczącym po aktorze pomieszczenia wszystkie zachowania, a dodatkowo pozwala na sterowanie parametrami pomieszczenia. Jest to część systemu stworznona tylko na potrzeby symulatora i w realnym zastosowaniu nie musi być użyta.
 
-\section{Komponent}
-Komponenty to kategoria aktorów którzy dzielą sporą ilość zachowań, głównie w celu komunikacji z urządzeniami - sensorami lub aktuatorami. Jeden komponent powinien odpowiadać tylko za jeden parametr pomieszczenia.
+\section{Jednostka} \label{sec:unit}
+Jednostki to kategoria aktorów którzy dzielą sporą ilość zachowań, głównie w celu komunikacji z urządzeniami - sensorami lub aktuatorami. Jedena jednostka powinna odpowiadać tylko za jeden parametr pomieszczenia.
 
-Abstrakcyjna klasa \lstinline{ComponentActor<TInternalStatus, TParameter>} jest bazową dla wszystkich komponentów. Poniżej opisane są najważniejsze jej możliwości.
+Abstrakcyjna klasa \lstinline{UnitActor<TInternalStatus, TParameter>} jest bazową dla wszystkich jednostek. Poniżej opisane są najważniejsze jej możliwości.
 
 \subsection*{Inicjalizacja}
-Każdy komponent do poprawnego działania wymaga otrzymywania sygnałów o upływie czasu. Klasy rozszerzające bazowy komponent najczęściej będą wymagać jeszcze więcej informacji. 
+Każda jednostka do poprawnego działania wymaga otrzymywania sygnałów o upływie czasu. Klasy rozszerzające bazową jednostkę najczęściej będą wymagać jeszcze więcej informacji. 
 
-Dopóki komponenty nie otrzymają początkowych wartości niektórych parametrów, takich jak czas, będą znajdować się w stanie niezainicjalizowanym i powinny jedynie odbierać wiadomości dotyczące inicjalizacji oraz zapisów na sybskybcje.
-Zachowanie to jest zdefiniowane w metodzie \lstinline{Uninitialized()} i może być rozszerzone o dodatkowe zachowania.
+Dopóki jednostki nie otrzymają początkowych wartości niektórych parametrów, takich jak czas, będą znajdować się w stanie niezainicjalizowanym i powinny jedynie odbierać wiadomości dotyczące inicjalizacji oraz zapisów na subskrypcje.
+To zachowanie jest zdefiniowane w metodzie \lstinline{Uninitialized()} i może być rozszerzone o dodatkowe zachowania.
 
-Aby zadecydować czy aktor może przejść w stan zainicjalizowany sprawdza czy odebrał wszystki potrzebne dane za pomocą metody \lstinline{ReceivedInitialData()}. Ta metoda również jest dostępna do nadpisania i rozszerzenia o sprawdzenie dodatkowych pól.
+Aby zadecydować czy aktor może przejść w stan zainicjalizowany sprawdza czy odebrał wszystkie potrzebne dane za pomocą metody \lstinline{ReceivedInitialData()}. Ta metoda również jest dostępna do nadpisania i rozszerzenia o sprawdzenie dodatkowych pól.
 
-Zachowanie komponentu w stanie zainicjalizowanym można opsiać za pomocą dostępnej metody \lstinline{Initialized()}. 
+Zachowanie jednostki w stanie zainicjalizowanym można opisać za pomocą dostępnej metody \lstinline{Initialized()}. 
 W definicjach zachowań dla obu stanów należy pamiętać o zlecaniu wysyłki subskrypcji diagnostycznej przy zmianie wartości dowolnego pola wewnątrz aktora.
 
-\subsection*{Tworzenie komponentu}
-Przy tworzeniu komponentów można podać dowolną ilość adresów aktorów, do których komponent ma się zapisać na subskrypcję. Jest to najprostszy sposób na zapewnienie, że komponent otrzyma wszystkie potrzebne początkowe dane. 
+\subsection*{Tworzenie jednostki}
+Przy tworzeniu jednostek można podać dowolną ilość adresów aktorów, do których jednostka ma się zapisać na subskrypcję. Jest to najprostszy sposób na zapewnienie, że otrzyma on wszystkie potrzebne początkowe dane. 
 
 \subsection*{Akcje przy otrzymaniu sygnału o upływie czasu}
-Komponent zapisuje informację o ostatnim znaczniku czasowym w polu \lstinline{Timestamp}. Dodatkowo dla ułatwienia pracy przy rozszerzaniu komponentów powstały metody:
+Jednostka zapisuje informację o ostatnim znaczniku czasowym w polu \lstinline{Timestamp}. Dodatkowo dla ułatwienia pracy przy rozszerzaniu jednostek powstały metody:
 \begin{enumerate} 
     \item \lstinline{OnTimeChangedMessage(TimeChangedMessage msg)} wywoływana co przyjście wiadomości o upływie czasu.
-    \item \lstinline{UpdateTime(Instant now)} metoda nadpisująca wartość ostatniego znacznika czasowego. Pozwala wykonać operacje mając do syspozycji zarówno poprzednią jak i nową wartość znacznika. 
+    \item \lstinline{UpdateTime(Instant now)} metoda nadpisująca wartość ostatniego znacznika czasowego. Pozwala wykonać operacje mając do dyspozycji zarówno poprzednią jak i nową wartość znacznika. 
 \end{enumerate}
 
-\section{Komponent cykliczny}
-Klasa \lstinline{CyclicComponentActor<TInternalStatus, TParameter>} to rozszerzenie komponentu bazowego z przygotowanymi mechanizmami do wykonywania pewnych operacji co określoną ilość czasu. 
+\section{Jednostka cykliczna} \label{subsec:cyclicUnit}
+Klasa \lstinline{CyclicUnitActor<TInternalStatus, TParameter>} to rozszerzenie jednostki bazowej z przygotowanymi mechanizmami do wykonywania pewnych operacji w odstępach czasowych. 
 
-Metoda \lstinline{UpdateTime(Instant msg)} została rozszerzona o wyliczenie różnicy pomiędzy poprzednim a nowym znacznikiem czasowym i przekazanie jej do metody \lstinline{OnTimeUpdated(Duration timeDiff, Instant newTime)}. Pozwala to wykonywanie akcji cyklicznie co określony okres czasu. 
+Metoda \lstinline{UpdateTime(Instant msg)} została rozszerzona o wyliczenie różnicy pomiędzy poprzednim a nowym znacznikiem czasowym i przekazanie jej do metody \lstinline{OnTimeUpdated(Duration timeDiff, Instant newTime)}. Pozwala to wykonywanie akcji cyklicznie co pewien okres czasu. 
 
-Klasa zawiera jeden zestaw pola opisującego co ile (\lstinline{Threshold}) ma się wykonać pewna akcja (\lstinline{OnThresholdCrossed()}) i ile czasu minęło od poprzedniego jej wykonania (\lstinline{ThresholdBuffer}), ale nie ma ograniczenia ile takich zestawów będzie mieć klasa dziedzicząca po komponencie cyklicznym.
+Klasa zawiera jeden zestaw pola opisującego co ile (\lstinline{Threshold}) ma się wykonać pewna akcja (\lstinline{OnThresholdCrossed()}) i licznik ile czasu minęło od poprzedniego jej wykonania (\lstinline{ThresholdBuffer}). Nie ma ograniczenia ile takich zestawów będzie mieć klasa dziedzicząca po jednostce cyklicznej.
 
 Po osiągnięciu lub przekroczeniu wartości granicznej prez licznik czasu akcja jest wykonywana tylko raz a następnie wartość licznika jest ustawiana na zero.
 
@@ -112,37 +109,34 @@ Drugim dodatkiem w stosunku do klasy bazowej jest dodana obsługa wiadomości do
 
 Zostało to zapisane w metodzie \lstinline{RegisterSubscribtionReceives()} która została dołączona do metod \lstinline{Uninitialized()} oraz \lstinline{Initialized()}. 
 
-\section{Komponent symulujący}
-Niektóre z komponentów muszą mieć dostęp do aktualnego statusu pomieszczenia oraz modelu przypisanego im parametru pomieszczenia, aby wyliczyć zmianę jego wartości pomiędzy kolejnymi wywołaniami akcji. Obsługę tych wymagań dostarcza komponent symulujący \lstinline{SimulatingComponentActor<TInternalStatus, TParameter, TParamModel>}.
+\section{Jednostka symulująca} \label{subsec:simUnit}
+Niektóre z jednostek muszą mieć dostęp do aktualnego statusu pomieszczenia oraz modelu przypisanego im parametru pomieszczenia, aby wyliczyć zmianę jego wartości pomiędzy kolejnymi wywołaniami akcji. Obsługę tych wymagań dostarcza jednostka symulująca \lstinline{SimulatingUnitActor<TInternalStatus, TParameter, TParamModel>}.
 
 \subsection*{Model parametru}
-Wymaganie modelu parametru (pole \lstinline{arg}{ReceivedTemperatureModel}) zostało dodane do metody \lstinline{ReceivedInitialData()} 
+Wymaganie modelu parametru (pole \lstinline{ReceivedTemperatureModel}) zostało dodane do metody \lstinline{ReceivedInitialData()}.
 Do zaktualizowania modelu parametru wykorzystywana jest metoda \lstinline{UpdateParamModel(TParamModel model)}
 
 \subsection*{Status pomieszczenia}
-Podobnie jak w przypadku modelu parametru wymaganie aktualnego statusu pomieszczenia (pole \lstinline{arg}{ReceivedInitialRoomStatus}) zostało dodane do metody \lstinline{ReceivedInitialData()} 
+Podobnie jak w przypadku modelu parametru wymaganie aktualnego statusu pomieszczenia (pole \lstinline{ReceivedInitialRoomStatus}) zostało dodane do metody \lstinline{ReceivedInitialData()}.
 
-Za każdym razem gdy kompoment symulujący otrzyma status pomieszczenia wywołuje metodę \lstinline{UpdateRoomStatus(IRoomStatusMessage roomStatus)}.
-Jeżeli jest to pierwszy otrzymany status to dodatkowo zaraz po tym zostanie wykonana meotda \lstinline{InitializeFromRoomStatus()}. Pozwala to na m.in. wygodne przygotowanie testów implementowanych komponentów. 
+Za każdym razem, gdy jednostka symulująca otrzyma status pomieszczenia wywołuje metodę \lstinline{UpdateRoomStatus(IRoomStatusMessage roomStatus)}.
+Jeżeli jest to pierwszy otrzymany status to dodatkowo zaraz po tym zostanie wykonana meotda \lstinline{InitializeFromRoomStatus()}. Pozwala to na m.in. wygodne przygotowanie testów implementowanych jednostek. 
 
 \subsection{Podmiana wartości parametru}
-Ze względu na aplikację symulatora oraz aby móc w przyszłości dodać możliwość ręcznego sterowania urządzeniami z systemu dodany został komunikat \lstinline{SetParameterValueMessage<TParameter>}. Pozwala on wstrzyknąć wartość parametru wewnątrz komponentu. Za wszystkie akcje dziące się przy tym odpowiada metoda \lstinline{SetParameterValue(TParameter value)}.
+Ze względu na aplikację symulatora oraz aby móc w przyszłości dodać możliwość ręcznego sterowania urządzeniami z systemu dodany został komunikat \lstinline{SetParameterValueMessage<TParameter>}. Pozwala on wstrzyknąć wartość parametru wewnątrz jednostki. Za wszystkie akcje dziejące się przy tym odpowiada metoda \lstinline{SetParameterValue(TParameter value)}.
 
 \section{Sensor}
-Sensor to aktor, który podaje wartość jednego z parametrów pomieszczenia. Aktora połączonego z rzeczywistym urządzeniem możemy otrzymać za pomocą komponentu cyklicznego którego akcją byłoby odczytanie z wartości parametru z urządzenia (np. termometru) zapisanie go wewnątrz obiektu i rozesłanie wszystkim subskrybentom. 
+Sensor to aktor, który podaje wartość jednego z parametrów pomieszczenia. Aktora połączonego z rzeczywistym urządzeniem możemy otrzymać za pomocą jednostki cyklicznej, która co jakiś czas odczytywałaby wartości parametru z urządzenia (np. termometru) zapisywałaby ją wewnątrz obiektu i rozesłała wszystkim subskrybentom. \seeappendix{subsec:cyclicUnit} 
 
 \section{Symulator sensora}
-Symulator sensora różni się od zwykłego sensora tym, że nie ma urządzenia z którego można odczytać wartość parametru. 
-Zamiast tego aktor musi wyliczyć nową wartość parametru za pomocą matematycznego modelu parametru. Do napisania takiego aktora powinien dziedziczyć po komponencie symulującym. 
+Symulator sensora różni się od zwykłego sensora tym, że nie ma urządzenia, z którego mógłby odczytać wartość parametru. 
+Zamiast tego, aktor musi wyliczyć nową wartość parametru za pomocą matematycznego modelu. Do napisania takiego aktora należy użyć jednostki symulującej. \seeappendix{subsec:simUnit} 
 
-Co pewnien odstęp czasu symulator używa modelu, aby policzyć zmianę wartości np. temperatury korzystając z ostatniego otrzymanego statusu pomieszczenia oraz informacji ile czasu minęło od czasu podanego w statusie.
+Co pewnien odstęp czasu symulator używa modelu, aby policzyć zmianę wartości np. temperatury korzystając z ostatniego otrzymanego statusu pomieszczenia oraz informacji ile czasu minęło od znacznika czasowego podanego w statusie.
 
 \section{Kontroler}
-Kontroler jest aktorem przeciwstawnym do sensora. Decyduje on, jakie sygnały wysłać urządzeniom-aktuatorom, żeby w pomieszczeniu dany parametr miał żądaną wartość.
-Aby to wyliczyć potrzebuje modelu parametru, zatem będzie on dziedziczył po komponencie symulacyjnym.
+Kontroler jest aktorem przeciwstawnym do sensora. Decyduje on, jakie sygnały wysłać urządzeniom-aktuatorom, żeby w pomieszczeniu dany parametr osiągnął żądaną wartość.
+Aby to wyliczyć on potrzebuje modelu parametru, zatem będzie on dziedziczył po jednostce symulującej. \seeappendix{subsec:simUnit}
 
-Gdy kontroler otrzyma listę wymagań przesyła ją w postaci zadania do podległego mu aktora-planisty, którego jedynym zadanim jest wykonanie obliczeń. Dzięki przekazaniu zadania podległemu aktorowi komponent nie jest zablokowany podczas obliczeń i może wykonywać inne zadania. 
-
-Czynnością wykonywaną w tym czasie mogłoby być np. okresowa weryfikacja czy zmiana wartości parametru postępuje w założonym tempie.
-
-Po otrzymaniu od aktora-planisty definicji pracy jaką ma wykonać, kontroler ustawia odpowiednio urządzenia-aktuatory w sposób zależny od typu parametru.
+\section{Urządzenia}
+Urządenia przechowują informację o parametrach urządzenia tzw. definicję urządzenia oraz jego aktualny stan czyli który tryb jest aktywny i jaka docelowa temperatura jest ustawiona. 

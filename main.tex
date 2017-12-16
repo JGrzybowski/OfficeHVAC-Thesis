@@ -1,5 +1,7 @@
 \documentclass[pl]{minipw} % wszystkie ustawienia szablonu są w minipw.cls; if in English, change [pl] to [en]
 \allowdisplaybreaks
+\usepackage[page]{appendix}
+
 \usepackage{indentfirst}
 \setlength{\parindent}{5mm} % wcięcie akapitowe 5mm, zarządzenie Rektora
 
@@ -53,13 +55,15 @@
 \newcommand\fsh{F\mysharp{}}
 
 % ------------ Ustawienia diagramów ---------------------------
+\usepackage[section, subsection]{placeins}
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,shadows,positioning, trees}
 \usepackage{pgf-umlsd}[underline=false]
 \usepackage{tikz-qtree}
 
-% \newcommand{\inputdiagram}[1]{\input{./diagrams/{#1}}}
-
+\newcommand{\inputdiagram}[1]{\input{./diagrams/{#1}}}
+\newcommand{\seefigure}[1]{(Rysunek \ref{fig:#1})}
+\newcommand{\seeappendix}[1]{(Patrz \ref{#1})}
 % -------------------------------------------------------------
 \begin{document}
 \sloppy
@@ -101,13 +105,18 @@
 
 \input{./chapters/antywzorce}
 
+
+\part{Dodatki}
+\begin{appendices}
+  \include{./chapters/dodatekTechniczny} 
+  % 7. Wykaz symboli i skrótów - jeśli nie ma, zakomentować
+  % \chapter*{Wykaz symboli i skrótów}
+  \include{./chapters/slowniczek} 
+\end{appendices}
+
 % 6. Bibliografia
 % Bibliografia leksykograficznie wg nazwisk autorów
 \include{./docparts/bibliografia}
-
-% 7. Wykaz symboli i skrótów - jeśli nie ma, zakomentować
-% \chapter*{Wykaz symboli i skrótów}
-\include{./chapters/slowniczek} 
 
 % \begin{tabular}{cl}
 % nzw. & nadzwyczajny \\

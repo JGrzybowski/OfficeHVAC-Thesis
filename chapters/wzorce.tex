@@ -1,24 +1,26 @@
 \chapter{Wzorce projektowe wykorzystane podczas realizacji projektu}
 \section{Rekwizyty}
-Rekwizyt (ang. props) to obiekt w akka.net pozwalający na przechowywanie sposobu tworzenia obiektu aktora. 
-Są wykorzystywane przy zarówno tworzeniu jak i ponownym uruchamianiu aktorów po nastąpieniu nieobsłużonego wyjątku.
+Rekwizyty (ang. Props) to obiekty w akka.net pozwalające na przechowywanie sposobu tworzenia obiektu aktora. 
+Wykorzystywane są zarówno przy tworzeniu jak i ponownym uruchamianiu aktorów po wystąpieniu nieobsłużonego wyjątku.
 Tylko one mają bezpośredni dostęp do kontruktora aktora. W momencie tworzenia aktora wykorzystywany jest obiekt rekwizytów i wywoływane jest ukryte wewnątrz wyrażenie z konstruktorem.
 
+%%TODO Listing
+
 \section{Model subskrypcyjny}
-Model subskrypcyjny (ang. subscribe/unsubscribe) to sposób komunikacji między agentami. Składa się z właściciela subskrypcji oraz subskrybentów. 
-\definition{Subskrypcja to wiadomość rozsyłana przez jej właściciela do wszystkich którzy się złosili.}
-\definition{Subskrybentem nazywamy agenta, który zgłosił właścicielowi subskrypcji chęć otrzymywania subskrypcji.
+Model subskrypcyjny (ang. subscribe/unsubscribe) to sposób interakcji między agentami. Składa się z właściciela subskrypcji oraz subskrybentów. 
+\definition{Subskrypcja to wiadomość rozsyłana przez jej właściciela do wszystkich którzy się zgłosili.}
+\definition{Subskrybentem nazywamy agenta, który zgłosił chęć otrzymywania subskrypcji jej właścicielowi.
 
 \input{./diagrams/subscribe}
-W realizowanym systemie właściciel subskrypcji wysyła ostatnią rozesłąną subskrypcję do agenta, który zapisał się na subskrypcję. Dzięki temu dopiero co zapisany agent nie musi czekać na kolejny syngał inicjalizujący rozesłanie subskrypcji.
+W realizowanym systemie właściciel subskrypcji wysyła ostatnią rozesłaną subskrypcję do agenta, który zapisał się na subskrypcję. Dzięki temu, dopiero co zapisany agent, nie musi czekać na kolejny sygnał inicjalizujący rozesłanie subskrypcji.
  
 \input{./diagrams/subscriptionTrigger}
 Właściciel subskrypcji może rozsyłać subskrypcję zarówno na sygnał czasowy jak i sygnał przychodzący z zewnątrz. 
 
 \section{Udostępnianie informacji o stanie aktora}
-Aby móc w łatwy sposób odczytywać stan wewnętrzny systemu, większość jego aktorów dziedziczy po specjalnie napisanym typie aktora ???DebugableActor???. Ta klasa pozwala na przygotowanie informacji, która będzie rozsyłana za pomocą specjalnej subskrypcji diagnostycznej. Zadanie wybrania momentów w których rozsyłana jest subskrypcja należy do osoby rozszerzającej tą klasę. 
+Aby móc w łatwy sposób odczytywać stan wewnętrzny systemu, większość jego aktorów dziedziczy po specjalnie napisanym typie aktora \lstinline{DiagnosticActor}. Ta klasa pozwala na przygotowanie informacji, która będzie rozsyłana za pomocą specjalnej subskrypcji diagnostycznej. Zadanie wybrania momentów, w których rozsyłana jest subskrypcja, należy do osoby rozszerzającej tą klasę. 
 
-Metody dostępne do rozszerzenia lub użycia w klasie ???DebuggableActor???
+Metody dostępne do rozszerzenia lub użycia w klasie \lstinline{DiagnosticActor}
 \begin{enumerate}
     \item \lstinline{GenerateInternalState()} - tworzy obiekt przedstawiający stan wewnętrzny aktora (metoda do rozszerzenia). 
     \item \lstinline{InformAboutInternalState()} - rozsyła subskrypcję stanu wewnętrznego do wszystkich diagnostycznych subskrybentów.
@@ -27,34 +29,34 @@ Metody dostępne do rozszerzenia lub użycia w klasie ???DebuggableActor???
 \end{enumerate}
 
 \section{Aktor-pomost} \label{sec:aktor-pomost}
-Aktor-pomost (ang. BridgeActor) to aktor pośredniczący w komunikacji pomiędzy interfejsem użytkownika symulatora a właściwym agentem z właściwego systemu. 
+Aktor-pomost (ang. BridgeActor) to aktor pośredniczący w komunikacji pomiędzy interfejsem użytkownika symulatora, a właściwym agentem z systemu aktorów. 
 
 \subsection*{Tworzenie agenta-pomostu}
-Powinien mieć przypisanego tylko jednego agenta z systemu i tylko jeden model widoku z interfejsu użytkownika. Przy tworzeniu pomost zapisuje się na subskrypcję diagnostyczną, ab odbierać informacje o wszelkich możliwych zmianach stanu aktora, do którego jest pośrednikiem.
+Pomost może mieć przypisanego tylko jednego agenta z systemu i tylko jeden model widoku. Przy tworzeniu, pomost zapisuje się na subskrypcję (najczęściej diagnostyczną), aby odbierać informacje o wszelkich możliwych zmianach stanu aktora, do którego jest pośrednikiem.
 \input{./diagrams/bridgeActorCreation.tex}
 
 Głównym zadaniem aktora-pomostu jest przesyłanie wiadomości do aktorów wewnątrz systemu zarządzającego urządzeniami oraz aktualizacja danych widocznych w aplikacji.
 
 \subsection*{Przekazywanie wiadomości}
 \input{./diagrams/bridgeActorForwarding.tex}
-Po akcji użytkownika, model widoku przesyła wiadomość do aktora-pomostu, który przekazuje wiadomość dalej do przypisanego mu agenta. Czasami model widoku może oczekiwać odpowiedzi od systemu (tzw. Ask) jednak jest to widoczne tylko na poziomie widoku modelu i blokuje tylko wątek odpowiedzialny za obsługę danego kliknięcia/edycji.
+Po akcji użytkownika, model widoku przesyła wiadomość do aktora-pomostu, który przekazuje wiadomość dalej do przypisanego mu agenta. Czasami model widoku może oczekiwać odpowiedzi od systemu (np. \lstinline{Ask}) jednak jest to widoczne tylko na poziomie widoku modelu i blokuje tylko wątek odpowiedzialny za obsługę danego kliknięcia/edycji. Interfejs użytkownika nie jest blokowany i pozostaje responsywny.
 
 \subsection*{Aktualizacja interfejsu użytkownika}
 \input{./diagrams/bridgeActorUIUpdate.tex}
-Wiadomość od agenta z systemu przychodzi do agenta-pomostu. Ten, wywołuje przygotowaną w modelu widoku metodę do aktualizacji wartości wyświetlanych.
-Po wykonaniu metody uruchamia się zdarzenie aktualizujące wyświetlane wartości w interfejsie użytkownika.
+Wiadomość od agenta z systemu przychodzi do agenta-pomostu. Ten wywołuje przygotowaną w modelu widoku metodę do aktualizacji wyświetlanych wartości.
+Po wykonaniu metody uruchamia się zdarzenie aktualizujące wartości na interfejsie użytkownika.
 
 \section{Wiadomości typu Request/Update/Value}
 Do wygodnej obsługi odpytywania systemu oraz możliwości podmiany parametrów w symulatorze powstał schemat nazewnictwa wiadomości.
 \begin{itemize}
     \item Value - Wiadomość zawierająca wartość parametru.
-    \item Request - Wezwanie do wysłania wartości danego parametru. Odbiorca powinien odesłać wiadomość typu Value.
+    \item Request - Wezwanie do wysłania wartości danego parametru. Odbiorca powinien odesłać nadawcy wiadomość typu Value.
     \item Update - Wiadmość zlecająca nadpisanie wartości danego parametru u odbiorcy na wartość podaną w wiadomości.
 \end{itemize}
 
 
 \section{Obiekty typu Wymaganie/Zadanie/Praca}
-Obsługa oczekiwanych parametrów została podzielona na trzy etapy. Wymagania zostają rozbite na Zadania dla kontroleró poszczególnych parametrów, a następnie modele pozwalają wyliczyć najbardziej optymalną konfigurację urządzeń, zapisaną w obiekcie Pracy. 
+Obsługa oczekiwanych parametrów pomieszczenia została podzielona na trzy etapy. Wymagania zostają rozbite na Zadania dla kontrolerów poszczególnych parametrów, a następnie modele pozwalają wyliczyć najbardziej optymalną konfigurację urządzeń, zapisaną w obiekcie Pracy. 
 
 \begin{itemize}
     \item Wymaganie - obiekt opisujący kiedy, który parametr i jaka jego wartość jest oczekiwana.

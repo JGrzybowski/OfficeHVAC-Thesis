@@ -47,3 +47,10 @@ opis
 
 \section{Zmiany stanu wydarzeń w kalendarzu}
 \input{./diagrams/scheduling}
+Gdy kontroler otrzyma listę wymagań przesyła ją w postaci zadania do podległego mu aktora-planisty, którego jedynym zadanim jest wykonanie obliczeń. Dzięki przekazaniu zadania podległemu aktorowi jednostka nie jest zablokowana podczas obliczeń i może wykonywać inne zadania. \seefigure{scheduling}
+
+Czynnością wykonywaną w tym czasie mogłoby być np. okresowa weryfikacja czy zmiana wartości parametru postępuje w założonym tempie.
+
+Po otrzymaniu od aktora-planisty definicji pracy jaką ma wykonać, kontroler ustawia odpowiednio urządzenia-aktuatory w sposób zależny od typu parametru.
+
+

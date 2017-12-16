@@ -14,18 +14,26 @@
                         Termometr 
                     ]
                     [.{Kontroler\\Temperatury} 
-                        {Klimatyzator 1} 
-                        {Klimatyzator 2}
-                    ]                    
+                        {Klimatyzator} 
+                    ] 
+                    {Źródło\\czasu}                   
                 ]
             ]
             [.{Firma B} 
-                {\ldots}
+                [.{Pokój a}   
+                    [. {Sensor\\Temperatury} 
+                        Termometr 
+                    ]
+                    [.{Kontroler\\Temperatury} 
+                        {Klimatyzator} 
+                    ] 
+                    {Źródło\\czasu}                   
+                ]
             ]
-            {Źródło\\czasu}
             {Źródło\\modeli}
         ]        
     \end{tikzpicture}
-    \caption{Schemat systemu aktorów}
+    \caption{Schemat systemu aktorów dla wielu źródeł czasu}
+    \label{fig:timeSourceMulti}    
 \end{figure}
  
