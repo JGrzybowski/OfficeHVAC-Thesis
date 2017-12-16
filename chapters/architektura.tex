@@ -1,11 +1,10 @@
 \chapter{Architektura rozwiązania}
 \section{Struktura systemu zarządzania urządzeniami}
-\subsection{Obraz ogólny}
+\subsection{Obraz ogólny i kontekst działania systemu}
 DIAGRAM OGÓLNEJ SYSTEMU
 % \input{./diagrams/systemConcept}
 
-W najogólniejszym obrazie system odpowiada za przetwarzanie danych zebranych z sensorów rozmieszczonych w pomieszczeniach oraz informacji zapisanych w kalendarzach firm (syngały te mogą dotyczyć takich rzeczy jak zmiana godziny rozpoczęcia spotkania)
-na sygnały sterujące wysyłąne do urządzeń pozwalających zachować w pomieszczeniach odpowiednie parametry, takie jak temperatura czy poziom ilości tlenu w powietrzu.
+W najogólniejszym obrazie, system odpowiada za przetwarzanie danych zebranych z sensorów rozmieszczonych w pomieszczeniach oraz informacji zapisanych w kalendarzach firm (syngały te mogą dotyczyć takich rzeczy jak np. zmiana godziny rozpoczęcia spotkania) na sygnały sterujące wysyłane do urządzeń pozwalających zachować w pomieszczeniach odpowiednie parametry, takie jak temperatura czy poziom ilości tlenu w powietrzu.
 
 \subsection{Moduły systemu}
 DIAGRAM MODUŁÓW SYSTEMU
@@ -14,26 +13,27 @@ DIAGRAM MODUŁÓW SYSTEMU
 W budowie samego systemu zarządzania urządzeniami HVAC możemy wyróżnić kilka modułów.
 \begin{enumerate}
     \item Modele - zestaw abstrakcji i klas bazowych do budowy pozostałych modułów.  
-    \item Komponenty - zestaw klas do budowy aktorów odpowiedzialnych za komunikację lub symulację urządzeń.
-    \item Symulacja Temperatury - moduł zawierający matematyczny model zmiany temperatury wraz z aktrorami odpowiedzialnynmi za wysyłanie klimatyzatorom odpowiednich dyspozycji.
-    \item Zarządzanie Pomieszczeniem - moduł odpowiedzialny za aktorów zarządzanie komunikacją pomiędzy sensorami a aktuatorami. 
-    To w tym module odbywa się większość przetwarzania sygnałów wejściowych na sygnały wyjściowe z systemu. 
+    \item Jednostki - zestaw klas do budowy aktorów odpowiedzialnych za komunikację lub symulację urządzeń.
+    \item Odczyt i kontrola parametrów - moduł zawierający matematyczny model zmiany temperatury wraz z aktrorami odpowiedzialnynmi za wysyłanie klimatyzatorom odpowiednich dyspozycji.
+    \item Symulacja zmiany parametrów - matematyczne modele pozwalające przewidzieć zmiany parametrów wywołane działaniem aktuatorów.
+    \item Źródła wymagań - zestaw adapterów przetwarzających dane nadesłane do systemu na wymagania dla poszczególnych parametrów. 
+    \item Zarządzanie Pomieszczeniem - moduł odpowiedzialny za zarządzanie komunikacją pomiędzy sensorami a aktuatorami. 
 \end{enumerate}
 
 Należy też wyróżnić moduł aplikacji hostującej system aktorów. 
-Może być to zarówno aplikacja desktopowa jak i internetowa. 
+Może być to zarówno aplikacja desktopowa jak i webowa. 
 
 \section{Struktura aplikacji symulatora}
-Aplikacja symulatora hostująca sysstem agentowy została zrealizowana w technologii WPF - Windows Presentation Foundation za pomocą wzorca MVVM - Model - View - ViewModel.
+Aplikacja symulatora hostująca system agentowy została zrealizowana jako aplikacja desktopowa w technologii WPF - Windows Presentation Foundation za pomocą wzorca MVVM - Model - View - ViewModel.
 \subsection{Wzorzec MVVM}
 DIAGRAM WARTSTW MVVM
 % \input{./diagrams/mvvm}
 
 Wzorzec ten wyróżnia trzy wartwy aplikacji:
 \begin{enumerate}
-    \item View - Widok, czyli układ interfejsu użytkownika wraz z kontrolkami. 
-    \item ViewModel - Model Widoku, obiekt odpowiedzialny za pobieranie danych z Modelu i podawanie ich odpowiednio przetworzonych do Widoku. 
-    \item Model - Model to dowolne obiekty, do których Widok Modelu musi mieć dostęp, aby otrzymać potrzebne mu informacje. 
+    \item Widok (View) - układ interfejsu użytkownika wraz z kontrolkami. 
+    \item Model Widoku (ViewModel) - obiekt odpowiedzialny za pobieranie danych z Modelu i podawanie ich odpowiednio przetworzonych do Widoku. 
+    \item Model - to dowolne źródła danych, do których Widok Modelu musi mieć dostęp, aby otrzymać potrzebne mu informacje. 
 \end{enumerate}
 
 PRZYKŁADOWY DIAGRAM MVVM
@@ -47,5 +47,5 @@ Następnie powiadamia Widok o tym, że wartość jednej lub więcej właściwoś
 DIAGRAM MVVM DLA APLIKACJI SYMULATORA
 % \input{./diagrams/simulatorMVVM}
 
-System aktorów w aplikacji symulatora należy do warstwy Modelu aplikacji.
+System aktorów w aplikacji symulatora należy do warstwy Modelu.
 W aplikacji symulatora za komunikację między obiektami Modeli Widoków a systemem aktorów odpowiedzialni są aktorzy-pomosty, dokładniej opisani w sekcji \ref{sec:aktor-pomost}
