@@ -68,65 +68,19 @@ Dla zapewnienia największej niezależności najlepiej, aby aktorzy pokoi i wszy
 
 Symulator pomieszczenia jest aktorem dziedziczącym po aktorze pomieszczenia wszystkie zachowania, a dodatkowo pozwala na sterowanie parametrami pomieszczenia. Jest to część systemu stworznona tylko na potrzeby symulatora i w realnym zastosowaniu nie musi być użyta.
 
-\section{Jednostka} \label{sec:unit}
-Jednostki to kategoria aktorów którzy dzielą sporą ilość zachowań, głównie w celu komunikacji z urządzeniami - sensorami lub aktuatorami. Jedena jednostka powinna odpowiadać tylko za jeden parametr pomieszczenia.
+\section{Jednostka} 
+Jednostki to kategoria aktorów którzy dzielą sporą ilość zachowań, głównie w celu komunikacji z urządzeniami - sensorami lub aktuatorami. Jedna jednostka powinna odpowiadać tylko za jeden parametr pomieszczenia. 
 
-Abstrakcyjna klasa \lstinline{UnitActor<TInternalStatus, TParameter>} jest bazową dla wszystkich jednostek. Poniżej opisane są najważniejsze jej możliwości.
-
-\subsection*{Inicjalizacja}
-Każda jednostka do poprawnego działania wymaga otrzymywania sygnałów o upływie czasu. Klasy rozszerzające bazową jednostkę najczęściej będą wymagać jeszcze więcej informacji. 
-
-Dopóki jednostki nie otrzymają początkowych wartości niektórych parametrów, takich jak czas, będą znajdować się w stanie niezainicjalizowanym i powinny jedynie odbierać wiadomości dotyczące inicjalizacji oraz zapisów na subskrypcje.
-To zachowanie jest zdefiniowane w metodzie \lstinline{Uninitialized()} i może być rozszerzone o dodatkowe zachowania.
-
-Aby zadecydować czy aktor może przejść w stan zainicjalizowany sprawdza czy odebrał wszystkie potrzebne dane za pomocą metody \lstinline{ReceivedInitialData()}. Ta metoda również jest dostępna do nadpisania i rozszerzenia o sprawdzenie dodatkowych pól.
-
-Zachowanie jednostki w stanie zainicjalizowanym można opisać za pomocą dostępnej metody \lstinline{Initialized()}. 
-W definicjach zachowań dla obu stanów należy pamiętać o zlecaniu wysyłki subskrypcji diagnostycznej przy zmianie wartości dowolnego pola wewnątrz aktora.
-
-\subsection*{Tworzenie jednostki}
-Przy tworzeniu jednostek można podać dowolną ilość adresów aktorów, do których jednostka ma się zapisać na subskrypcję. Jest to najprostszy sposób na zapewnienie, że otrzyma on wszystkie potrzebne początkowe dane. 
-
-\subsection*{Akcje przy otrzymaniu sygnału o upływie czasu}
-Jednostka zapisuje informację o ostatnim znaczniku czasowym w polu \lstinline{Timestamp}. Dodatkowo dla ułatwienia pracy przy rozszerzaniu jednostek powstały metody:
-\begin{enumerate} 
-    \item \lstinline{OnTimeChangedMessage(TimeChangedMessage msg)} wywoływana co przyjście wiadomości o upływie czasu.
-    \item \lstinline{UpdateTime(Instant now)} metoda nadpisująca wartość ostatniego znacznika czasowego. Pozwala wykonać operacje mając do dyspozycji zarówno poprzednią jak i nową wartość znacznika. 
-\end{enumerate}
-
-\section{Jednostka cykliczna} \label{subsec:cyclicUnit}
-Klasa \lstinline{CyclicUnitActor<TInternalStatus, TParameter>} to rozszerzenie jednostki bazowej z przygotowanymi mechanizmami do wykonywania pewnych operacji w odstępach czasowych. 
-
-Metoda \lstinline{UpdateTime(Instant msg)} została rozszerzona o wyliczenie różnicy pomiędzy poprzednim a nowym znacznikiem czasowym i przekazanie jej do metody \lstinline{OnTimeUpdated(Duration timeDiff, Instant newTime)}. Pozwala to wykonywanie akcji cyklicznie co pewien okres czasu. 
-
-Klasa zawiera jeden zestaw pola opisującego co ile (\lstinline{Threshold}) ma się wykonać pewna akcja (\lstinline{OnThresholdCrossed()}) i licznik ile czasu minęło od poprzedniego jej wykonania (\lstinline{ThresholdBuffer}). Nie ma ograniczenia ile takich zestawów będzie mieć klasa dziedzicząca po jednostce cyklicznej.
-
-Po osiągnięciu lub przekroczeniu wartości granicznej prez licznik czasu akcja jest wykonywana tylko raz a następnie wartość licznika jest ustawiana na zero.
-
-DIAGRAM
-
-Drugim dodatkiem w stosunku do klasy bazowej jest dodana obsługa wiadomości dotyczączych zapisów na subskrypcję. Od implementującego zależy co będzie tą subskrypcją.
-
-Zostało to zapisane w metodzie \lstinline{RegisterSubscribtionReceives()} która została dołączona do metod \lstinline{Uninitialized()} oraz \lstinline{Initialized()}. 
-
-\section{Jednostka symulująca} \label{subsec:simUnit}
-Niektóre z jednostek muszą mieć dostęp do aktualnego statusu pomieszczenia oraz modelu przypisanego im parametru pomieszczenia, aby wyliczyć zmianę jego wartości pomiędzy kolejnymi wywołaniami akcji. Obsługę tych wymagań dostarcza jednostka symulująca \lstinline{SimulatingUnitActor<TInternalStatus, TParameter, TParamModel>}.
-
-\subsection*{Model parametru}
-Wymaganie modelu parametru (pole \lstinline{ReceivedTemperatureModel}) zostało dodane do metody \lstinline{ReceivedInitialData()}.
-Do zaktualizowania modelu parametru wykorzystywana jest metoda \lstinline{UpdateParamModel(TParamModel model)}
-
-\subsection*{Status pomieszczenia}
-Podobnie jak w przypadku modelu parametru wymaganie aktualnego statusu pomieszczenia (pole \lstinline{ReceivedInitialRoomStatus}) zostało dodane do metody \lstinline{ReceivedInitialData()}.
-
-Za każdym razem, gdy jednostka symulująca otrzyma status pomieszczenia wywołuje metodę \lstinline{UpdateRoomStatus(IRoomStatusMessage roomStatus)}.
-Jeżeli jest to pierwszy otrzymany status to dodatkowo zaraz po tym zostanie wykonana meotda \lstinline{InitializeFromRoomStatus()}. Pozwala to na m.in. wygodne przygotowanie testów implementowanych jednostek. 
-
-\subsection{Podmiana wartości parametru}
-Ze względu na aplikację symulatora oraz aby móc w przyszłości dodać możliwość ręcznego sterowania urządzeniami z systemu dodany został komunikat \lstinline{SetParameterValueMessage<TParameter>}. Pozwala on wstrzyknąć wartość parametru wewnątrz jednostki. Za wszystkie akcje dziejące się przy tym odpowiada metoda \lstinline{SetParameterValue(TParameter value)}.
+Możliwości jednostek:
+\begin{itemize}
+    \item Oczekiwania na dane początkowe.
+    \item Wykonywanie akcji na sygnał czasowy lub co określoną ilość czasu.
+    \item Wykorzystywanie modeli matematycznych oraz statusu pomieszczenia do wyliczania zmian wartości parametru.
+\end{itemize}
+Dokładny opis działania jednostek znajduje się w dodatku \ref{ch:unit}
 
 \section{Sensor}
-Sensor to aktor, który podaje wartość jednego z parametrów pomieszczenia. Aktora połączonego z rzeczywistym urządzeniem możemy otrzymać za pomocą jednostki cyklicznej, która co jakiś czas odczytywałaby wartości parametru z urządzenia (np. termometru) zapisywałaby ją wewnątrz obiektu i rozesłała wszystkim subskrybentom. \seeappendix{subsec:cyclicUnit} 
+Sensor to aktor, który podaje wartość jednego z parametrów pomieszczenia. Aktora połączonego z rzeczywistym urządzeniem możemy otrzymać za pomocą jednostki cyklicznej \seeappendix{subsec:cyclicUnit}, która co jakiś czas odczytywałaby wartości parametru z urządzenia (np. termometru) zapisywałaby ją wewnątrz obiektu i rozesłała wszystkim subskrybentom. 
 
 \section{Symulator sensora}
 Symulator sensora różni się od zwykłego sensora tym, że nie ma urządzenia, z którego mógłby odczytać wartość parametru. 

@@ -2,10 +2,10 @@
     \centering
     \begin{sequencediagram}
         \newinst[]{UI}{\shortstack{Interfejs\\użytkownika}}{}
-        \newinst[]{Room}{Room}{}
-        \newinst[2]{Controller}{TemperatureController}{}
-        \newinst[2]{Model}{ModelParams}{}
-        \newinst[]{Time}{TimeSimulator}{}
+        \newinst[]{Room}{Pokój}{}
+        \newinst[2]{Controller}{\shortstack{Kontroler\\temperatury}}{}
+        \newinst[2]{Model}{\shortstack{Źródło\\modeli}}{}
+        \newinst[]{Time}{\shortstack{Źródło\\czasu}}{}
 
 
         \begin{mess}{UI}{RemoveSensor}{Room}\end{mess}

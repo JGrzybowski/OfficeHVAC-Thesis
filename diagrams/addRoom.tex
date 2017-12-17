@@ -1,15 +1,19 @@
 \begin{figure}[ht!]
     \centering
     \begin{sequencediagram}
-        \newinst[0]{UI}{\shortstack[c]{Interfejs\\użytkownika}}{}
-        \newinst[2]{Company}{\shortstack[c]{Aktor\\Firmy}}{}
-        \newinst[2]{Room}{\shortstack{Aktor\\Pokoju}}{}
+        \newinst[0]{UI}{\shortstack{Interfejs\\użytkownika}}{}
+        \newinst[2]{Company}{Firma}{}
+        \newinst[2]{Room}{Pokój}{}
         \newinst[2]{Time}{\shortstack{Źródło\\czasu}}{}
 
         \begin{mess}{UI}{AddRoomMsg}{Company} \end{mess}
         \begin{call}{Company}{Stwórz aktora}{Room}{Adres aktora} \end{call}
-        \begin{mess}{Room}{Subscribe}{Time} \end{mess}
-        \begin{mess}{Time}{Timestamp}{Room} \end{mess}
+        
+        \begin{sdblock}{Inicjalizacja}{}
+            \begin{mess}{Room}{Subscribe}{Time} \end{mess}
+            \begin{mess}{Time}{Timestamp}{Room} \end{mess}
+        \end{sdblock}
+        
         \begin{mess}{Company}{Subscribe}{Room} \end{mess}
         \begin{mess}{Room}{RoomStatus}{Company} \end{mess}
     \end{sequencediagram}

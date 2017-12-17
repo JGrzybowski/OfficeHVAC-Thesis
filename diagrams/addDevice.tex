@@ -2,9 +2,9 @@
     \centering
     \begin{sequencediagram}
         \newinst[]{UI}{\shortstack{Interfejs\\użytkownika}}{}
-        \newinst[]{Room}{Room}{}
-        \newinst[]{Controller}{TemperatureController}{}
-        \newinst[]{JobScheduler}{JobScheduler}{}
+        \newinst[]{Room}{Pokój}{}
+        \newinst[]{Controller}{\shortstack{Kontroler\\temperatury}}{}
+        \newinst[]{JobScheduler}{Planista}{}
 
         \begin{mess}{UI}{DeviceDefinition}{Room}\end{mess}
         \begin{mess}{Room}{DeviceDefinition}{Controller}\end{mess}

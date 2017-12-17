@@ -1,17 +1,16 @@
 \begin{figure}[ht!]
     \centering
     \begin{sequencediagram}
-        \newinst[]{UI}{\shortstack{Interfejs\\użytkownika}}{}
-        \newinst[]{Room}{Room}{}
-        \newinst[2]{Sensor}{TemperatureSensor}{}
-        \newinst[2]{Model}{ModelParams}{}
-        \newinst[]{Time}{TimeSimulator}{}
-
+        \newinst[0]{UI}{\shortstack{Interfejs\\użytkownika}}{}
+        \newinst[2]{Room}{Pokój}{}
+        \newinst[2]{Sensor}{\shortstack{Sensor\\temperatury}}{}
+        \newinst[2]{Model}{\shortstack{Źródło\\modeli}}{}
+        \newinst[]{Time}{\shortstack{Źródło\\czasu}}{}
 
         \begin{mess}{UI}{RemoveSensor}{Room}\end{mess}
         \begin{mess}{Room}{RemoveSensor}{Sensor}\end{mess}
 
-        \begin{call}{Room}{}{Room}{Usuń sensor z listy}\end{call}            
+        \begin{call}{Room}{}{Room}{\shortstack{Usuń sensor\\z listy}}\end{call}            
 
         \begin{sdblock}{Subskrypcje sensora}{}
             \begin{mess}{Sensor}{Unsubscibe}{Room}\end{mess}
