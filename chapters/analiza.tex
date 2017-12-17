@@ -1,7 +1,28 @@
 \chapter{Analiza biznesowa}
 
-\section{Model temperatury}
-TODO
+\section{Model zmiany temperatury}
+Przygotowanie dokładniejszych modeli parametrów pomieszczenia nie mieści się w zakresie pracy, skupiono się zatem na prostym modelu wymiany ciepła opierającym się o moc i wydajność urządzeń.
+
+Podstawą modelu jest wzór na ciepło właściwe:
+$$ c = \frac{\Delta Q}{m \Delta T} $$
+Gdzie $c$ to ciepło właściwe, $\Delta Q$ to ilość energii dostarczonej do substancji, $m$ jest masą substancji, a $\Delta T$ różnicą temperatur.
+Po przekształceniu we wzór na zmianę temperatury otrzymujemy:
+$$ \Delta T = \frac{\Delta Q}{m \cdot c} $$
+Masę powietrza możemy zamienić na iloczyn gęstości oraz objętości pomieszczenia.
+$$ \Delta T = \frac{\Delta Q}{V \cdot \rho_{air} \cdot c} $$
+Ilość energii dostarczonej do powietrza może być wyliczona z iloczynu mocy $P$ i czasu $\Delta t$
+$$ \Delta T = \frac{P \cdot \Delta t}{V \cdot \rho_{air} \cdot c} $$
+
+Mając taki wzór możemy zdefiniować urządzenia HVAC za pomocą ich mocy $P_{max}$ oraz zestawu trybów, w których mogą pracować.
+Każdy tryb byłby opisany przez 
+\begin{itemize}
+    \item zużycie mocy $e$ - jaką część maksymalnej mocy używa urządzenie podczas pracy w danym trybie. 
+    \item wydajność $\lambda$ - jaka część energii jest oddawana do powietrza. 
+\end{itemize}
+Obie wartości byłyby wyrażone wartościami z zakresu $\langle 0,1 \rangle$. Wartość efektywnej energii oblicza się wzorem
+$$ \Delta Q = P_{max} \cdot e \cdot \Delta t \cdot \lambda $$
+
+Model zakłada, że urządzenia HVAC są w stanie w jednakowym stopniu zarówno ogrzewać jak i chłodzić pomieszczenia. 
 
 \section{Analiza wymagań systemu}
 Przy założeniu ewentualnej późniejszej rozbudowy systemu lub przeniesienia go na inny język programowania system musiał spełniać następujące wymagania:
