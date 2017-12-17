@@ -1,0 +1,21 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[1]{View}{Widok}{}
+        \newinst[2]{ViewModel}{Model widoku}{}
+        \newinst[0]{Bridge}{Aktor-pomost}{}
+        \newinst[2]{Actor}{Aktor}{}
+
+        \begin{messcall}{View}{RefreshClicked}{ViewModel}\end{messcall}
+            \begin{mess}{ViewModel}{GetData}{Bridge}\end{mess}
+            \begin{mess}{Bridge}{GetData}{Actor}\end{mess}
+            \begin{mess}{Actor}{Data}{Bridge}{}\end{mess}
+            \begin{mess}{Bridge}{Update data}{ViewModel}\end{mess} 
+            \begin{call}{ViewModel}{}{ViewModel}{\shortstack{Przechowaj dane w polu}}\end{call}      
+            \begin{messcall}{ViewModel}{DataChanged}{View}\end{messcall}
+        \begin{call}{View}{}{View}{\shortstack{Ponownie wyrenderuj dane}}\end{call}      
+    \end{sequencediagram}
+    \caption{Schemat tworzenia aktora-pomostu}
+    \label{fig:mvvmSimulator}
+\end{figure}
+ 

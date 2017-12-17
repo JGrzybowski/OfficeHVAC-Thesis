@@ -1,0 +1,19 @@
+\begin{figure}[ht!]
+    \centering
+    \begin{sequencediagram}
+        \newinst[1]{View}{Widok}{}
+        \newinst[2]{ViewModel}{Model widoku}{}
+        \newinst[2]{Model}{Model}{}
+
+        \begin{call}{View}{RefreshClicked}{ViewModel}{DataChanged}
+            \begin{call}{ViewModel}{GetData}{Model}{Data}
+                \begin{call}{Model}{}{Model}{\shortstack{Pobierz dane np. \\z bazy danych}}\end{call}
+            \end{call}
+            \begin{call}{ViewModel}{}{ViewModel}{\shortstack{Przechowaj dane w polu}}\end{call}      
+        \end{call}
+        \begin{call}{View}{}{View}{\shortstack{Ponownie wyrenderuj dane}}\end{call}      
+    \end{sequencediagram}
+    \caption{Przykład komunikacji wewnątrz aplikacji zgodnej z MVVM}
+    \label{fig:mvvmExample}
+\end{figure}
+ 

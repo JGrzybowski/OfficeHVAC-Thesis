@@ -1,0 +1,18 @@
+\begin{figure}[ht!]
+    \centering
+    \tikzstyle{applayer} = [draw, rectangle,minimum width= 5cm, minimum height= 2cm]    
+    \begin{tikzpicture}[]
+        \node[applayer] (V)  {View};
+        \node[applayer, below = of V] (VM) {ViewModel};
+        \node[applayer, below = of VM] (M)  {Model};
+
+        \path [draw, ->] (V.south west) [bend right] to node[left]{\shortstack{Zmienia wartości wewnątrz\\modelu widoku}} (VM.north west);
+        \path [draw, ->] (VM.north east) [bend right] to node[right] {\shortstack{Powiadamia widok\\o potrzebie odświeżenia}} (V.south east);
+
+        \path [draw, ->] (VM.south west) [bend right] to node[left]{\shortstack{Wysyła zmiany w danych\\lub prosi o aktualne dane}} (M.north west);
+        \path [draw, ->] (M.north east) [bend right] to node[right] {\shortstack{Odsyła dane}} (VM.south east);
+    \end{tikzpicture}
+    \caption{Warstwy aplikacji we wzorcu MVVM}
+    \label{fig:mvvm}    
+\end{figure}
+ 
