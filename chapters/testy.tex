@@ -1,6 +1,52 @@
 \chapter{Testy}
 \section{Testy w Akka.net}
+Podstawowymi testami jakie można wykonać są testy jednostkowe posczególnych aktorów.
+W Akka.net testy te pisze się za pomocą specjalnej paczki Akka.TestKit wystawiającej zestaw narzędzi do testowania aktorów.
+
+Testy najczęściej mają podobną strukturę:
+\begin{enumerate}
+    \item Stworzenie aktora.
+    \item Przesłanie mu wiadomości inicjalizujących (jeżeli jest taka potrzeba.)
+    \item Wysłanie wiadomości uruchamiającej testowane zachowane aktora.
+    \item Odczytanie zwróconej w.iadomości i sprawdzenie czy wartości wewnątrz zgadzają się z oczekiwaniami
+\end{enumerate}
+Istotne jest zauważenie różnicy w stosunku do tradycyjnych testów jednostkowych. Nie sprawdza się stanu wewnętrznego aktora, lecz jego reakcje na wiadomości.
+
 \section{Pułapki związane z testowaniem aktorów}
+\subsection{Sprawdzanie stanu wewnętrznego aktora}
+Mimo tego, że Akka.TestKit udostępnia metody pozwalające na sprawdzenie stanu wewnętrznego aktora, nie jest to zalecane podejście. 
+Prowadzi do sytuacji, gdzie testy zależą od wewnętrznej implementacji. 
+Tak jak w tradycyjnych testach jednostkowych testuje się implementacje interfejsów, tak w Akka.net testuje się zachowania na poszczególne obsługiwane wiadomości.
+
+\subsection{Używanie metody \lstinline{Ask}}
+\lstinline{Ask<T>} jest metodą pozwalającą oczekiwać na wiadomość zwrotną z systemu aktorów danego typu \lstinline{T}.
+Jest ona częścią wewnętrznych mechanizmów Akka.net i sami twórcy nie zalecają jej używania wewnątrz pisanych aktorów. 
+\lstinline{Ask<T>} nie pozwala na zmianę wątku co w przypadku testów doprowadza do sytuacji, gdzie test zwraca błąd związany z przekroczeniem czasu oczekiwania na wiadomość zwrotną. Zamiast tego, w testach powinna występować metoda \lstinline{ExpectMsg<T>}, która zwraca pierwszą wiadomość typu \lstinline{T}, która przyjdzie do aktora testowego dostępnego w klasie \lstinline{TestKit}.  
+
 \section{Scenariusze testowe}
-\section{Testy symulacji upływu czasu}
-\section{Testy przykłądowego modelu temperatur}
+Poza testami jednostkowymi, powstały też testy integracyjne łączące w jednym teście większość stworzonych aktorów. Przykładowy test z całym scenariuszem:
+\begin{lstlisting}
+    Ustawienie początkowej godziny na 7:30
+    Stworzenie statusu startowego (25st.C pokój o kubaturze 72m^3)
+    Dodanie dostępnych urządzeń
+    Stworzenie aktora pomieszczenia
+
+    Dodanie wydarzenia w kalendarzu na 10:30 kończącego się o 12:00 z wymaganą temperaturą 21st.C
+    
+    Przestawienie zegara na 8:30 
+    Dodanie wydarzenia w kalendarzu na 09:00 kończącego się o 10:00 z wymaganą temperaturą 18st.C
+
+    Przestawienie zegara na 9:00
+    Sprawdzenie czy w pokoju panuje temperatura 18st.C +- 0.5st.C
+    
+    Przestawienie zegara na 10:00
+    Sprawdzenie czy w pokoju panuje temperatura 18st.C +- 0.5st.C
+    
+    Przestawienie zegara na 10:30 
+    Sprawdzenie czy w pokoju panuje temperatura 21st.C +- 0.5st.C
+
+    Przestawianie zegara na 12:00
+    Sprawdzenie czy wszystkie urządzenia w pokoju
+     są wyłączone, jako że nie ma przewidzianych 
+     innych spotkań w tym pokoju.
+\end{lstlisting}
