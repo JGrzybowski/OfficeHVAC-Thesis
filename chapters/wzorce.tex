@@ -4,7 +4,19 @@ Rekwizyty (ang. Props) to obiekty w akka.net pozwalające na przechowywanie spos
 Wykorzystywane są zarówno przy tworzeniu jak i ponownym uruchamianiu aktorów po wystąpieniu nieobsłużonego wyjątku.
 Tylko one mają bezpośredni dostęp do kontruktora aktora. W momencie tworzenia aktora wykorzystywany jest obiekt rekwizytów i wywoływane jest ukryte wewnątrz wyrażenie z konstruktorem.
 
-%%TODO Listing
+\begin{lstlisting}[caption = Przykład użycia rekwizytów, captionpos=b]
+class PropsExample    
+{
+    string parameter = "Example parameter";
+    
+    private IActorRef CreateActor()
+    {
+        var actorSystem = new ActorSystem();
+        var props Props.Create(() => new ExampleActor(parameter));
+        var actorReference = actorSystem.ActorOf; 
+    }
+}
+\end{lstlisting}
 
 \section{Model subskrypcyjny}
 Model subskrypcyjny (ang. subscribe/unsubscribe) to sposób interakcji między agentami. Składa się z właściciela subskrypcji oraz subskrybentów. 

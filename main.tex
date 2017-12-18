@@ -1,6 +1,6 @@
 \documentclass[pl]{minipw} % wszystkie ustawienia szablonu są w minipw.cls; if in English, change [pl] to [en]
 \allowdisplaybreaks
-\usepackage[page]{appendix}
+\usepackage{appendix}
 
 \usepackage{indentfirst}
 \setlength{\parindent}{5mm} % wcięcie akapitowe 5mm, zarządzenie Rektora
@@ -26,8 +26,9 @@
 % ------------ Ustawienie listingów ---------------
 \usepackage{color}
 \usepackage[dvipsnames]{xcolor}
-\usepackage{listings}
+\usepackage{listingsutf8}
 
+\definecolor{lstbackcolor}{rgb}{0.95,0.95,0.92}
 \lstset{ % General setup for the package
 	language=[Sharp]C,
 	%Font
@@ -35,7 +36,8 @@
   %Line numbering
   numbers=left, 
   numberstyle=\ttfamily,
-	%Frame & border
+  %Frame & border
+  backgroundcolor = \color{lstbackcolor},
   frame=tb,
   %Whitespaces
 	tabsize=2, columns=fixed,

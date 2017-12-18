@@ -1,55 +1,74 @@
 \chapter{Interakcje między aktorami}
 Dla zwiększenia czytelności wszystkie diagramy w tym rozdziale traktują  interfejs użytkownika i model widoku jako całość. Są to komponenty spoza systemu aktorów łączące się z nim zawsze za pomocą aktorów-pomostów.
 
-Dla opisu interakcji w systemie aktorów nie jest tak istotne jaki był czynnik inicjujący interakcje np klik, w porównaniu do wiadomości która przyszła do systemu.
+Dla opisu interakcji w systemie aktorów nie jest tak istotne jaki był czynnik inicjujący interakcje np. klik, w porównaniu do wiadomości która przyszła do systemu.
 
 \section{Dodawanie/usuwanie pomieszczeń}
-
-\subsection*{Dodanie pomieszczenia}
-opis
+\subsection*{Dodanie pomieszczenia \seefigure{addRoom}}
+Interfejs użytkownika przekazuje do aktora firmy wszystkie potrzebne dane potrzebne do stworzenia aktora pokoju (przede wszystkim adres źródła czasu).
+Pokój inicjalizuje się zapisując się na subskrypcje pod podanymi mu adresami.
+Jednocześnie, Firma zapisuje się na subkrypcję Pokoju i po jego inicjalizacji będzie otrzymywać status pokoju.  
 \input{./diagrams/addRoom}
-\subsection*{Usunięcie pomieszczenia}
-opis
+
+\subsection*{Usunięcie pomieszczenia \seefigure{removeRoom}}
+Aby poprawnie usunąć pomieszczenie z systemu należy wysłać wiadmość o usunięciu pomieszczenia do aktora firmy, ten przesyła wiadomość do aktora pokoju i usuwa referencję z listy dostępnych mu pomieszczeń.
+Aktor pokoju po otrzymaniu sygnału rozsyła sygnał zatrzymujący pracę do wszystkich swoich aktorów dzieci, a następnie sam zatrzymuje się.
 \input{./diagrams/removeRoom}
 
 \section{Dodawanie/usuwanie sensorów i kontrolerów}
-\subsection*{Dodanie sensora}
-opis
+Dodawanie oraz usuwanie sensorów i kontrolerów działa na podobnych mechanizmach dla obu rodzajów aktorów ze względu na wspólną klasę bazową.
+
+\subsection*{Dodanie sensora lub kontrolera (Rysunki \ref{fig:addTemperatureSensor} i \ref{fig:addTemperatureController})} 
+Przy dodawaniu jednostek symulacyjnych należy podać adresy aktorów, który zapewnią dane do inicjalizacji aktorów. Więcej szczegółów na temat inicjalizacji jednostek można znaleźć w sekcji \ref{subsec:unitInitialization}
+
 \input{./diagrams/addTemperatureSensor}
-\subsection*{Usunięcie sensora}
-opis
-\input{./diagrams/removeTemperatureSensor}
-\subsection*{Dodanie kontrolera}
-opis
 \input{./diagrams/addTemperatureController}
-\subsection*{Usunięcie kontrolera}
-opis
+
+\subsection*{Usunięcie sensora lub kontrolera (Rysunki \ref{fig:removeTemperatureSensor} i \ref{fig:removeTemperatureController})}
+Procedura usuwania przypomina bardzo schemat z usuwania pomieszczenia. Sygnał jest przesyłany do rodzica usuwanego aktora i przekierowywany do usuwanego agenta. Usuwany aktor wypisuje się z subskrypcji, na które się zapisał i zatrzymuje wszystkich podległych mu aktorów oraz siebie.
+\input{./diagrams/removeTemperatureSensor}
 \input{./diagrams/removeTemperatureController}
 
 \section{Dodawanie/usuwanie urządzeń}
-\subsection*{Dodanie urządzenia}
+Dodawanie i usuwanie urządzeń znacznie bardziej wpływa na działanie systemu, ponieważ może zmienić plan uruchamiania urządzeń. 
+
+\subsection*{Dodanie urządzenia \seefigure{addDevice}}
+Pokój otrzymuje definicję urządzenia, którą przekazuje do odpowiedniego kontrolera. Ten tworzy dodaje urządzenie do listy i zleca planiście przeliczenie na planu prac. Dzięki temu może się okazać, że dzięki dodatkowemu urządzeniu dostosowywanie powietrza w pokoju będzie pochłaniać mniej energii elektrycznej.
 \input{./diagrams/addDevice}
-\subsection*{Usunięcie urządzenia}
+
+\subsection*{Usunięcie urządzenia \seefigure{removeDevice}}
+Usunięcie urządzenia może spowodować, że pozostałe urządzenia w pomieszczeniu będą musiały pracować w trybach dostarczających więcej energii, ale jednocześnie mniej ekonomicznych. 
+Po otrzymaniu sygnału o usunięciu urządzenia, aktor pokoju rozsyła wiadomość do wszystkich kontrolerów. Kontroler sterujący usuwanym urządzeniem wyłącza je, usuwa z listy i zleca przeliczenie planu pracy.
 \input{./diagrams/removeDevice}
 
 \section{Upływ czasu}
-\subsection{Sensor/symulator sensora}
+Wiadomość o upływie czasu jest najczęściej przesyłanym sygnałem w systemie. Każdy aktor obsługuje ją inaczej. 
+
+\subsection{Sensor/symulator sensora \seefigure{timeChangedSensor}}
+Sensor lub jego symulator sprawdzają czy upłynęło wystarczająco dużo czasu, że należy wysłać nową wartość obsługiwanego parametru.
 \input{./diagrams/timeChangedSensor}
-\subsection{Kontroler}
+
+\subsection{Kontroler \seefigure{timeChangedController}}
+Kontroler sprawdza znacznik czasowy z wiadomości i porównuje z jego aktualnym planem prac. Jeżeli jakaś praca na czas startu przed znacznikiem, a nie została jeszcze wystartowana, zostaje wdrożona na dostępnych urządzeniach.
 \input{./diagrams/timeChangedController}
-\subsection{Scenarzysta}
+
+\subsection{Scenarzysta \seefigure{timeChangedScreenwriter}}
+Scenarzysta posiada listę wiadomości, które musi wysłać o wyznaczonym czasie do wyznaczonych aktorów. Po otrzymaniu wiadomości o upływie czasu sprawdza, które wiadomości nie zostały jeszcze wysłane, a ich moment wysyłki już minął lub jest równy znacznikowi czasowemu. Wiadomości te są rozsyłane w kolejności od najwcześniejszej do najpóźniejszej. 
 \input{./diagrams/timeChangedScreenwriter}
 
 \section{Zmiana wartości parametów modelu}
+Jeżeli źródło modeli dostanie wiadomość zmieniającą wartości parametrów modelu, buduje nowy obiekt modelu i udostępnia go wszystkim subskrybentom.
+Może to wywołać przeliczenie planu prac w kontrolerach. Nie wpływa to na wartość aktualnej temperatury w sensorze, jako że ten aktualizuje wartość swojego parametru w odstępach czasowych i użyje nowego modelu przy kolejnej aktualizacji.
 
 \section{Zmiana wartości parametów symulowanego pomieszczenia}
+Symulator sensora pozwala na podmianę aktualnej zwracanej wartości za pomocą sygnału \lstinline{SetParamValue}. Gdy otrzyma on taką wiadomość przypisuje on nadesłaną wartość do stanu wewnętrznego i informuje subskrybentów o nowej wartości swojego parametru. 
 
 \section{Zmiany stanu wydarzeń w kalendarzu}
-\input{./diagrams/scheduling}
 Gdy kontroler otrzyma listę wymagań przesyła ją w postaci zadania do podległego mu aktora-planisty, którego jedynym zadanim jest wykonanie obliczeń. Dzięki przekazaniu zadania podległemu aktorowi jednostka nie jest zablokowana podczas obliczeń i może wykonywać inne zadania. \seefigure{scheduling}
 
-Czynnością wykonywaną w tym czasie mogłoby być np. okresowa weryfikacja czy zmiana wartości parametru postępuje w założonym tempie.
+\input{./diagrams/scheduling}
 
+Czynnością wykonywaną w tym czasie mogłoby być np. okresowa weryfikacja czy zmiana wartości parametru postępuje w założonym tempie.
 Po otrzymaniu od aktora-planisty definicji pracy jaką ma wykonać, kontroler ustawia odpowiednio urządzenia-aktuatory w sposób zależny od typu parametru.
 
 

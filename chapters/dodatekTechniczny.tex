@@ -3,7 +3,7 @@
 \section{Jednostka bazowa}
 Abstrakcyjna klasa \lstinline{UnitActor<TInternalStatus, TParameter>} jest bazową dla wszystkich jednostek. Poniżej opisane są najważniejsze jej możliwości.
 
-\subsection*{Inicjalizacja}
+\subsection*{Inicjalizacja} \label{subsec:unitInitialization}
 Każda jednostka do poprawnego działania wymaga otrzymywania sygnałów o upływie czasu. Klasy rozszerzające bazową jednostkę najczęściej będą wymagać jeszcze więcej informacji. 
 
 Dopóki jednostki nie otrzymają początkowych wartości niektórych parametrów, takich jak czas, będą znajdować się w stanie niezainicjalizowanym i powinny jedynie odbierać wiadomości dotyczące inicjalizacji oraz zapisów na subskrypcje.
