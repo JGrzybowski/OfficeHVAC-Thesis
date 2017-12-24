@@ -17,16 +17,31 @@ Brak też kompleksowej dokumentacji, która jest potrzebna przy poznawaniu nowej
 W SEKCJACH PONIŻEJ POJAWIĄ SIĘ TREŚCI NA PODSTAWIE
 https://github.com/akka/akka-meta/blob/master/ComparisonWithOrleans.md
 \subsection{Orleans}
-
+Orleans to biblioteka pozwalająca na pisanie rozproszonych aplikacji stworzona przez Microsoft Research.
+Powstała z myślą o osobach zaczynających pracę z systemami agentów. 
+Wiele mechanizmów aktorów jest ukrytych za interfejsami, tak aby programista pisał w konwencji klasycznego programowania obiektowego.  
+Kod samych aktorów jest generowany.
 
 \subsection{Akka.net}
+Akka.net jest portem javowej biblioteki Akka, służącej do tworzenia systemów aktorów. 
+Programista ma dostęp do większości mechanizmów wewnętrznych tworzonego systemu.
 
+Poniżej znajduje się porównianie, bazujące na przeglądzie dr. Rolanda Kuhna \cite{bib:AkkaVsOrleans}, pozwalające ocenić, które rozwiązanie bardziej nadaje się do realizacji założeń projektu.
 
 \subsection{Podobieństwa między Akka.net i Orelans}
-
+\begin{itemize}
+    \item Obie biblioteki korzystają z modelu agentów.
+    \item Aktorzy nie muszą komunikować z innymi aktorami za pomocą adresów ujawniających ich fizyczną lokalizację. Zamiast tego używają referencji, dzięki którym nie muszą wiedzieć gdzie znajduje się odbiorca.
+    \item Zarówno Orleans jak i Akka.net zapewniają mechanizmy pozwalające na rozproszenie systemu miedzy wieloma maszynami, a także load balancing.
+    
+\end{itemize}
 
 \subsection{Różnice między Akką.net i Orelans}
-
+\begin{itemize}
+    \item Orleans zostało zaprojektowane z myślą o wdrożeniu na platformie Azure. 
+    \item W Orleans aktorzy są tworzeni automatycznie wtedy, kiedy są potrzebni. Akka.net wymaga jawnego tworzenia aktorów. 
+    \item Akka 
+\end{itemize}
 
 \subsection{Uzasadnienie wyboru Akka.net}
 
