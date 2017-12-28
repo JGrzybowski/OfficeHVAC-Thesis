@@ -14,35 +14,107 @@ Niestety, ani Boris, ani Boris.NET nie są projektami open-source, co uniemożli
 
 Brak też kompleksowej dokumentacji, która jest potrzebna przy poznawaniu nowej architektury oprogramowania, jaką jest podejście agentowe.
 
-W SEKCJACH PONIŻEJ POJAWIĄ SIĘ TREŚCI NA PODSTAWIE
-https://github.com/akka/akka-meta/blob/master/ComparisonWithOrleans.md
 \subsection{Orleans}
 Orleans to biblioteka pozwalająca na pisanie rozproszonych aplikacji stworzona przez Microsoft Research.
 Powstała z myślą o osobach zaczynających pracę z systemami agentów. 
+Orleans stworzyło własny model oparty na ziarnach (ang. grains) rozproszonych pomiędzy silosami. Każdy silos jest najczęściej fizycznym urządzeniem.
 Wiele mechanizmów aktorów jest ukrytych za interfejsami, tak aby programista pisał w konwencji klasycznego programowania obiektowego.  
-Kod samych aktorów jest generowany.
 
 \subsection{Akka.net}
 Akka.net jest portem javowej biblioteki Akka, służącej do tworzenia systemów aktorów. 
 Programista ma dostęp do większości mechanizmów wewnętrznych tworzonego systemu.
 
-Poniżej znajduje się porównianie, bazujące na przeglądzie dr. Rolanda Kuhna \cite{bib:AkkaVsOrleans}, pozwalające ocenić, które rozwiązanie bardziej nadaje się do realizacji założeń projektu.
+\section{Uzasadnienie wyboru Akka.net}
+Tabela \ref{tab:AkkaVsOrleans} przedstawia porównianie bazujące na przeglądzie dr. Rolanda Kuhna \cite{bib:AkkaVsOrleans}, pozwalające ocenić, które rozwiązanie bardziej nadaje się do realizacji założeń projektu.
 
-\subsection{Podobieństwa między Akka.net i Orelans}
-\begin{itemize}
-    \item Obie biblioteki korzystają z modelu agentów.
-    \item Aktorzy nie muszą komunikować z innymi aktorami za pomocą adresów ujawniających ich fizyczną lokalizację. Zamiast tego używają referencji, dzięki którym nie muszą wiedzieć gdzie znajduje się odbiorca.
-    \item Zarówno Orleans jak i Akka.net zapewniają mechanizmy pozwalające na rozproszenie systemu miedzy wieloma maszynami, a także load balancing.
+\begin{longtabu} to \textwidth {| X[2,l] | X[3,l] | X[3,l] |}
+\caption{Porównanie Orelans i Akka.net}
+\label{tab:AkkaVsOrleans} \\
+    \hline
+      \multicolumn{1}{ |c| }{Cecha} 
+    & \multicolumn{1}{  c| }{Orleans} 
+    & \multicolumn{1}{  c| }{Akka.net} \\ 
+    \hline
+    \endfirsthead
     
-\end{itemize}
+    \multicolumn{3}{c}
+    {{\bfseries \tablename\ \thetable{} -- ciąg dalszy z poprzedniej strony}} \\ 
+    \hline
+      \multicolumn{1}{ |c| }{Cecha} 
+    & \multicolumn{1}{  c| }{Orleans} 
+    & \multicolumn{1}{  c| }{Akka.net} \\ 
+    \endhead
 
-\subsection{Różnice między Akką.net i Orelans}
-\begin{itemize}
-    \item Orleans zostało zaprojektowane z myślą o wdrożeniu na platformie Azure. 
-    \item W Orleans aktorzy są tworzeni automatycznie wtedy, kiedy są potrzebni. Akka.net wymaga jawnego tworzenia aktorów. 
-    \item Akka 
-\end{itemize}
+    \hline 
+    \multicolumn{3}{|r|}{{Ciąg dalszy na następnej stronie}} \\ 
+    \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
 
-\subsection{Uzasadnienie wyboru Akka.net}
+    Implementowany model równoległości & 
+    Model Orleans może zostać przekształcony w model aktorów, gdzie każde ziarno to jeden aktor. & 
+    Akka.net w całości bazuje na koncepcji modelu aktorów. \\ 
+    \hline
 
+    Transparentność położenia aktora & 
+    \multicolumn{2}{ p{12cm}| }{W obu bibliotekach aktorzy nie muszą komunikować z innymi aktorami za pomocą adresów ujawniających ich fizyczną lokalizację. Zamiast tego, używają specjalnych referencji, dzięki którym nie muszą wiedzieć, gdzie znajduje się odbiorca.} \\
+    \hline
 
+    Możliwość rozporszenia systemu & 
+    \multicolumn{2}{ p{12cm}| }{Zarówno Orleans jak i Akka.net zapewniają mechanizmy pozwalające na rozproszenie systemu miedzy wieloma maszynami, a także load balancing.} \\
+    \hline
+
+    Współdzielenie pamięci & 
+    \multicolumn{2}{ p{12cm}| }{Każdy z aktorów posiada własny fragment pamięci, który nie jest współdzielony z żadnym z elementów systemu aktorów.} \\
+    \hline
+
+    Przydzielanie wątków &
+    \multicolumn{2}{ p{12cm}| }{Każdy aktor jest obsługiwany przez jeden wątek. Obie biblioteki nie pozwalają na wykonywanie zadań jednego aktora przez dwa równoległe wątki.} \\
+    \hline 
+
+    Zapisywanie stanu aktorów &
+    \multicolumn{2}{ c| }{Oba systemy pozwalają za zapisanie stanu aktorów poza systemem.} \\
+    & Stan aktorów jest zapisywany w snapshotach - zrzutach stanu ziaren.
+    & Stan elementów systemu jest zapisywany za pomocą logu zdarzeń. Log pozwala też na stworzenie snapshotów. \\
+    \hline 
+
+    Serializacja wiadomości & 
+    Wiadomości są zawsze serializowane. &
+    Wiadomości są serializowane, gdy opuszczają lokalny system aktorów. \\
+    \hline
+
+    Tworzenie aktorów & 
+    Aktorzy są tworzeni automatycznie wtedy, kiedy są potrzebni. & 
+    Wymaga jawnego tworzenia aktorów. \\
+    \hline
+
+    Kontrola cyklu życia aktora & 
+    Cykl życia aktora nie jest kontrolowany przez programistę. Może on jedynie podpiąć się do zdarzeń z cyklu życia. & 
+    Pełna kontrola cyklu życia aktorów, włącznie z przesyłaniem wiadomości wyłączających aktorów.\\
+    \hline
+
+    Położenie aktora & 
+    Determinowane przez system lub load balancer. & 
+    Można narzucić adres maszyny, na której aktor będzie pracował, za pomocą odpowiedniego pliku konfiguracyjnego. \\
+    \hline
+   
+    Styl programowania & 
+    Przypominający tradycyjne programowanie obiektowe z wykorzystaniem interfejsów. Na podstawie napisanego kodu generowany jest kod ziaren. & 
+    Aktorzy są oddzielnymi klasami bez powiązań między sobą. Ich pisanie sprowadza się do pisania reakcji na otrzymane wiadomości.\\
+    \hline
+
+    Obsługa wyjątków & 
+    Wyjątki są traktowane jako błędy w systemie. & 
+    Wyjątki są traktowane jako informacja do przekazania aktorowi-rodzicowi. Od niego zależy jak zostanie potraktowany wyjątek. \\
+    \hline
+
+    Niezawodoność dostarczania wiadomości & 
+    Nie zapewnia odczytu wiadomości w kolejności w jakiej przyszły.
+    & Zapewnia odczyt wiadomości w kolejności w jakiej przyszły na poziomie par aktorów. \\
+    & \multicolumn{2}{ c| }{Każda wiadomość jest dostarczana co najmniej raz.} \\
+    \hline 
+\end{longtabu}
+% \end{longtable}
+% \end{center}
