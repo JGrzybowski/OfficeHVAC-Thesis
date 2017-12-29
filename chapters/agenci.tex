@@ -17,19 +17,42 @@ Brak też kompleksowej dokumentacji, która jest potrzebna przy poznawaniu nowej
 \subsection{Orleans}
 Orleans to biblioteka pozwalająca na pisanie rozproszonych aplikacji stworzona przez Microsoft Research.
 Powstała z myślą o osobach zaczynających pracę z systemami agentów. 
-Orleans stworzyło własny model oparty na ziarnach (ang. grains) rozproszonych pomiędzy silosami. Każdy silos jest najczęściej fizycznym urządzeniem.
-Wiele mechanizmów aktorów jest ukrytych za interfejsami, tak aby programista pisał w konwencji klasycznego programowania obiektowego.  
-
+Orleans stworzyło własny model oparty na ziarnach (ang. grains) rozproszonych pomiędzy silosami. Każdy silos jest najczęściej oddzielnym serwerem.
+  
 \subsection{Akka.net}
 Akka.net jest portem javowej biblioteki Akka, służącej do tworzenia systemów aktorów. 
-Programista ma dostęp do większości mechanizmów wewnętrznych tworzonego systemu.
+Co kilka miesięcy wydawana jest nowa wersja biblioteki rozszerzona o nowe możliwości. 
+Aktorzy są połączeni w drzewiastą strukturę, jednak to nie ogranicza ich możliwości wysyłania wiadomości. 
 
-\section{Uzasadnienie wyboru Akka.net}
+\section{Porównanie Akka.net i Orleans}
 Tabela \ref{tab:AkkaVsOrleans} przedstawia porównianie bazujące na przeglądzie dr. Rolanda Kuhna \cite{bib:AkkaVsOrleans}, pozwalające ocenić, które rozwiązanie bardziej nadaje się do realizacji założeń projektu.
 
+\subsection*{Kontrola nad systemem i lokalizacją aktorów}
+Niektóre z możliwości Orleans mogą być interesujące dla osób zaczynających z programowaniem równoległym. 
+Pisanie kodu, który ukrywa rozproszenie systemu jest dużym ułatwieniem. 
+Wiele rzeczy dzieje się automatycznie lub nie mamy na nie wpływu. 
+Pod tym względem Akka.net najbardziej różni się od Orleans. Wymaga się znajomości założeń, które przyjęli autorzy biblioteki. W zamian programiści mają pełną kontrolę nad tym, co dzieje się w systemie.
+
+W projektowanym systemie ważne są między innymi lokalizacja aktorów (aby wysyłać sygnały do klimatyzatorów np. podczerwienią lub bluetooth) oraz możliwość ustrukturyzowania systemu. 
+Takie możliwości daje Akka.net. Orleans jest dobry do zastosowań czysto obliczeniowych, jednak pewnych wymaganiach jego konfiguracja byłaby uciążliwa lub wręcz niemożliwa do zrealizowania.
+
+\subsection*{Wsparcie społeczności}
+Kolejnym argumentem za wykorzystaniem Akka.net jest jej cykl rozwoju.
+Akka.net jest wspierana przez firmę Petabridge, której pracownicy dodają nowe funkcjonalności oraz konsultują ze społecznością rozwój Akka.net jak i oryginalnej Akki. 
+
+Społeczność Orleans od września 2016 opracowuje nową wersję biblioteki \cite{bib:Orleans2}. Nie został podany zakres zmian w API, które zajdą wraz z tą aktualizacją. 
+
+\subsection*{Kolejność dostarczania wiadomości}
+W Akka.net kolejność dostarczenia wiadomości jest zachowywana dla każdej pary aktorów. Nie znaczy to co prawda, że wszystkie wiadomości będą przychodzić w kolejności w jakiej zostały wysłane, ale zapobiegnie to sytuacjom, gdzie wiadomość z aktualizacją stanu sprzed chwili mogłaby nadgrać najbardziej aktualny status.
+
+Orleans nie posiada takiego mechanizmu. Jego założeniem jest, to że ziarna wykonują zlecone im obliczenia i kolejność ich wykonywania nie powinna zaburzać ich pracy.
+
+\subsection*{Uzasadnienie wyboru Akka.net}
+Większa kontrola nad systemem, stabilność API połączone z podobieństwem struktury systemu Akka.net do struktury budynku zadecydowały o wyborze Akka.net do implementacji systemu oraz symulatora.
+
 \begin{longtabu} to \textwidth {| X[2,l] | X[3,l] | X[3,l] |}
-\caption{Porównanie Orelans i Akka.net}
-\label{tab:AkkaVsOrleans} \\
+    \caption{Porównanie Orelans i Akka.net}
+    \label{tab:AkkaVsOrleans} \\
     \hline
       \multicolumn{1}{ |c| }{Cecha} 
     & \multicolumn{1}{  c| }{Orleans} 
@@ -62,8 +85,13 @@ Tabela \ref{tab:AkkaVsOrleans} przedstawia porównianie bazujące na przeglądzi
     \multicolumn{2}{ p{12cm}| }{W obu bibliotekach aktorzy nie muszą komunikować z innymi aktorami za pomocą adresów ujawniających ich fizyczną lokalizację. Zamiast tego, używają specjalnych referencji, dzięki którym nie muszą wiedzieć, gdzie znajduje się odbiorca.} \\
     \hline
 
-    Możliwość rozporszenia systemu & 
+    Możliwość rozproszenia systemu & 
     \multicolumn{2}{ p{12cm}| }{Zarówno Orleans jak i Akka.net zapewniają mechanizmy pozwalające na rozproszenie systemu miedzy wieloma maszynami, a także load balancing.} \\
+    \hline
+
+    Położenie aktora & 
+    Determinowane przez system lub load balancer. & 
+    Można narzucić adres maszyny, na której aktor będzie pracował, za pomocą odpowiedniego pliku konfiguracyjnego. \\
     \hline
 
     Współdzielenie pamięci & 
@@ -93,11 +121,6 @@ Tabela \ref{tab:AkkaVsOrleans} przedstawia porównianie bazujące na przeglądzi
     Kontrola cyklu życia aktora & 
     Cykl życia aktora nie jest kontrolowany przez programistę. Może on jedynie podpiąć się do zdarzeń z cyklu życia. & 
     Pełna kontrola cyklu życia aktorów, włącznie z przesyłaniem wiadomości wyłączających aktorów.\\
-    \hline
-
-    Położenie aktora & 
-    Determinowane przez system lub load balancer. & 
-    Można narzucić adres maszyny, na której aktor będzie pracował, za pomocą odpowiedniego pliku konfiguracyjnego. \\
     \hline
    
     Styl programowania & 

@@ -18,9 +18,9 @@ Mimo tego, że Akka.TestKit udostępnia metody pozwalające na sprawdzenie stanu
 Prowadzi do sytuacji, gdzie testy zależą od wewnętrznej implementacji. 
 Tak jak w tradycyjnych testach jednostkowych testuje się implementacje interfejsów, tak w Akka.net testuje się zachowania na poszczególne obsługiwane wiadomości.
 
-\subsection{Używanie metody \lstinline{Ask}}
+\subsection{Używanie metody \lstinline{Ask} }
 \lstinline{Ask<T>} jest metodą pozwalającą oczekiwać na wiadomość zwrotną z systemu aktorów danego typu \lstinline{T}.
-Jest ona częścią wewnętrznych mechanizmów Akka.net i sami twórcy nie zalecają jej używania wewnątrz pisanych aktorów. 
+Jest ona częścią wewnętrznych mechanizmów Akka.net i sami twórcy nie zalecają jej używania wewnątrz pisanych aktorów \cite{bib:AkkaNoAsk}. 
 \lstinline{Ask<T>} nie pozwala na zmianę wątku co w przypadku testów doprowadza do sytuacji, gdzie test zwraca błąd związany z przekroczeniem czasu oczekiwania na wiadomość zwrotną. Zamiast tego, w testach powinna występować metoda \lstinline{ExpectMsg<T>}, która zwraca pierwszą wiadomość typu \lstinline{T}, która przyjdzie do aktora testowego dostępnego w klasie \lstinline{TestKit}.  
 
 \section{Scenariusze testowe}
