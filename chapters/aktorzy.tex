@@ -1,19 +1,4 @@
-\chapter{System aktorów}\label{ch:aktorzy}
-\section{Architektura systemu aktorów}
-Systemy aktorów w akka.net mają strukturę drzewiastą. 
-Każdy aktor jest dzieckiem aktora głównego lub innego aktora. 
-
-\input{./diagrams/actorSystem.tex}
-
-Aktor główny symbolizuje modelowany budynek.
-Jego dziećmi są aktorzy firm, którzy odpowiadają za odświeżanie informacji z kalendarzy i przechowywanie ewentualnych domyślnych wartości parametrów pomieszczeń.
-
-Każda firma ma pod sobą kilku aktorów odpowiedzialnych za przypisane im pomieszczenia.
-Aby móc wpływać na parametry pomieszczenia, jego aktor ma dostęp do danych o pomieszczeniu od agentów sensorów oraz może wysłać sygnały kontrolne do urządzeń za pomocą aktorów kontrolerów.
-
-Oba powyższe rodzaje aktorów łączą się z urządzeniami, odpowiednio sensorami i aktuatorami.
-
-Dodatkowo oprócz opisanej struktury, w systemie powienien występować co najmniej jeden aktor będący źródłem czasu oraz jeden będący źródłem modeli parametrów pomieszczenia.
+\chapter{Aktorzy}\label{ch:aktorzy}
 
 \section{Źródło czasu}
 Źródło czasu to aktor wysyłający sygnały ze znacznikiem czasowym w określonych odstępach. Wykorzystuje do tego model subskypcyjny. Może występować jako pojedyńczy aktor w całym systemie lub w każdym fizycznym urządzeniu. 
@@ -65,9 +50,6 @@ To on jest ostatnim poziomem na którym aktor jest w stanie pracować niezależn
 
 Dla zapewnienia największej niezależności najlepiej, aby aktorzy pokoi i wszyskie jego dzieci znajdowały się na tym samym (mikro)komputerze. Jak długo takie urządzenie będzie w stanie połączyć się podlegającymi mu sensorami oraz urządzeniami HVAC (np. za pomocą Bluetooth) utrata łączności z systemem głównym nie zaburzy jego pracy zgodznie z jego aktualnym stanem.
 
-\section{Symulator pomieszczenia}
-
-Symulator pomieszczenia jest aktorem dziedziczącym po aktorze pomieszczenia wszystkie zachowania, a dodatkowo pozwala na sterowanie parametrami pomieszczenia. Jest to część systemu stworznona tylko na potrzeby symulatora i w realnym zastosowaniu nie musi być użyta.
 
 \section{Jednostka} 
 Jednostki to kategoria aktorów którzy dzielą sporą ilość zachowań, głównie w celu komunikacji z urządzeniami - sensorami lub aktuatorami. Jedna jednostka powinna odpowiadać tylko za jeden parametr pomieszczenia. 
@@ -82,12 +64,6 @@ Dokładny opis działania jednostek znajduje się w dodatku \ref{ch:unit}
 
 \section{Sensor}
 Sensor to aktor, który podaje wartość jednego z parametrów pomieszczenia. Aktora połączonego z rzeczywistym urządzeniem możemy otrzymać za pomocą jednostki cyklicznej \seeappendix{subsec:cyclicUnit}, która co jakiś czas odczytywałaby wartości parametru z urządzenia (np. termometru) zapisywałaby ją wewnątrz obiektu i rozesłała wszystkim subskrybentom. 
-
-\section{Symulator sensora}
-Symulator sensora różni się od zwykłego sensora tym, że nie ma urządzenia, z którego mógłby odczytać wartość parametru. 
-Zamiast tego, aktor musi wyliczyć nową wartość parametru za pomocą matematycznego modelu. Do napisania takiego aktora należy użyć jednostki symulującej. \seeappendix{subsec:simUnit} 
-
-Co pewnien odstęp czasu symulator używa modelu, aby policzyć zmianę wartości np. temperatury korzystając z ostatniego otrzymanego statusu pomieszczenia oraz informacji ile czasu minęło od znacznika czasowego podanego w statusie.
 
 \section{Kontroler}
 Kontroler jest aktorem przeciwstawnym do sensora. Decyduje on, jakie sygnały wysłać urządzeniom-aktuatorom, żeby w pomieszczeniu dany parametr osiągnął żądaną wartość.

@@ -1,0 +1,54 @@
+\chapter{Symulator budynku biurowego}
+Aby móc wykonywać powtarzalne próby wydajnie potrzebne były:
+
+\section{Analiza wymagań aplikacji symulatora}
+Użycie rzeczywistych urządzeń HVAC, w celu sprawdzenia poprawności działania systemu, nie było możliwe w ramach tej pracy ze względu na kosztowność i czasochłonność takiego rozwiązania. 
+Potrzebny był zatem symulator który zawierałby w sobie system HVAC oraz interfejs użytkownika umożliwiający interakcję z systemem. 
+
+\subsection*{Symulacja upływu czasu}
+Symulator powinien też pozwalać na przyspieszenie czasu w symulowanym systemie, ograniczyć czas potrzebny na testowanie.
+i nie czekać na wynik działania systemu po np. dwóch godzinach. System powinien pozwalać na przeskalowanie czasu upływającego w systemie np. jedna sekunda czasu rzeczywistego to 5 minut czasu symulatora.
+
+\subsection*{Mechanizm ładowania schematu budynku}
+Aplikacja symulatora powinna pozwalać na zapisanie i ponowne załadowanie właściwości pomieszczeń wraz ze stanem urządzeń zanjdujących się w nim.
+
+\subsection*{Silnik scenariuszy}
+Scenariusze czyli lista sygnałów, które odbiera system o określonym czasie. Np. podniesienie się temperatury czy przesunięcie spotkania. Za pomocą odtwarzalnych scenariuszy możemy wielokrotnie testować zachowanie systemu w tych samych warunkach, ale np. z innymi parametrami w modelu temperatury.
+
+\section{Struktura aplikacji symulatora}
+Aplikacja symulatora hostująca system agentowy została zrealizowana jako aplikacja desktopowa w technologii WPF - Windows Presentation Foundation za pomocą wzorca MVVM - Model - View - ViewModel.
+\subsection{Wzorzec MVVM}
+Wzorzec ten wyróżnia trzy wartwy aplikacji \seefigure{mvvm}:
+\begin{enumerate}
+    \item Widok (View) - układ interfejsu użytkownika wraz z kontrolkami. 
+    \item Model Widoku (ViewModel) - obiekt odpowiedzialny za pobieranie danych z Modelu i podawanie ich odpowiednio przetworzonych do Widoku. 
+    \item Model - to dowolne źródła danych, do których Widok Modelu musi mieć dostęp, aby otrzymać potrzebne mu informacje. 
+\end{enumerate}
+\input{./diagrams/mvvm}
+
+Po wykonaniu akcji przez użytkownika np. kliknięcia przycisku na Widoku, odpowienio przypisana komenda z Modelu Widoku zostaje wywołana. 
+Może ona wywoływać metody z Modelu np. wysłać zapytanie do bazy danych lub przesłać wiadomość do aktora w systemie aktorów.
+Jeżeli taka metoda zwróci jakieś dane Model Widoku przetwarza otrzymane dane i zapisuje wewnątrz swojego obiektu. 
+Następnie powiadamia Widok o tym, że wartość jednej lub więcej właściwości zmieniła się i należy odświeżyć ją na interfejsie użytkownika \seefigure{mvvmExample}.
+\input{./diagrams/mvvmExample}
+
+System aktorów w aplikacji symulatora należy do warstwy Modelu \seefigure{mvvmSimulator}.
+W aplikacji symulatora za komunikację między obiektami Modeli Widoków a systemem aktorów odpowiedzialni są aktorzy-pomosty, opisani dokładniej w sekcji \ref{sec:aktor-pomost}
+
+\input{./diagrams/mvvmSimulator}
+
+\section{Aktorzy stworzeni na potrzeby symulacji}
+\subsection{Symulator pomieszczenia}
+Symulator pomieszczenia jest aktorem dziedziczącym po aktorze pomieszczenia wszystkie zachowania, a dodatkowo pozwala na sterowanie parametrami pomieszczenia. Jest to część systemu stworznona tylko na potrzeby symulatora i w realnym zastosowaniu nie musi być użyta.
+
+\subsection{Symulator sensora}
+Symulator sensora różni się od zwykłego sensora tym, że nie ma urządzenia, z którego mógłby odczytać wartość parametru. 
+Zamiast tego, aktor musi wyliczyć nową wartość parametru za pomocą matematycznego modelu. Do napisania takiego aktora należy użyć jednostki symulującej. \seeappendix{subsec:simUnit} 
+
+Co pewnien odstęp czasu symulator używa modelu, aby policzyć zmianę wartości np. temperatury korzystając z ostatniego otrzymanego statusu pomieszczenia oraz informacji ile czasu minęło od znacznika czasowego podanego w statusie.
+
+\section{Interakcje}
+
+
+\subsection{Zmiana wartości parametów symulowanego pomieszczenia}
+Symulator sensora pozwala na podmianę aktualnej zwracanej wartości za pomocą sygnału \lstinline{SetParamValue}. Gdy otrzyma on taką wiadomość przypisuje on nadesłaną wartość do stanu wewnętrznego i informuje subskrybentów o nowej wartości swojego parametru. 

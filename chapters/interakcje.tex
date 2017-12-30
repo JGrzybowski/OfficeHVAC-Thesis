@@ -44,28 +44,24 @@ Po otrzymaniu sygnału o usunięciu urządzenia, aktor pokoju rozsyła wiadomoś
 \section{Upływ czasu}
 Wiadomość o upływie czasu jest najczęściej przesyłanym sygnałem w systemie. Każdy aktor obsługuje ją inaczej. 
 
-\subsection{Sensor/symulator sensora \seefigure{timeChangedSensor}}
-Sensor lub jego symulator sprawdzają czy upłynęło wystarczająco dużo czasu, że należy wysłać nową wartość obsługiwanego parametru.
+\subsection{Sensor}
+Sensor sprawdza czy upłynęło wystarczająco dużo czasu, by wysłać nową wartość obsługiwanego parametru. \seefigure{timeChangedSensor}
 \input{./diagrams/timeChangedSensor}
 
-\subsection{Kontroler \seefigure{timeChangedController}}
-Kontroler sprawdza znacznik czasowy z wiadomości i porównuje z jego aktualnym planem prac. Jeżeli jakaś praca na czas startu przed znacznikiem, a nie została jeszcze wystartowana, zostaje wdrożona na dostępnych urządzeniach.
+\subsection{Kontroler}
+Kontroler sprawdza znacznik czasowy z wiadomości i porównuje z jego aktualnym planem prac. Jeżeli jakaś praca na czas startu przed znacznikiem, a nie została jeszcze wystartowana, zostaje wdrożona na dostępnych urządzeniach. \seefigure{timeChangedController}
 \input{./diagrams/timeChangedController}
 
-\subsection{Scenarzysta \seefigure{timeChangedScreenwriter}}
-Scenarzysta posiada listę wiadomości, które musi wysłać o wyznaczonym czasie do wyznaczonych aktorów. Po otrzymaniu wiadomości o upływie czasu sprawdza, które wiadomości nie zostały jeszcze wysłane, a ich moment wysyłki już minął lub jest równy znacznikowi czasowemu. Wiadomości te są rozsyłane w kolejności od najwcześniejszej do najpóźniejszej. 
+\subsection{Scenarzysta}
+Scenarzysta posiada listę wiadomości, które musi wysłać o wyznaczonym czasie do wyznaczonych aktorów. Po otrzymaniu wiadomości o upływie czasu sprawdza, które wiadomości nie zostały jeszcze wysłane, a ich moment wysyłki już minął lub jest równy znacznikowi czasowemu. Wiadomości te są rozsyłane w kolejności od najwcześniejszej do najpóźniejszej. \seefigure{timeChangedScreenwriter}
 \input{./diagrams/timeChangedScreenwriter}
 
 \section{Zmiana wartości parametów modelu}
 Jeżeli źródło modeli dostanie wiadomość zmieniającą wartości parametrów modelu, buduje nowy obiekt modelu i udostępnia go wszystkim subskrybentom.
 Może to wywołać przeliczenie planu prac w kontrolerach. Nie wpływa to na wartość aktualnej temperatury w sensorze, jako że ten aktualizuje wartość swojego parametru w odstępach czasowych i użyje nowego modelu przy kolejnej aktualizacji.
 
-\section{Zmiana wartości parametów symulowanego pomieszczenia}
-Symulator sensora pozwala na podmianę aktualnej zwracanej wartości za pomocą sygnału \lstinline{SetParamValue}. Gdy otrzyma on taką wiadomość przypisuje on nadesłaną wartość do stanu wewnętrznego i informuje subskrybentów o nowej wartości swojego parametru. 
-
 \section{Zmiany stanu wydarzeń w kalendarzu}
 Gdy kontroler otrzyma listę wymagań przesyła ją w postaci zadania do podległego mu aktora-planisty, którego jedynym zadanim jest wykonanie obliczeń. Dzięki przekazaniu zadania podległemu aktorowi jednostka nie jest zablokowana podczas obliczeń i może wykonywać inne zadania. \seefigure{scheduling}
-
 \input{./diagrams/scheduling}
 
 Czynnością wykonywaną w tym czasie mogłoby być np. okresowa weryfikacja czy zmiana wartości parametru postępuje w założonym tempie.

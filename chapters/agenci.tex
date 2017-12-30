@@ -1,18 +1,32 @@
 \chapter{Systemy agentowe}
-\section{Model aktorów}
-Model aktorów to model równoległości oparty na koncepcji aktorów, którzy przesyłają między sobą wiadomości.
-Model ten zakłada, że każdy z aktorów jest samodzielną jednostką posiadającą kolejkę wiadomości. Wiadomości sa przetwarzane po jednej na raz w kolejności, w której przyszły. W ramach przetwarzania mogą nastąpić zmiana stanu wewnętrznego aktora lub wysłanie jednej lub więcej wiadomości do jednego lub więcej aktorów. 
+Koncepcja systemów agentowych wywodzi się z idei rozproszonej sztucznej inteligencji (DAI - Distributed Artificial Inteligence.)
 
-Model zakłada jak najmniejszą odpowiedzialność pojedyńczego aktora, aby umożliwić jak najwyższą równogległość i skalowalność.
+W najogólniejszej definicji agenci to programy, które działają w imieniu użytkownika. Akcje mogą być proste jak zebranie lub przesłanie danych, ale mogą też zawierać elementy negocjacji z innymi agentami czy podejmowania decyzji. \cite{bib:agenciNazewnictwo}
+
+Systemy agentowe stosuje się w miejscach gdzie ważna jest skalowalność oraz potrzeba dużego rozproszenia systemu. Przykładami mogą być systemy giełdowe gdzie każdy makler ma swojego agenta, który w imieniu właściciela będzie zgłasza chęć sprzedaży lub kupna akcji. Taki agent mógłby też negocjować ceny.
+
+\section{Model aktorów}
+Model aktorów to model równoległości oparty na koncepcji agentów posiadających wewnętrzny stan, którzy przesyłają między sobą wiadomości.
+Był to pierwszy koncept, który zapoczątkował rozwój systemów agentowych.
+\cite{bib:agenciNazewnictwo}
+
+Model ten zakłada, że każdy z aktorów jest samodzielną jednostką posiadającą kolejkę wiadomości. Wiadomości sa przetwarzane po jednej na raz w kolejności, w której przyszły. W ramach przetwarzania mogą nastąpić zmiana stanu wewnętrznego aktora lub wysłanie jednej lub więcej wiadomości do jednego lub więcej aktorów. Model zakłada jak najmniejszą odpowiedzialność pojedyńczego aktora, aby umożliwić jak najwyższą równogległość i skalowalność. 
+
+Systemy aktorów znajdują zastosowanie w grach, komunikatorach oraz wszędzie tam gdzie, duża liczba agentów często komunikuje się między sobą. \cite{bib:akkaUseCases}
 
 \section{Przegląd rozwiązań agentowych dla środowska .NET}
+Autor posiada ponad 5 lat doświadczenia w pisaniu aplikacji w środowisku .NET. 
+Dlatego postanowił, że system zarządzania urządzeniami HVAC zostanie napisany w języku \csh, aby skupić się na poznawaniu zasad budowania systemów agentowych, a nie na nauce składni innych, mniej znanych mu języków programowania. 
+
+W ciągu ostatnich lat pojawiło się kilka rozwiązań .NETowych dedykowanych do tworzenia systemów agentowych. W momencie rozpoczynania projektu autor brał pod uwagę trzy biblioteki: Boris.NET, Orleans i Akka.net.
+
 \subsection{Boris.NET}
 Boris jest biblioteką do tworzenia systemów agentowych stworzoną w takcie badania metod projektowania systemów agentowych w Teesside University, Wielka Brytania. Protokół Borisa pozwala na łączenie agentów napisanych za pomocą różnych języków takich jak C++, Lisp czy Java w jeden system. Boris.NET jest biblioteką napisaną przez Aliego Bojarpour do obsługi biblioteki Boris za pomocą języków \csh i \fsh. 
 
 Elastyczność Borisa pod względem ilości obsługiwanych jest cenną cechą, gdyż pozwalałaby na pisanie adapterów i dodatkowych funkcjonalności przez różne zespoły. 
-Niestety, ani Boris, ani Boris.NET nie są projektami open-source, co uniemożliwia analizę i poznanie mechanizmów wewnętrznych biblioteki. Podobnie rzecz ma się ze wsparciem społeczności, która ogranicza sie do osób ze środowiska akademickiego.
+Niestety, ani Boris, ani Boris.NET nie są projektami open-source, co uniemożliwia analizę i poznanie mechanizmów wewnętrznych biblioteki. Podobnie rzecz ma się ze wsparciem społeczności, która ogranicza sie do osób ze środowiska akademickiego. Brak też kompleksowej dokumentacji, która jest potrzebna przy poznawaniu nowej architektury oprogramowania, jaką jest podejście agentowe.
 
-Brak też kompleksowej dokumentacji, która jest potrzebna przy poznawaniu nowej architektury oprogramowania, jaką jest podejście agentowe.
+Ze względu na powyższe wady Boris.NET nie mógł zostać wybrany do implementacji systemu zarządzania urządzeniami HVAC.
 
 \subsection{Orleans}
 Orleans to biblioteka pozwalająca na pisanie rozproszonych aplikacji stworzona przez Microsoft Research.
@@ -25,7 +39,7 @@ Co kilka miesięcy wydawana jest nowa wersja biblioteki rozszerzona o nowe możl
 Aktorzy są połączeni w drzewiastą strukturę, jednak to nie ogranicza ich możliwości wysyłania wiadomości. 
 
 \section{Porównanie Akka.net i Orleans}
-Tabela \ref{tab:AkkaVsOrleans} przedstawia porównianie bazujące na przeglądzie dr. Rolanda Kuhna \cite{bib:AkkaVsOrleans}, pozwalające ocenić, które rozwiązanie bardziej nadaje się do realizacji założeń projektu.
+Tabela \ref{tab:AkkaVsOrleans} przedstawia porównianie bazujące na przeglądzie dr. Rolanda Kuhna \cite{bib:AkkaVsOrleans}, pozwalające ocenić, które rozwiązanie bardziej nadaje się do realizacji założeń projektu. Raport porównywał biblioteki skupiając się na tworzeniu systemów aktorów i poniższe porównanie przyjmie ten sam kontekst.
 
 \subsection*{Kontrola nad systemem i lokalizacją aktorów}
 Niektóre z możliwości Orleans mogą być interesujące dla osób zaczynających z programowaniem równoległym. 

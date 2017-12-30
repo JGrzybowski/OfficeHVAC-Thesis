@@ -4,18 +4,23 @@
         \newinst[0]{UI}{\shortstack{Interfejs\\użytkownika}}{}
         \newinst[2]{Room}{Pokój}{}
         \newinst[2]{Sensor}{\shortstack{Sensor\\temperatury}}{}
-        \newinst[2]{Time}{\shortstack{Źródło\\czasu}}{}
+        \newinst[2]{Model}{\shortstack{Źródło\\modeli}}{}
+        \newinst[]{Time}{\shortstack{Źródło\\czasu}}{}
 
         \begin{mess}{UI}{RemoveSensor}{Room}\end{mess}
         \begin{mess}{Room}{RemoveSensor}{Sensor}\end{mess}
 
         \begin{call}{Room}{}{Room}{\shortstack{Usuń sensor\\z listy}}\end{call}            
 
-        \begin{mess}{Sensor}{Unsubscibe}{Time}\end{mess}
+        \begin{sdblock}{Subskrypcje sensora}{}
+            \begin{mess}{Sensor}{Unsubscibe}{Room}\end{mess}
+            \begin{mess}{Sensor}{Unsubscibe}{Model}\end{mess}
+            \begin{mess}{Sensor}{Unsubscibe}{Time}\end{mess}
+        \end{sdblock}
 
     \begin{call}{Sensor}{}{Sensor}{Stop}\end{call}
     \end{sequencediagram}
-    \caption{Schemat usuwania sensora z pomieszczenia}
-    \label{fig:removeTemperatureSensor}
+    \caption{Schemat usuwania symulatora sensora z pomieszczenia}
+    \label{fig:removeTemperatureSensorSim}
 \end{figure}
  

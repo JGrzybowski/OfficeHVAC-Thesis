@@ -2,25 +2,15 @@
     \centering
     \begin{sequencediagram}
         \newinst[0]{Room}{Pokój}{}
-        \newinst[2]{Sensor}{\shortstack{Symulator\\sensora\\temperatury}}{}
-        \newinst[2]{Model}{\shortstack{Źródło\\modeli}}{}
-        \newinst[]{Time}{\shortstack{Źródło\\czasu}}{}
+        \newinst[2]{Sensor}{\shortstack{Sensor\\temperatury}}{}
+        \newinst[2]{Time}{\shortstack{Źródło\\czasu}}{}
 
-        \begin{call}{Room}{Adresy subskrypcji}{Sensor}{Adres aktora}\end{call}
+        \begin{call}{Room}{Adres źródła czasu}{Sensor}{Adres aktora}\end{call}
 
         \begin{call}{Room}{}{Room}{\shortstack{Dodaj sensor\\do listy}}\end{call}
 
-        \begin{sdblock}{Subskrypcje sensora}{}
-            \begin{mess}{Sensor}{Subscibe}{Room}\end{mess}
-            \begin{mess}{Sensor}{Subscibe}{Model}\end{mess}
-            \begin{mess}{Sensor}{Subscibe}{Time}\end{mess}
-        \end{sdblock}
-
-        \begin{sdblock}{Odpowiedzi na subskrypcje}{}
-            \begin{mess}{Time}{TimeChanged}{Sensor}\end{mess}   
-            \begin{mess}{Model}{TemperatureModel}{Sensor}\end{mess}
-            \begin{mess}{Room}{RoomStatus}{Sensor}\end{mess}
-        \end{sdblock}
+        \begin{mess}{Sensor}{Subscibe}{Time}\end{mess}
+        \begin{mess}{Time}{TimeChanged}{Sensor}\end{mess}   
                 
         \begin{sdblock}{Podpięcie sensora}{}
             \begin{mess}{Sensor}{SensorAvaliable}{Room}\end{mess}
@@ -28,7 +18,7 @@
             \begin{mess}{Sensor}{TemperatureValue}{Room}\end{mess}
         \end{sdblock}
     \end{sequencediagram}
-    \caption{Schemat dodawania symulatora sensora do pomieszczenia}
+    \caption{Schemat dodawania sensora do pomieszczenia}
     \label{fig:addTemperatureSensor}
 \end{figure}
  
