@@ -25,38 +25,35 @@ $$ \Delta Q = P_{max} \cdot e \cdot \Delta t \cdot \lambda $$
 Model zakłada, że urządzenia HVAC są w stanie w jednakowym stopniu zarówno ogrzewać jak i chłodzić pomieszczenia. 
 
 \section{Analiza wymagań systemu}
-Przy założeniu ewentualnej późniejszej rozbudowy systemu lub przeniesienia go na inny język programowania system musiał spełniać następujące wymagania:
+\subsection*{Możliwość rozbudowy systemu w przyszłości}
+Przy okresie użytkowania budynku biurowego (średnio w Europie wynoszącym ok. 40-50 lat \cite{bib:wiekBudynku}) należy założyć, że jego właściciel będzie wymieniał w nim zarówno urządzenia HVAC jak i sensory. System musi mieć zatem strukturę pozwalającą na późniejszejszą rozbudowę i ulepszanie. 
 
-\subsection*{Możliwość dodania nowych parametrów pomieszczenia}
-Dodanie nowych, dynamicznie zmieniających się parametrów, takich jak wilgotność czy nasłonecznienie, pozwalałoby udoskonalić model temperatur i zbliżyć go do rzeczywistego modelu fizycznego.
+Jeżeli właściciel budynku postanowi unowocześnić budynek i wymienić sensory na nowsze np. odczytujące dodatkowo poziom wilgotności w pomieszczeniu, system powinien mieć możliwość wykorzystać dodatkowe informacje.
 
-Jednocześnie, dodanie mniej dynamicznych parametrów, na które jesteśmy w stanie wpłynąć dawałby możliwość sprawdzenia i skorygowania ich. Np. poziom tlenu w pomieszczeniu pozwala ocenić czy osobom w pomieszczeniu nie jest zbyt duszno i przewietrzyć pomieszczenia za pomocą dostępnych urządzeń.
+Dodanie nowych, dynamicznie zmieniających się parametrów, takich jak wilgotność czy nasłonecznienie, pozwalałoby udoskonalić model temperatur i zbliżyć go do rzeczywistego modelu fizycznego. Dokładniejszy model pozwala na lepszą predykcję, a co za tym idzie większe oszczędności.
 
-Oczywiście, każde dodanie takiego parametru wiązałoby się z nowym typem sensora. O ile badane zajwisko zmianiałoby się na tyle wolno, że moglibyśmy na nie oddziałować, byłoby możliwe dodanie aktuatora.
+Jednocześnie, dodanie mniej dynamicznych parametrów, na które jesteśmy w stanie wpłynąć dawałoby możliwość sprawdzenia i skorygowania ich. Przykładowo poziom tlenu pozwala ocenić czy osobom w pomieszczeniu nie jest zbyt duszno i przewietrzyć pomieszczenia za pomocą dostępnych urządzeń. 
 
-\subsubsection*{Parametryzacja i podmiana modeli}
-Możliwość parametryzacji model pozwoliłaby dostrajać modele i poprawić precyzję predykcji i sugesti systemu.
-Podmiana modeli umożliwiłaby aktualizację parametrów modelu lub podmianę na inaczej skonstruowany model (np. przewidujący temperatury z innych parametrów pomieszczenia) bez wyłączania systemu. 
+% Oczywiście, każde dodanie takiego parametru wiązałoby się z nowym typem sensora. O ile badane zajwisko zmianiałoby się na tyle wolno, że moglibyśmy na nie oddziałować, byłoby możliwe dodanie aktuatora.
 
-\subsection*{Możliwość podpięcia różnych źródeł danych}
+\subsubsection*{Zaawansowana optymalizacja kosztów}
+Właściciel budynku może uznać, że oszczędności wypracowane przez system nie są już wystarczające. 
+Dokładniejszy matematyczny model pozwoliłby dokładniej szacować zużycie energii elektrycznej i bardziej zoptymalizować wydatki. 
+
+Na podstawie wiedzy ekspertów można wypracować bardziej zaawansowany model dopasowany do ilości informacji dostarczanej przez sensory i najemców.
+Możliwość parametryzacji modeli pozwoliłaby dostrajać modele pod konkretne budynki i poprawić precyzję predykcji.
+
+\subsection*{Wygoda aktualizacji systemu}
+Wyłączenie systemu klimatyzatorów może być uciążliwe dla osób korzystających z budynku. 
+Serwisowanie i obsługa systemu zarządzania urządzeniami powinna jak najmniej wpływać na komfort użytkowników.
+
+Zdalna podmiana modeli umożliwiłaby aktualizację parametrów modelu lub podmianę na inaczej skonstruowany model (np. przewidujący temperatury z innych parametrów pomieszczenia) bez wyłączania systemu, czyli i bez utraty komfortu dla najemcy. 
+
+\subsection*{Zróżnicowanie źródeł danych o wykorzystaniu pomieszczeń}
 W różnych firmach używa się różnych systemów do ustalania terminów spotkań czy rezerwacji sal np. Microsoft Exchange Server czy IBM Domino.
-System powinien pozwalać na dopisanie adaptera zajmującego się przekazywaniem wydarzeń do systemu HVAC i uniezależnianiem go od źródła danych.
+System powinien pozwalać na przekazywanie informacji o wykorzystaniu pomieszczeń systemu HVAC na różne sposoby w zależności od najemcy.
 
-\subsection*{Możliwość zbadania stanu systemu}
-Dla celów diagnostycznych oraz aby dostroić modele potrzebny jest łatwy dostęp do danych o stanie urządzeń oraz danych z samego systemu HVAC. Musi zatem istnieć sposób, aby w łatwy sposób połączyć się z systemem HVAC i zerbać informacje o jego stanie.
+\subsection*{Diagnostyka urządzeń i systemu}
+Administracji budynku może zależeć na możliwości monotorowania stanu systemu, aby np. wykryć wadliwy sensor lub przyznać dodatkowy rabat najemcy za odpowiednią ilość oszczędzonej energii.
 
-Aby móc wykonywać powtarzalne próby wydajnie potrzebne były:
-
-\section{Analiza wymagań aplikacji symulatora}
-Użycie rzeczywistych urządzeń HVAC, w celu sprawdzenia poprawności działania systemu, nie było możliwe w ramach tej pracy ze względu na kosztowność i czasochłonność takiego rozwiązania. 
-Potrzebny był zatem symulator który zawierałby w sobie system HVAC oraz interfejs użytkownika umożliwiający interakcję z systemem. 
-
-\subsection*{Symulacja upływu czasu}
-Symulator powinien też pozwalać na przyspieszenie czasu w symulowanym systemie, ograniczyć czas potrzebny na testowanie.
-i nie czekać na wynik działania systemu po np. dwóch godzinach. System powinien pozwalać na przeskalowanie czasu upływającego w systemie np. jedna sekunda czasu rzeczywistego to 5 minut czasu symulatora.
-
-\subsection*{Mechanizm ładowania schematu budynku}
-Aplikacja symulatora powinna pozwalać na zapisanie i ponowne załadowanie właściwości pomieszczeń wraz ze stanem urządzeń zanjdujących się w nim.
-
-\subsection*{Silnik scenariuszy}
-Scenariusze czyli lista sygnałów, które odbiera system o określonym czasie. Np. podniesienie się temperatury czy przesunięcie spotkania. Za pomocą odtwarzalnych scenariuszy możemy wielokrotnie testować zachowanie systemu w tych samych warunkach, ale np. z innymi parametrami w modelu temperatury.
+Dla celów diagnostycznych potrzebny jest łatwy dostęp do danych o stanie urządzeń oraz danych z samego systemu HVAC. Musi zatem istnieć sposób, aby w łatwy sposób połączyć się z systemem HVAC i zerbać informacje o jego stanie.
