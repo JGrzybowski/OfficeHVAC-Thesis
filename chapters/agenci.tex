@@ -1,20 +1,21 @@
 \chapter{Systemy agentowe}
 Koncepcja systemów agentowych wywodzi się z idei rozproszonej sztucznej inteligencji (DAI - Distributed Artificial Inteligence.)
 
-W najogólniejszej definicji agenci to programy, które działają w imieniu użytkownika. Akcje mogą być proste jak zebranie lub przesłanie danych, ale mogą też zawierać elementy negocjacji z innymi agentami czy podejmowania decyzji. \cite{bib:agenciNazewnictwo}
+W najogólniejszej definicji agenci to programy, które działają w imieniu użytkownika. 
+Akcje mogą być proste jak zebranie lub przesłanie danych, ale mogą też zawierać elementy negocjacji z innymi agentami czy podejmowania decyzji \cite{bib:agenciNazewnictwo}. 
 
-Systemy agentowe stosuje się w miejscach gdzie ważna jest skalowalność oraz potrzeba dużego rozproszenia systemu. Przykładami mogą być systemy giełdowe gdzie każdy makler ma swojego agenta, który w imieniu właściciela będzie zgłasza chęć sprzedaży lub kupna akcji. Taki agent mógłby też negocjować ceny.
+Systemy agentowe stosuje się w miejscach gdzie ważna jest skalowalność oraz potrzeba dużego rozproszenia systemu. 
+Przykładami mogą być systemy transakcyjne w bankach lub giełda gdzie każdy makler ma swojego agenta, który w imieniu właściciela będzie zgłaszał chęć sprzedaży lub kupna akcji. Taki agent mógłby też negocjować ceny i dążyć do jak największego zysku.
 
 \section{Model aktorów}
-Model aktorów to model równoległości oparty na koncepcji agentów posiadających wewnętrzny stan, którzy przesyłają między sobą wiadomości.
-Był to pierwszy koncept, który zapoczątkował rozwój systemów agentowych.
-\cite{bib:agenciNazewnictwo}
+Pierwszym konceptem, który zapoczątkował rozwój systemów agentowych był model aktorów zaproponowany przez Carla Hewita w 1977 roku \cite{bib:agenciNazewnictwo}. 
+To model równoległości oparty na koncepcji agentów, nazywanych aktorami, posiadających wewnętrzny stan, którzy przesyłają między sobą wiadomości. W stosunku do współcześnie rozumianych agentów, aktorzy są bardzo bardzo ograniczeni (np. nie mogą przenosić swojego kodu między maszynami), jednak ta prostota pozwala na łatwe rozproszenie i testowanie poszczególnych części systemu. 
 
-Model ten zakłada, że każdy z aktorów jest samodzielną jednostką posiadającą kolejkę wiadomości. Wiadomości sa przetwarzane po jednej na raz w kolejności, w której przyszły. W ramach przetwarzania mogą nastąpić zmiana stanu wewnętrznego aktora lub wysłanie jednej lub więcej wiadomości do jednego lub więcej aktorów. Model zakłada jak najmniejszą odpowiedzialność pojedyńczego aktora, aby umożliwić jak najwyższą równogległość i skalowalność. 
+Model aktorów zakłada, że każdy aktor jest samodzielną jednostką posiadającą kolejkę wiadomości. Wiadomości sa przetwarzane po jednej na raz w kolejności, w której przyszły. W ramach przetwarzania mogą nastąpić zmiana stanu wewnętrznego aktora lub wysłanie jednej lub więcej wiadomości do jednego lub więcej aktorów. Model zakłada jak najmniejszą odpowiedzialność pojedyńczego aktora, aby umożliwić jak najwyższą równogległość i skalowalność. 
 
 Systemy aktorów znajdują zastosowanie w grach, komunikatorach oraz wszędzie tam gdzie, duża liczba agentów często komunikuje się między sobą. \cite{bib:akkaUseCases}
 
-\section{Przegląd rozwiązań agentowych dla środowska .NET}
+\section{Przegląd .NETowych środowisk agentowych i aktorskich}
 Autor posiada ponad 5 lat doświadczenia w pisaniu aplikacji w środowisku .NET. 
 Dlatego postanowił, że system zarządzania urządzeniami HVAC zostanie napisany w języku \csh, aby skupić się na poznawaniu zasad budowania systemów agentowych, a nie na nauce składni innych, mniej znanych mu języków programowania. 
 
@@ -38,10 +39,10 @@ Akka.net jest portem javowej biblioteki Akka, służącej do tworzenia systemów
 Co kilka miesięcy wydawana jest nowa wersja biblioteki rozszerzona o nowe możliwości. 
 Aktorzy są połączeni w drzewiastą strukturę, jednak to nie ogranicza ich możliwości wysyłania wiadomości. 
 
-\section{Porównanie Akka.net i Orleans}
+\subsection{Porównanie Akka.net i Orleans}
 Tabela \ref{tab:AkkaVsOrleans} przedstawia porównianie bazujące na przeglądzie dr. Rolanda Kuhna \cite{bib:AkkaVsOrleans}, pozwalające ocenić, które rozwiązanie bardziej nadaje się do realizacji założeń projektu. Raport porównywał biblioteki skupiając się na tworzeniu systemów aktorów i poniższe porównanie przyjmie ten sam kontekst.
 
-\subsection*{Kontrola nad systemem i lokalizacją aktorów}
+\subsubsection*{Kontrola nad systemem i lokalizacją aktorów}
 Niektóre z możliwości Orleans mogą być interesujące dla osób zaczynających z programowaniem równoległym. 
 Pisanie kodu, który ukrywa rozproszenie systemu jest dużym ułatwieniem. 
 Wiele rzeczy dzieje się automatycznie lub nie mamy na nie wpływu. 
@@ -50,19 +51,16 @@ Pod tym względem Akka.net najbardziej różni się od Orleans. Wymaga się znaj
 W projektowanym systemie ważne są między innymi lokalizacja aktorów (aby wysyłać sygnały do klimatyzatorów np. podczerwienią lub bluetooth) oraz możliwość ustrukturyzowania systemu. 
 Takie możliwości daje Akka.net. Orleans jest dobry do zastosowań czysto obliczeniowych, jednak pewnych wymaganiach jego konfiguracja byłaby uciążliwa lub wręcz niemożliwa do zrealizowania.
 
-\subsection*{Wsparcie społeczności}
+\subsubsection*{Wsparcie społeczności}
 Kolejnym argumentem za wykorzystaniem Akka.net jest jej cykl rozwoju.
 Akka.net jest wspierana przez firmę Petabridge, której pracownicy dodają nowe funkcjonalności oraz konsultują ze społecznością rozwój Akka.net jak i oryginalnej Akki. 
 
 Społeczność Orleans od września 2016 opracowuje nową wersję biblioteki \cite{bib:Orleans2}. Nie został podany zakres zmian w API, które zajdą wraz z tą aktualizacją. 
 
-\subsection*{Kolejność dostarczania wiadomości}
+\subsubsection*{Kolejność dostarczania wiadomości}
 W Akka.net kolejność dostarczenia wiadomości jest zachowywana dla każdej pary aktorów. Nie znaczy to co prawda, że wszystkie wiadomości będą przychodzić w kolejności w jakiej zostały wysłane, ale zapobiegnie to sytuacjom, gdzie wiadomość z aktualizacją stanu sprzed chwili mogłaby nadgrać najbardziej aktualny status.
 
 Orleans nie posiada takiego mechanizmu. Jego założeniem jest, to że ziarna wykonują zlecone im obliczenia i kolejność ich wykonywania nie powinna zaburzać ich pracy.
-
-\subsection*{Uzasadnienie wyboru Akka.net}
-Większa kontrola nad systemem, stabilność API połączone z podobieństwem struktury systemu Akka.net do struktury budynku zadecydowały o wyborze Akka.net do implementacji systemu oraz symulatora.
 
 \begin{longtabu} to \textwidth {| X[2,l] | X[3,l] | X[3,l] |}
     \caption{Porównanie Orelans i Akka.net}
@@ -153,5 +151,6 @@ Większa kontrola nad systemem, stabilność API połączone z podobieństwem st
     & \multicolumn{2}{ c| }{Każda wiadomość jest dostarczana co najmniej raz.} \\
     \hline 
 \end{longtabu}
-% \end{longtable}
-% \end{center}
+
+\subsection*{Uzasadnienie wyboru Akka.net}
+Większa kontrola nad systemem, stabilność API połączone z podobieństwem struktury systemu Akka.net do struktury budynku zadecydowały o wyborze Akka.net do implementacji systemu oraz symulatora.

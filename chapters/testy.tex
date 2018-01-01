@@ -21,32 +21,84 @@ Tak jak w tradycyjnych testach jednostkowych testuje się implementacje interfej
 \subsection{Używanie metody \lstinline{Ask} }
 \lstinline{Ask<T>} jest metodą pozwalającą oczekiwać na wiadomość zwrotną z systemu aktorów danego typu \lstinline{T}.
 Jest ona częścią wewnętrznych mechanizmów Akka.net i sami twórcy nie zalecają jej używania wewnątrz pisanych aktorów \cite{bib:AkkaNoAsk}. 
-\lstinline{Ask<T>} nie pozwala na zmianę wątku co w przypadku testów doprowadza do sytuacji, gdzie test zwraca błąd związany z przekroczeniem czasu oczekiwania na wiadomość zwrotną. Zamiast tego, w testach powinna występować metoda \lstinline{ExpectMsg<T>}, która zwraca pierwszą wiadomość typu \lstinline{T}, która przyjdzie do aktora testowego dostępnego w klasie \lstinline{TestKit}.  
+\lstinline{Ask<T>} nie pozwala na zmianę wątku, co w przypadku testów doprowadza do sytuacji, gdzie test zwraca błąd związany z przekroczeniem czasu oczekiwania na wiadomość zwrotną. Zamiast tego, w testach powinna występować metoda \lstinline{ExpectMsg<T>}, która zwraca pierwszą wiadomość typu \lstinline{T}, która przyjdzie do aktora testowego dostępnego w klasie \lstinline{TestKit}.  
 
 \section{Scenariusze testowe}
-Poza testami jednostkowymi, powstały też testy integracyjne łączące w jednym teście większość stworzonych aktorów. Przykładowy test z całym scenariuszem:
+Poza testami jednostkowymi, powstały też testy integracyjne łączące w jednym teście większość stworzonych aktorów. Testy te odzwierciedlają realne sytuacje spotykane w firmach wynajmujących biura. 
+
+\subsection{Nagłe dodanie spotkania}
 \begin{lstlisting}
-    Ustawienie początkowej godziny na 7:30
-    Stworzenie statusu startowego (25st.C pokój o kubaturze 72m^3)
-    Dodanie dostępnych urządzeń
-    Stworzenie aktora pomieszczenia
-
-    Dodanie wydarzenia w kalendarzu na 10:30 kończącego się o 12:00 z wymaganą temperaturą 21st.C
+    7:30 - w sali do spotkań panuje temperatura 25st.C
+    Zaplanowane jest spotkanie na 10:30 kończące się o 12:00 z wymaganą temperaturą 21st.C
     
-    Przestawienie zegara na 8:30 
-    Dodanie wydarzenia w kalendarzu na 09:00 kończącego się o 10:00 z wymaganą temperaturą 18st.C
+    8:30 - dyrektor dodaje spotkanie spotkanie z zespołem na 09:00 kończące się o 10:00 z wymaganą temperaturą 18st.C
 
-    Przestawienie zegara na 9:00
-    Sprawdzenie czy w pokoju panuje temperatura 18st.C +- 0.5st.C
+    9:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
     
-    Przestawienie zegara na 10:00
-    Sprawdzenie czy w pokoju panuje temperatura 18st.C +- 0.5st.C
+    10:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
     
-    Przestawienie zegara na 10:30 
-    Sprawdzenie czy w pokoju panuje temperatura 21st.C +- 0.5st.C
+    10:30 - w sali powinna panować temperatura 21st.C +- 0.5st.C
+    
+    12:00 - wszystkie urządzenia w sali powinny być wyłączone, 
+    jako że nie ma przewidzianych innych spotkań na ten dzień
+\end{lstlisting}
 
-    Przestawianie zegara na 12:00
-    Sprawdzenie czy wszystkie urządzenia w pokoju
-     są wyłączone, jako że nie ma przewidzianych 
-     innych spotkań w tym pokoju.
+\subsection{Anulowanie spotkania}
+\begin{lstlisting}
+    7:30 - w sali do spotkań panuje temperatura 25st.C
+    Zaplanowane są dwa spotkania:
+     -spotkanie z klientem na 9:00 kończące się o 10:00 z wymaganą temperaturą 18st.C    
+     -spotkanie zespołu na 10:30 kończące się o 12:00 z wymaganą temperaturą 21st.C
+    
+    8:30 - do recepcji dzwoni klient i odwołuje spotkanie
+    
+    9:00 - wszystkie urządzenia w sali powinny być wyłączone
+
+    10:30 - w sali powinna panować temperatura 21st.C +- 0.5st.C
+
+    12:00 - wszystkie urządzenia w sali powinny być wyłączone, 
+    jako że nie ma przewidzianych innych spotkań na ten dzień
+\end{lstlisting}
+
+\subsection{Przesunięcie spotkania}
+\begin{lstlisting}
+    7:30 - w sali do spotkań panuje temperatura 25st.C
+    Zaplanowane jest spotkanie na 9:00 kończące się o 12:00 z wymaganą temperaturą 18st.C
+        
+    8:30 - Spotkanie zostaje przesunięte na 11:00 do 14:00
+
+    9:00 - wszystkie urządzenia w sali powinny być wyłączone
+    
+    11:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
+   
+    14:00 - wszystkie urządzenia w sali powinny być wyłączone, 
+    jako że nie ma przewidzianych innych spotkań na ten dzień
+\end{lstlisting}
+
+\subsection{Przedłużenie spotkania}
+\begin{lstlisting}
+    7:30 - w sali do spotkań panuje temperatura 25st.C
+    Zaplanowane jest spotkanie na 9:00 kończące się o 11:00 z wymaganą temperaturą 18st.C
+            
+    9:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
+    
+    10:45 - Spotkanie zostaje przedłużone do 12:00
+    
+    11:30 - w sali powinna panować temperatura 18st.C +- 0.5st.C
+   
+    12:00 - wszystkie urządzenia w sali powinny być wyłączone, 
+    jako że nie ma przewidzianych innych spotkań na ten dzień
+\end{lstlisting}
+
+\subsection{Otwarcie okna - zmiana temperatury niezgodna z modelem}
+\begin{lstlisting}
+    7:30 - w sali do spotkań panuje temperatura 20st.C
+    Zaplanowane jest spotkanie na 9:00 kończące się o 11:00 z wymaganą temperaturą 23st.C
+
+    8:30 - Otwarcie okna powoduje spadek temperatury do 18st.C 
+    
+    9:00 - w sali powinna panować temperatura 23st.C +- 0.5st.C
+
+    11:00 - wszystkie urządzenia w sali powinny być wyłączone, 
+    jako że nie ma przewidzianych innych spotkań na ten dzień
 \end{lstlisting}
