@@ -5,9 +5,6 @@
 W najogólniejszym obrazie, system odpowiada za przetwarzanie danych zebranych z sensorów rozmieszczonych w pomieszczeniach oraz informacji zapisanych w kalendarzach firm (syngały te mogą dotyczyć takich rzeczy jak np. zmiana godziny rozpoczęcia spotkania) na sygnały sterujące wysyłane do urządzeń HVAC aby zachować w pomieszczeniach odpowiednie parametry, takie jak temperatura czy poziom ilości tlenu w powietrzu. \seefigure{generalContextDiagram}
 
 \section{Moduły systemu}
-DIAGRAM MODUŁÓW SYSTEMU
-% \input{./diagrams/systemModules}
-
 W budowie samego systemu zarządzania urządzeniami HVAC możemy wyróżnić kilka modułów.
 \begin{enumerate}
     \item Modele - zestaw abstrakcji modelujących realy świat, użyty do budowy pozostałych modułów.  
@@ -22,7 +19,7 @@ Należy też wyróżnić moduł aplikacji hostującej system aktorów.
 Może być to zarówno aplikacja desktopowa jak i webowa. 
 
 \section{Architektura systemu aktorów}
-Systemy aktorów w akka.net mają strukturę drzewiastą. 
+Systemy aktorów w Akka.net mają strukturę drzewiastą. 
 Każdy aktor jest dzieckiem aktora głównego lub innego aktora. 
 
 \input{./diagrams/actorSystem.tex}

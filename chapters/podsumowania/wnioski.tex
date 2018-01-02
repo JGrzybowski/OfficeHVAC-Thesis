@@ -2,6 +2,9 @@
 Systemy agentowe, a w szczególności systemy aktorów są wygodnym narzędziem do zarządzania siecią urządzeń. 
 W perspektywie coraz większej popularności internetu rzeczy (IoT - Internet of Things) można spodziewać się też co raz częstszego wykorzystania tych rozwiązań w zastosowaniach już nie tylko przemysłowych, jak automatyzacja fabryk, ale i konsumenckich jak automatyka biur lub domów.  
 
+Wykorzystanie tradycyjnych technik znanych z programowania obiektowego, takich jak zdarzenia, w systemie aktorów nie jest możliwe ze względu na zasady przydzielania wątków poszczególnym aktorom. Również 
+korzystanie z kontenerów do wstrzykiwania zależności wewnątrz aktorów może prowadzić do dzielenia stanu przez aktorów, co jest sprzeczne z założeniami Akka.net i samego modelu aktorów.
+
 \section{Propozycje dalszego rozwoju systemu}
 \subsection*{Dodanie nowych parametrów pomieszczeń}
 Powszechnie dostępne sensory temperatury często posiadają również czujnik wilgotności, która wpływa na to, jak szybko nagrzewa się powietrze. Monitorowanie wilgotności pozwalałoby na dokładniejsze wyliczenia zmian temperatury. Zbyt wysoka wilgotność mogłaby być czynnikiem wyzwalającym wietrzenie, aby osobom w pomieszczeniu nie był zbyt duszno.

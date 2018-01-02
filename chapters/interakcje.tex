@@ -4,41 +4,41 @@ Dla zwiększenia czytelności wszystkie diagramy w tym rozdziale traktują  inte
 Dla opisu interakcji w systemie aktorów nie jest tak istotne jaki był czynnik inicjujący interakcje np. klik, w porównaniu do wiadomości która przyszła do systemu.
 
 \section{Dodawanie/usuwanie pomieszczeń}
-\subsection*{Dodanie pomieszczenia \seefigure{addRoom}}
+\subsection*{Dodanie pomieszczenia}
 Interfejs użytkownika przekazuje do aktora firmy wszystkie potrzebne dane potrzebne do stworzenia aktora pokoju (przede wszystkim adres źródła czasu).
 Pokój inicjalizuje się zapisując się na subskrypcje pod podanymi mu adresami.
-Jednocześnie, Firma zapisuje się na subkrypcję Pokoju i po jego inicjalizacji będzie otrzymywać status pokoju.  
+Jednocześnie, Firma zapisuje się na subkrypcję Pokoju i po jego inicjalizacji będzie otrzymywać status pokoju. \seefigure{addRoom} 
 \input{./diagrams/addRoom}
 
-\subsection*{Usunięcie pomieszczenia \seefigure{removeRoom}}
+\subsection*{Usunięcie pomieszczenia}
 Aby poprawnie usunąć pomieszczenie z systemu należy wysłać wiadmość o usunięciu pomieszczenia do aktora firmy, ten przesyła wiadomość do aktora pokoju i usuwa referencję z listy dostępnych mu pomieszczeń.
-Aktor pokoju po otrzymaniu sygnału rozsyła sygnał zatrzymujący pracę do wszystkich swoich aktorów dzieci, a następnie sam zatrzymuje się.
+Aktor pokoju po otrzymaniu sygnału rozsyła sygnał zatrzymujący pracę do wszystkich swoich aktorów dzieci, a następnie sam zatrzymuje się. \seefigure{removeRoom}
 \input{./diagrams/removeRoom}
 
 \section{Dodawanie/usuwanie sensorów i kontrolerów}
 Dodawanie oraz usuwanie sensorów i kontrolerów działa na podobnych mechanizmach dla obu rodzajów aktorów ze względu na wspólną klasę bazową.
 
-\subsection*{Dodanie sensora lub kontrolera (Rysunki \ref{fig:addTemperatureSensor} i \ref{fig:addTemperatureController})} 
-Przy dodawaniu jednostek symulacyjnych należy podać adresy aktorów, który zapewnią dane do inicjalizacji aktorów. Więcej szczegółów na temat inicjalizacji jednostek można znaleźć w sekcji \ref{subsec:unitInitialization}
+\subsection*{Dodanie sensora lub kontrolera}
+Przy dodawaniu jednostek symulacyjnych należy podać adresy aktorów, który zapewnią dane do inicjalizacji aktorów. (Rysunki \ref{fig:addTemperatureSensor} i \ref{fig:addTemperatureController}) Więcej szczegółów na temat inicjalizacji jednostek można znaleźć w sekcji \ref{subsec:unitInitialization}
 
 \input{./diagrams/addTemperatureSensor}
 \input{./diagrams/addTemperatureController}
 
-\subsection*{Usunięcie sensora lub kontrolera (Rysunki \ref{fig:removeTemperatureSensor} i \ref{fig:removeTemperatureController})}
-Procedura usuwania przypomina bardzo schemat z usuwania pomieszczenia. Sygnał jest przesyłany do rodzica usuwanego aktora i przekierowywany do usuwanego agenta. Usuwany aktor wypisuje się z subskrypcji, na które się zapisał i zatrzymuje wszystkich podległych mu aktorów oraz siebie.
+\subsection*{Usunięcie sensora lub kontrolera}
+Procedura usuwania sensora lub kontrolera przypomina bardzo schemat z usuwania pomieszczenia. Sygnał jest przesyłany do rodzica usuwanego aktora i przekierowywany do usuwanego aktora. Usuwany aktor wypisuje się z subskrypcji, na które się zapisał i zatrzymuje wszystkich podległych mu aktorów oraz siebie. (Rysunki \ref{fig:removeTemperatureSensor} i \ref{fig:removeTemperatureController})
 \input{./diagrams/removeTemperatureSensor}
 \input{./diagrams/removeTemperatureController}
 
 \section{Dodawanie/usuwanie urządzeń}
 Dodawanie i usuwanie urządzeń znacznie bardziej wpływa na działanie systemu, ponieważ może zmienić plan uruchamiania urządzeń. 
 
-\subsection*{Dodanie urządzenia \seefigure{addDevice}}
-Pokój otrzymuje definicję urządzenia, którą przekazuje do odpowiedniego kontrolera. Ten tworzy dodaje urządzenie do listy i zleca planiście przeliczenie na planu prac. Dzięki temu może się okazać, że dzięki dodatkowemu urządzeniu dostosowywanie powietrza w pokoju będzie pochłaniać mniej energii elektrycznej.
+\subsection*{Dodanie urządzenia}
+Pokój otrzymuje definicję urządzenia, którą przekazuje do odpowiedniego kontrolera. Ten tworzy dodaje urządzenie do listy i zleca planiście przeliczenie na planu prac. Dzięki temu może się okazać, że dzięki dodatkowemu urządzeniu dostosowywanie powietrza w pokoju będzie pochłaniać mniej energii elektrycznej. \seefigure{addDevice}
 \input{./diagrams/addDevice}
 
-\subsection*{Usunięcie urządzenia \seefigure{removeDevice}}
+\subsection*{Usunięcie urządzenia}
 Usunięcie urządzenia może spowodować, że pozostałe urządzenia w pomieszczeniu będą musiały pracować w trybach dostarczających więcej energii, ale jednocześnie mniej ekonomicznych. 
-Po otrzymaniu sygnału o usunięciu urządzenia, aktor pokoju rozsyła wiadomość do wszystkich kontrolerów. Kontroler sterujący usuwanym urządzeniem wyłącza je, usuwa z listy i zleca przeliczenie planu pracy.
+Po otrzymaniu sygnału o usunięciu urządzenia, aktor pokoju rozsyła wiadomość do wszystkich kontrolerów. Kontroler sterujący usuwanym urządzeniem wyłącza je, usuwa z listy i zleca przeliczenie planu pracy. \seefigure{removeDevice}
 \input{./diagrams/removeDevice}
 
 \section{Upływ czasu}

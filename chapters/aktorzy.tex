@@ -9,7 +9,7 @@ Pierwszy scenariusz użycia ma miejsce w aplikacji symulatora, gdzie nie trzeba 
 
 \input{./diagrams/timeSourceMulti}
 
-Drugi sposób zastosowania ogranicza ilość sygnałów przesyłanych pomiędzy fizycznymi urządzeniami co pozwala na lepszą skalowalność i daje aktorom odpowiedzalnym za pomieszczenia większą niezależność w wypadku awarii połączeń. \seefigure{timeSourceMulti}
+Drugi sposób wdrożenia ogranicza ilość sygnałów przesyłanych pomiędzy fizycznymi urządzeniami co pozwala na lepszą skalowalność i daje aktorom odpowiedzalnym za pomieszczenia większą niezależność w wypadku awarii połączeń. \seefigure{timeSourceMulti}
 Jest to zalecany sposób implementacji w rzeczywistym zastosowaniu.
 
 \section{Źródło modeli}
@@ -40,7 +40,7 @@ Taka metoda wdrożenia źródeł modeli zastosowana dla każdego pomieszczenia o
 Aktor firmy służy za dyspozytora wiadomości. Przekierowuje wymagania otrzymane od adaptera kalendarza firmowego do odpowiednich aktorów pokoi.
 Jeżeli jakieś wymaganie nie posiada jakiegoś parametru, może nadać mu wartość domyślną dla całej firmy.
 
-W przyszłości może też zbierać infromacje ze statusów poszczególnych pokoi aby wygenerować raport zużycia prądu.
+W przyszłości może też zbierać infromacje ze statusów poszczególnych pokoi, aby wygenerować raport zużycia prądu.
 
 \section{Pomieszczenie}
 Aktor pokoju jest najważniejszym aktorem w całym systemie. 
@@ -52,7 +52,7 @@ Dla zapewnienia największej niezależności najlepiej, aby aktorzy pokoi i wszy
 
 
 \section{Jednostka} 
-Jednostki to kategoria aktorów którzy dzielą sporą ilość zachowań, głównie w celu komunikacji z urządzeniami - sensorami lub aktuatorami. Jedna jednostka powinna odpowiadać tylko za jeden parametr pomieszczenia. 
+Jednostki to kategoria aktorów którzy dzielą część zachowań, potrzebnych głównie w celu komunikacji z urządzeniami - sensorami lub aktuatorami. Jedna jednostka powinna odpowiadać tylko za jeden parametr pomieszczenia. 
 
 Możliwości jednostek:
 \begin{itemize}

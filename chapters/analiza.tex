@@ -1,7 +1,7 @@
 \chapter{Analiza wymagań systemu}
 
 \section{Model zmiany temperatury}
-Przygotowanie dokładniejszych modeli parametrów pomieszczenia nie mieści się w zakresie pracy, skupiono się zatem na prostym modelu wymiany ciepła opierającym się o moc i wydajność urządzeń.
+Opracowanie dokładniejszych modeli parametrów pomieszczenia nie mieści się w zakresie pracy, skupiono się zatem na prostym modelu wymiany ciepła opierającym się o moc i wydajność urządzeń.
 
 Podstawą modelu jest wzór na ciepło właściwe:
 $$ c = \frac{\Delta Q}{m \Delta T} $$
@@ -22,31 +22,29 @@ Każdy tryb byłby opisany przez
 Obie wartości byłyby wyrażone wartościami z zakresu $\langle 0,1 \rangle$. Wartość efektywnej energii oblicza się wzorem
 $$ \Delta Q = P_{max} \cdot e \cdot \Delta t \cdot \lambda $$
 
-Model zakłada, że urządzenia HVAC są w stanie w jednakowym stopniu zarówno ogrzewać jak i chłodzić pomieszczenia. 
+Model zakłada, że urządzenia HVAC są w stanie w jednakowym stopniu zarówno ogrzewać jak i chłodzić pomieszczenia. Jest to różnica w stosunku do rzeczywistości, gdzie np. kaloryfery nie są w stanie chłodzić pomieszczeń.
 
 \section{Szczegółowe wymagania wobec tworzonego systemu} \label{sec:wymagania}
 \subsection*{Minimalizacja kosztów pracy urządzeń HVAC}
-Głównym powodem powstania systemu jest próba zmniejszenia comiesięcznych kosztów związanych z działaniem urządzeń HVAC. Jest to zysk zarówno dla administrator budynku, który może otrzymać dotacje na wdrożenie takiego ekologicznego projektu, jak i dla najemcy pomieszczeń, których rachunki za media mogą się zmniejszyć.
-
-System powinien poszukiwać i wdrażać najbardziej oszczędny tryb pracy urządzeń HVAC.
+Głównym powodem zaproponowania stworzenia systemu jest próba zmniejszenia comiesięcznych kosztów związanych z działaniem urządzeń HVAC. Jest to zysk zarówno dla administratora budynku, który może otrzymać dotacje na wdrożenie takiego ekologicznego projektu, jak i dla najemcy pomieszczeń, których rachunki za media mogą się zmniejszyć.
 
 \subsection*{Dopasowanie temperatury w pomieszczeniu do potrzeb użytkowników} 
-Wynajmowane pomieszczenia w biurowcach mogą posiadać jedną z kilku klas. \cite{bib:klasyBudynkow} 
+Wynajmowane pomieszczenia w biurowcach mogą posiadać jedną z kilku klas jakości i komfortu. \cite{bib:klasyBudynkow} 
 System HVAC jest jednym z czynników podnoszących zarówno klasę lokalu jak i czynsz. 
 Jeżeli system nie będzie w stanie zapewnić komfortu użytkownikom, najemca może zarządać obniżenia czynszu lub nawet rozwiązać umowę z właścicielem budynku. 
 
-Dlatego, aby utrzymać standard jakości biura, opracowywany system podczas optymalizacji wydatków nie może powodować obniżenia komfortu użytkowników pomieszczeń w porównaniu do ręcznego sterowania urządzeniami.
+Dlatego, aby utrzymać standard jakości biura, proponowany system podczas optymalizacji wydatków nie może powodować obniżenia komfortu użytkowników pomieszczeń w porównaniu do ręcznego sterowania urządzeniami.
 
 \subsection*{Reakcja na nagłe zmiany wykorzystania pomieszczeń}
 W firmach bardzo częstą sytuacją jest odwołanie spotkania czy nagła potrzeba wykorzystania sali.
-W pierwszej sytuacji zaplanowane klimatyzowanie pomieszczenia mogłoby marnować prąd, a w drugiej wymagana jest szybkie dostosowanie pomieszczenia.
+W pierwszej sytuacji zaplanowane klimatyzowanie pomieszczenia mogłoby marnować prąd, a w drugiej wymagane jest szybkie dostosowanie pomieszczenia.
 
-System powinien reagować na zmiany planowanego wykorzystania pomieszczeń poszukując dodatkowych oszczędności. 
-Jednocześnie jeżeli powstanie nagła potrzeba wykorzystania pomieszczenia, system ma za zadanie dostosować warunki w pomieszczeniu, tak aby zdążyć przed lub niewiele po rozpoczęciu spotkania.   
+System powinien więc reagować na zmiany planowanego wykorzystania pomieszczeń poszukując dodatkowych oszczędności. 
+Jednocześnie, jeżeli powstanie nagła potrzeba wykorzystania pomieszczenia, system ma za zadanie dostosować warunki w pomieszczeniu, tak aby zdążyć przed lub niewiele po rozpoczęciu spotkania.   
 
 \subsection*{Zróżnicowanie źródeł danych o wykorzystaniu pomieszczeń}
 W różnych firmach używa się różnych systemów do ustalania terminów spotkań czy rezerwacji sal np. Microsoft Exchange Server czy IBM Domino.
-System powinien pozwalać na przekazywanie informacji o wykorzystaniu pomieszczeń systemu HVAC na różne sposoby w zależności od najemcy.
+System powinien pozwalać na przekazywanie informacji o wykorzystaniu pomieszczeń do systemu HVAC na różne sposoby, w zależności od najemcy.
 
 \subsection*{Zaawansowana optymalizacja kosztów}
 Właściciel budynku może uznać, że oszczędności wypracowane przez system nie są już wystarczające. 
@@ -65,12 +63,6 @@ Dodanie nowych, dynamicznie zmieniających się parametrów, takich jak wilgotno
 Jednocześnie, dodanie mniej dynamicznych parametrów, na które jesteśmy w stanie wpłynąć dawałoby możliwość sprawdzenia i skorygowania ich. Przykładowo poziom tlenu pozwala ocenić czy osobom w pomieszczeniu nie jest zbyt duszno i przewietrzyć pomieszczenia za pomocą dostępnych urządzeń. 
 
 \subsection*{Diagnostyka urządzeń i systemu}
-Administracji budynku może zależeć na możliwości monotorowania stanu systemu, aby np. wykryć wadliwy sensor lub przyznać dodatkowy rabat najemcy za odpowiednią ilość oszczędzonej energii.
+Administracji budynku może zależeć na możliwości monitorowania stanu systemu, aby np. wykryć wadliwy sensor lub przyznać dodatkowy rabat najemcy za odpowiednią ilość oszczędzonej energii.
 
 Dla celów diagnostycznych potrzebny jest łatwy dostęp do danych o stanie urządzeń oraz danych z samego systemu HVAC. Musi zatem istnieć sposób, aby w łatwy sposób połączyć się z systemem HVAC i zerbać informacje o jego stanie.
-
-\subsection*{Wygoda aktualizacji systemu}
-Wyłączenie systemu klimatyzatorów może być uciążliwe dla osób korzystających z budynku. 
-Serwisowanie i obsługa systemu zarządzania urządzeniami powinna jak najmniej wpływać na komfort użytkowników.
-
-Zdalna podmiana modeli umożliwiłaby aktualizację parametrów modelu lub podmianę na inaczej skonstruowany model (np. przewidujący temperatury z innych parametrów pomieszczenia) bez wyłączania systemu, czyli i bez utraty komfortu dla najemcy. 
