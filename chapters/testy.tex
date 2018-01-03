@@ -21,134 +21,111 @@ Ten scenariusz przewiduje dodanie niespodziewanego spotkania (np. spotkania zesp
 \begin{lstlisting}
     07:30 - w sali do spotkań panuje temperatura 25st.C
     Zaplanowane jest spotkanie na 10:30 kończące się o 12:00 z wymaganą temperaturą 21st.C
-    
     08:30 - dyrektor dodaje spotkanie spotkanie z zespołem na 09:00 kończące się o 10:00 z wymaganą temperaturą 18st.C
-
     09:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
     10:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
-
     10:30 - w sali powinna panować temperatura 21st.C +- 0.5st.C
     12:00 - w sali powinna panować temperatura 21st.C +- 0.5st.C
-
-    12:10 - wszystkie urządzenia w sali powinny być wyłączone, 
-    jako że nie ma przewidzianych innych spotkań na ten dzień
+    12:10 - wszystkie urządzenia w sali powinny być wyłączone
 \end{lstlisting}
 
-Wyniki testu wyglądają następująco:
-\begin{lstlisting}
-    09:00 - w sali panowała temperatura 18,02st.C (oczekiwana 18st.C)
-    10:00 - w sali panowała temperatura 18,02st.C (oczekiwana 18st.C)
-    10:30 - w sali panowała temperatura 20,96st.C (oczekiwana 21st.C)
-    12:00 - w sali panowała temperatura 20,96st.C (oczekiwana 21st.C)
-\end{lstlisting}
-Zatem proponowane rozwiązanie radzi sobie z nagłą potrzebą przyspieszenia pracy urządzeń HVAC.
+Wyniki testu zostały przedstawione na rysunku \ref{fig:AddSuddenMeeting}.
+Zatem proponowane rozwiązanie radzi sobie z nagłą potrzebą przyspieszenia pracy urządzeń HVAC. 
+\begin{figure}[hb]
+    \centering
+    \includegraphics[width=0.90\textwidth]{./screenshots/AddSuddenMeeting.png}
+    \caption{Wyniki testu scenatiusza z nagłym dodaniem spotkania}
+    \label{fig:AddSuddenMeeting}    
+\end{figure}
 
-\subsection{Anulowanie spotkania}
+\subsection{Odwołanie spotkania}
 Niejednokrotnie w firmach zdarza się sytuacja, gdy klient lub umówiony współpracownik nie może przybyć na spotkanie i odwołuje je w ostatniej chwili.
 Jeżeli system nie barłby tego pod uwagę, koszty pracy urządzeń nie byłyby w pełni optymalizowane. System powinien wyłączać niepotrzebnie pracujące urządzenia.
-
 \begin{lstlisting}
     07:30 - w sali do spotkań panuje temperatura 25st.C
     Zaplanowane są dwa spotkania:
      -spotkanie z klientem na 9:00 kończące się o 10:00 z wymaganą temperaturą 18st.C    
      -spotkanie zespołu na 10:30 kończące się o 12:00 z wymaganą temperaturą 21st.C
-    
     08:30 - do recepcji dzwoni klient i odwołuje spotkanie
-    
     09:00 - wszystkie urządzenia w sali powinny być wyłączone
-
     10:30 - w sali powinna panować temperatura 21st.C +- 0.5st.C
     12:00 - w sali powinna panować temperatura 21st.C +- 0.5st.C
-
-    12:10 - wszystkie urządzenia w sali powinny być wyłączone, 
-    jako że nie ma przewidzianych innych spotkań na ten dzień
+    12:10 - wszystkie urządzenia w sali powinny być wyłączone
 \end{lstlisting}
 
-Wyniki testu wyglądają następująco:
-\begin{lstlisting}
-    09:00 - wszystkie urządzenia są wyłączone.
-    10:30 - w sali panowała temperatura 21,02st.C (oczekiwana 21st.C)
-    12:00 - w sali panowała temperatura 21,02st.C (oczekiwana 21st.C)
-    12:05 - wszystkie urządzenia są wyłączone.
-\end{lstlisting}
+Wyniki testu zostały przedstawione na rysunku \ref{fig:CancelledMeeting}.
 System wyłączył urządzenia po otrzymaniu sygnału o odwołaniu jednego ze spotkań. W ten sposób zaoszczędził dodatkową energię potrzebną wcześniej na przygotowanie sali do pierwszego spotkania. 
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.90\textwidth]{./screenshots/CancelledMeeting.png}
+    \caption{Wyniki testu scenatiusza z odwołanym spotkaniem}
+    \label{fig:CancelledMeeting}    
+\end{figure}
 
 \subsection{Przesunięcie spotkania}
-Czasami zamiast odwoływać spotkanie, klient proponuje przesunięcie go o od kilku minut od kilku godzin. System powinien w takiej sytuacji przesunąć dostosowywanie pomieszczenia zgodnie z nową, późniejszą godziną rozpoczęcia spotkania.
+Czasami zamiast odwoływać spotkanie, klient proponuje przesunięcie go o od kilku minut od kilku godzin. 
+System powinien w takiej sytuacji przesunąć dostosowywanie pomieszczenia zgodnie z nową, późniejszą godziną rozpoczęcia spotkania.
 \begin{lstlisting}
     07:30 - w sali do spotkań panuje temperatura 25st.C
     Zaplanowane jest spotkanie na 9:00 kończące się o 12:00 z wymaganą temperaturą 18st.C
-        
     08:30 - spotkanie zostaje przesunięte na 11:00 do 14:00
-
     09:00 - wszystkie urządzenia w sali powinny być wyłączone
-    
     11:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
     14:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
-    
-    14:05 - wszystkie urządzenia w sali powinny być wyłączone, 
-    jako że nie ma przewidzianych innych spotkań na ten dzień
+    14:05 - wszystkie urządzenia w sali powinny być wyłączone
 \end{lstlisting}
 
-Wyniki testu wyglądają następująco:
-\begin{lstlisting}
-    09:00 - wszystkie urządzenia są wyłączone.
-    11:00 - w sali panowała temperatura 18,09st.C (oczekiwana 18st.C)
-    14:00 - w sali panowała temperatura 17,95st.C (oczekiwana 18st.C)
-    14:05 - wszystkie urządzenia są wyłączone.
-\end{lstlisting}
+Wyniki testu zostały przedstawione na rysunku \ref{fig:PostponedMeeting}.
 System wstrzymał pracę urządzeń do momentu, gdy były potrzebne do przygotowania sali do przesuniętego spotkania.
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.90\textwidth]{./screenshots/PostponedMeeting.png}
+    \caption{Wyniki testu scenatiusza z przesuniętym spotkaniem}
+    \label{fig:PostponedMeeting}    
+\end{figure}
 
 \subsection{Przedłużenie spotkania}
 Spotkania zespołów produkcyjnych, a zwłaszcza planowanie na początku miesiąca często się przedłuża o kwadrans do pół godziny. System powinien przedłużyć okres klimatyzowania pomieszczenia o czas, który podali użytkownicy.
 \begin{lstlisting}
     07:30 - w sali do spotkań panuje temperatura 25st.C
     Zaplanowane jest spotkanie na 9:00 kończące się o 11:00 z wymaganą temperaturą 18st.C
-            
     09:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
-    
     10:45 - spotkanie zostaje przedłużone do 11:30
-    
     11:00 - w sali powinna panować temperatura 18st.C +- 0.5st.C
     11:30 - w sali powinna panować temperatura 18st.C +- 0.5st.C
-
-    11:35 - wszystkie urządzenia w sali powinny być wyłączone, 
-    jako że nie ma przewidzianych innych spotkań na ten dzień
+    11:35 - wszystkie urządzenia w sali powinny być wyłączone
 \end{lstlisting}
 
-Wyniki testu wyglądają następująco:
-\begin{lstlisting}
-    09:00 - w sali panowała temperatura 18,09st.C (oczekiwana 18st.C)
-    11:00 - w sali panowała temperatura 17,95st.C (oczekiwana 18st.C)
-    11:30 - w sali panowała temperatura 17,95st.C (oczekiwana 18st.C)
-    11:35 - wszystkie urządzenia są wyłączone.
-\end{lstlisting}
+Wyniki testu zostały przedstawione na rysunku \ref{fig:ExtendedMeeting}.
 System podtrzymał żądaną temperaturę przez dodatkowe pół godziny po czym wyłączył urządzenia, gdy nie były już potrzbne.
+\begin{figure}[hb]
+    \centering
+    \includegraphics[width=0.90\textwidth]{./screenshots/ExtendedMeeting.png}
+    \caption{Wyniki testu scenatiusza z przedłużonym spotkaniem}
+    \label{fig:ExtendedMeeting}    
+\end{figure}
 
 \subsection{Otwarcie okna - zmiana temperatury niezgodna z modelem}
-Czasami mogą nastąpić zmiany temperatury niezgodne z wyliczeniami modelu. Przykładem może być uchylenie okna w zimowy dzień. System powinien zareagować jeżeli temperatura odbiegnie od tej której zakładał w obliczeniach i dostosować nowy tryb pracy do warunków w pomieszczeniu.
-
+Czasami mogą nastąpić zmiany temperatury niezgodne z wyliczeniami modelu. 
+Przykładem może być uchylenie okna w zimowy dzień. 
+System powinien zareagować jeżeli temperatura odbiegnie od tej której zakładał w obliczeniach i dostosować nowy tryb pracy do warunków w pomieszczeniu.
 \begin{lstlisting}
     07:30 - w sali do spotkań panuje temperatura 20st.C
     Zaplanowane jest spotkanie na 9:00 kończące się o 11:00 z wymaganą temperaturą 23st.C
-
     08:30 - otwarcie okna powoduje spadek temperatury do 18st.C 
-    
     09:00 - w sali powinna panować temperatura 23st.C +- 0.5st.C
     11:00 - w sali powinna panować temperatura 23st.C +- 0.5st.C
-    
-    11:05 - wszystkie urządzenia w sali powinny być wyłączone, 
-    jako że nie ma przewidzianych innych spotkań na ten dzień
+    11:05 - wszystkie urządzenia w sali powinny być wyłączone
 \end{lstlisting}
 
-Wyniki testu wyglądają następująco:
-\begin{lstlisting}
-    08:15 - w sali panowała temperatura 18,00st.C 
-    09:00 - w sali panowała temperatura 22,91st.C (oczekiwana 23st.C)
-    11:00 - w sali panowała temperatura 23,04st.C (oczekiwana 23st.C)
-    11:05 - wszystkie urządzenia są wyłączone.
-\end{lstlisting}
+Wyniki testu zostały przedstawione na rysunku \ref{fig:TemperatureAnomalies}.
 System poradził sobie z nagłym spadkiem temperatury, jednak musiał przez to włączyć bardziej kosztowny tryb klimatyzatorów.
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=0.90\textwidth]{./screenshots/TemperatureAnomalies.png}
+    \caption{Wyniki testu scenatiusza z temperaturą niezgodną z modelem}
+    \label{fig:TemperatureAnomalies}    
+\end{figure}
 
 \section{Pułapki związane z testowaniem aktorów}
 Podczas przeprowadzania testów integracyjnych i jednostkowych zdefiniowano pewne zasady, którymi warto się kierować podczas opracowywania testów w Akka.net.

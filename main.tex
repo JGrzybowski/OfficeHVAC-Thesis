@@ -48,7 +48,8 @@
   showstringspaces=false,
 	%Coloring
   commentstyle=\color{green},
-	keywordstyle=\color{teal},
+  keywordstyle=\color{teal},
+  deletekeywords={do},
   stringstyle=\color{red},
   literate= {ą}{{\k{a}}}1
             {Ą}{{\k{A}}}1
@@ -104,13 +105,13 @@
 
 % 2. Streszczenia
 % Streszczenie ma zawierać tytuł pracy i słowa kluczowe
-% \include{./docparts/abstrakt}
+\include{./docparts/abstrakt}
 
 % 3. Oświadczenie o autorstwie pracy - w innym pliku
-% \makestatement
+\makestatement
 
 % 4. Spis treści
-% \cleardoublepage
+\cleardoublepage
 \tableofcontents
 
 % 5. Treść
